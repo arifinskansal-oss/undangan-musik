@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contoh Animasi Sampul — Tema Jawa Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; }
+  body {
+    font-family:'Poppins', 'Segoe UI', Arial, sans-serif;
+    background:#17100A;
+    color:#F7EDD8;
+    overflow-x:hidden;
+  }
+  .panggung { position:relative; max-width:430px; margin:0 auto; min-height:100dvh; overflow:hidden; background:radial-gradient(120% 90% at 50% 0%, #3A2413 0%, #241708 46%, #17100A 100%); }
+
+  /* ===== Pola kawung latar ===== */
+  .pola { position:absolute; inset:0; opacity:.16; pointer-events:none; }
+  .pola svg { width:100%; height:100%; }
+
+  /* ===== Kelopak melati jatuh ===== */
+  .kelopak { position:absolute; top:-6vh; z-index:3; animation:jatuh linear infinite; pointer-events:none; }
+  .kelopak i { display:block; background:radial-gradient(circle at 35% 35%, #FFFFFF, #F1DFB8); border-radius:90% 4px 90% 4px; box-shadow:0 2px 6px rgba(0,0,0,.35); animation:goyang ease-in-out infinite alternate; }
+  @keyframes jatuh { to { transform:translateY(116vh); } }
+  @keyframes goyang { from { transform:translateX(-14px) rotate(0deg); } to { transform:translateX(14px) rotate(300deg); } }
+
+  /* ===== SAMPUL ===== */
+  .sampul {
+    position:fixed; inset:0; z-index:20; max-width:430px; margin:0 auto;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:34px 26px 40px;
+    background:radial-gradient(120% 90% at 50% 0%, #3A2413 0%, #241708 46%, #17100A 100%);
+    transition:transform 1.15s cubic-bezier(.7,0,.25,1), opacity 1.15s ease;
+  }
+  .sampul.terbuka { transform:translateY(-102%) scale(.97); opacity:.25; pointer-events:none; }
+  .gunungan { width:196px; max-width:56vw; filter:drop-shadow(0 14px 26px rgba(0,0,0,.55)); animation:ayun 7s ease-in-out infinite; transform-origin:50% 92%; }
+  @keyframes ayun { 0%,100% { transform:rotate(-1.1deg); } 50% { transform:rotate(1.1deg); } }
+
+  .tahap { opacity:0; transform:translateY(16px); animation:masuk .9s ease forwards; }
+  @keyframes masuk { to { opacity:1; transform:translateY(0); }
+ }
+  .t1 { animation-delay:.25s; } .t2 { animation-delay:.6s; } .t3 { animation-delay:1s; }
+  .t4 { animation-delay:1.45s; } .t5 { animation-delay:1.9s; } .t6 { animation-delay:2.35s; } .t7 { animation-delay:2.8s; }
+
+  .label-atas { font-size:13px; letter-spacing:5px; font-weight:500; color:#E9CF9A; text-transform:uppercase; margin-top:20px; }
+  .garis-orn { display:flex; align-items:center; gap:10px; margin-top:14px; color:#C9962E; }
+  .garis-orn::before, .garis-orn::after { content:""; width:56px; height:1px; background:linear-gradient(90deg, transparent, #C9962E); }
+  .garis-orn::after { background:linear-gradient(90deg, #C9962E, transparent); }
+  .nama {
+    font-family:'Playfair Display', Georgia, serif; font-weight:800; line-height:1.12;
+    font-size:43px; margin-top:14px; color:#FBF3DF;
+  }
+  .nama .dan { display:block; font-size:25px; font-style:italic; font-weight:500; color:#E9CF9A; margin:4px 0; }
+  .kilau {
+    background:linear-gradient(100deg, #FBF3DF 20%, #FFE9A8 40%, #C9962E 55%, #FBF3DF 75%);
+    background-size:220% 100%; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    animation:kilau 5.5s linear infinite;
+  }
+  @keyframes kilau { to { background-position:-220% 0; } }
+  .tanggal { margin-top:14px; font-size:16.5px; font-weight:500; letter-spacing:1.5px; color:#F7EDD8; }
+  .kepada { margin-top:30px; font-size:14.5px; line-height:1.65; color:#EDE0C6; }
+  .kepada .tamu { display:block; font-size:18px; font-weight:600; color:#FFFFFF; margin-top:3px; }
+  .btn-buka {
+    margin-top:20px; border:none; cursor:pointer; font-family:inherit;
+    background:linear-gradient(180deg, #E9CF9A, #C9962E); color:#2A1A08;
+    font-size:16px; font-weight:600; letter-spacing:.4px;
+    padding:14px 34px; border-radius:999px;
+    box-shadow:0 10px 26px rgba(201,150,46,.45);
+    animation:denyut 2.2s ease-in-out infinite;
+  }
+  @keyframes denyut { 0%,100% { box-shadow:0 10px 26px rgba(201,150,46,.45), 0 0 0 0 rgba(233,207,154,.45); } 50% { box-shadow:0 10px 26px rgba(201,150,46,.45), 0 0 0 13px rgba(233,207,154,0); } }
+  .ket-bawah { margin-top:16px; font-size:12px; color:#B9A67F; letter-spacing:1px; }
+
+  /* ===== ISI (contoh sesudah dibuka) ===== */
+  .isi { position:relative; z-index:2; padding:56px 24px 90px; text-align:center; }
+  .isi .blok { opacity:0; transform:translateY(26px); transition:opacity .8s ease, transform .8s ease; }
+  .isi.tampil .blok { opacity:1; transform:translateY(0); }
+  .isi.tampil .blok:nth-child(2) { transition-delay:.25s; }
+  .isi.tampil .blok:nth-child(3) { transition-delay:.5s; }
+  .isi.tampil .blok:nth-child(4) { transition-delay:.75s; }
+  .salam { font-size:16px; line-height:1.75; color:#EDE0C6; }
+  .ayat { margin-top:16px; font-family:'Playfair Display', Georgia, serif; font-style:italic; font-size:17.5px; line-height:1.65; color:#F7EDD8; }
+  .judul-isi { font-family:'Playfair Display', Georgia, serif; font-size:31px; font-weight:700; margin-top:44px; color:#FBF3DF; }
+  .mempelai { font-family:'Playfair Display', Georgia, serif; font-size:26px; font-weight:700; color:#E9CF9A; margin-top:20px; line-height:1.3; }
+  .ortu { font-size:14px; color:#CBBB93; line-height:1.6; margin-top:5px; }
+  .hitung { display:flex; justify-content:center; gap:10px; margin-top:22px; }
+  .hitung .kotak { width:70px; background:rgba(247,237,216,.07); border:1px solid rgba(201,150,46,.5); border-radius:14px; padding:10px 0 8px; }
+  .hitung .angka { font-size:25px; font-weight:600; color:#FFFFFF; }
+  .hitung .lab { font-size:11px; letter-spacing:1.5px; color:#E9CF9A; text-transform:uppercase; }
+  .catatan { margin-top:52px; font-size:12.5px; color:#9C8A66; line-height:1.7; }
+
+  .btn-musik {
+    position:fixed; right:16px; bottom:16px; z-index:30; width:52px; height:52px; border-radius:50%;
+    border:1px solid rgba(233,207,154,.7); background:rgba(23,16,10,.82); color:#E9CF9A; cursor:pointer;
+    display:none; align-items:center; justify-content:center; backdrop-filter:blur(4px);
+  }
+  .btn-musik.tampil { display:flex; }
+  .btn-musik svg { width:26px; height:26px; }
+  .btn-musik .batang { transform-origin:center bottom; }
+  .btn-musik.nyala .batang { animation:lompat .8s ease-in-out infinite; }
+  .btn-musik.nyala .batang:nth-child(2) { animation-delay:.18s; }
+  .btn-musik.nyala .batang:nth-child(3) { animation-delay:.36s; }
+  @keyframes lompat { 0%,100% { transform:scaleY(.55); } 50% { transform:scaleY(1); } }
+  .info-musik { position:fixed; left:50%; bottom:80px; transform:translateX(-50%); z-index:30; background:rgba(23,16,10,.9); color:#F7EDD8; font-size:13px; padding:8px 16px; border-radius:999px; opacity:0; pointer-events:none; transition:opacity .4s; max-width:88vw; text-align:center; }
+  .info-musik.ada { opacity:1; }
+</style>
+</head>
+<body>
+<div class="panggung" id="panggung">
+
+  <!-- SAMPUL -->
+  <section class="sampul" id="sampul" aria-label="Sampul undangan">
+    <div class="pola" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="kawung" width="84" height="84" patternUnits="userSpaceOnUse">
+            <g fill="none" stroke="#C9962E" stroke-width="1.4">
+              <ellipse cx="42" cy="21" rx="17" ry="21" />
+              <ellipse cx="42" cy="63" rx="17" ry="21" />
+              <ellipse cx="21" cy="42" rx="21" ry="17" />
+              <ellipse cx="63" cy="42" rx="21" ry="17" />
+              <circle cx="42" cy="42" r="5" />
+            </g>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#kawung)" />
+      </svg>
+    </div>
+
+    <div id="hujanKelopak" aria-hidden="true"></div>
+
+    <svg class="gunungan tahap t1" viewBox="0 0 200 300" role="img" aria-label="Ilustrasi gunungan wayang">
+      <defs>
+        <linearGradient id="gradEmas" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#8A6420" />
+          <stop offset=".55" stop-color="#5E4214" />
+          <stop offset="1" stop-color="#3A2708" />
+        </linearGradient>
+      </defs>
+      <path d="M100 6 C128 52 152 104 152 168 C152 226 128 262 100 288 C72 262 48 226 48 168 C48 104 72 52 100 6 Z" fill="url(#gradEmas)" stroke="#E9CF9A" stroke-width="2.5" />
+      <path d="M100 42 C118 78 132 116 132 164 C132 208 117 236 100 254 C83 236 68 208 68 164 C68 116 82 78 100 42 Z" fill="none" stroke="#C9962E" stroke-width="2" />
+      <path d="M100 82 C110 106 117 128 117 156 C117 184 109 202 100 214 C91 202 83 184 83 156 C83 128 90 106 100 82 Z" fill="#2A1A08" stroke="#E9CF9A" stroke-width="1.6" />
+      <circle cx="100" cy="150" r="13" fill="#E9CF9A" />
+      <circle cx="100" cy="150" r="6.5" fill="#7A2E1D" />
+      <path d="M64 236 q10 -12 20 0 q10 -12 20 0 q10 -12 20 0 q10 -12 20 0" fill="none" stroke="#C9962E" stroke-width="2" transform="translate(-8 6)" />
+      <path d="M52 262 h96" stroke="#E9CF9A" stroke-width="2.5" />
+      <path d="M62 272 h76" stroke="#C9962E" stroke-width="2" />
+    </svg>
+
+    <p class="label-atas tahap t2">The Wedding Of</p>
+    <div class="garis-orn tahap t3" aria-hidden="true">✦</div>
+    <h1 class="nama tahap t4"><span class="kilau">Sekar Larasati</span><span class="dan">&amp;</span><span class="kilau">Bima Pradana</span></h1>
+    <p class="tanggal tahap t5">Sabtu, 19 Desember 2026</p>
+    <p class="kepada tahap t6">Kepada Yth.<br />Bapak/Ibu/Saudara/i<span class="tamu" id="namaTamu">Tamu Undangan</span></p>
+    <button class="btn-buka tahap t7" id="btnBuka" type="button">✉ &nbsp;Buka Undangan</button>
+    <p class="ket-bawah tahap t7">Contoh animasi sampul · Tema Jawa Art</p>
+  </section>
+
+  <!-- ISI CONTOH -->
+  <main class="isi" id="isi">
+    <div class="blok">
+      <p class="salam">Assalamu’alaikum warahmatullahi wabarakatuh.<br />Dengan memohon rahmat dan rida Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri pernikahan kami.</p>
+      <p class="ayat">“Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya.”<br />— QS. Ar-Rum: 21</p>
+    </div>
+    <div class="blok">
+      <h2 class="judul-isi">Kedua Mempelai</h2>
+      <p class="mempelai">Sekar Larasati, S.Pd.</p>
+      <p class="ortu">Putri dari Bapak H. Wirawan &amp; Ibu Hj. Ratna Sari</p>
+      <p class="mempelai">Bima Pradana, S.T.</p>
+      <p class="ortu">Putra dari Bapak H. Santoso &amp; Ibu Hj. Dewi Anggraini</p>
+    </div>
+    <div class="blok">
+      <h2 class="judul-isi">Menghitung Hari</h2>
+      <div class="hitung" role="timer" aria-label="Hitung mundur">
+        <div class="kotak"><div class="angka" id="hHari">–</div><div class="lab">Hari</div></div>
+        <div class="kotak"><div class="angka" id="hJam">–</div><div class="lab">Jam</div></div>
+        <div class="kotak"><div class="angka" id="hMenit">–</div><div class="lab">Menit</div></div>
+        <div class="kotak"><div class="angka" id="hDetik">–</div><div class="lab">Detik</div></div>
+      </div>
+    </div>
+    <p class="catatan blok">Ini contoh animasi sampul Tema Jawa Art versi kita.<br />Ilustrasi digambar sendiri, nama dan tanggal hanya contoh.</p>
+  </main>
+
+  <audio id="musik" loop preload="auto" src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/anugerah-terindah-reff-128.mp3"></audio>
+  <button class="btn-musik" id="btnMusik" type="button" aria-label="Musik latar" aria-pressed="false" title="Musik latar">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <rect class="batang" x="4" y="9" width="3" height="9" rx="1.5" />
+      <rect class="batang" x="10.5" y="5" width="3" height="13" rx="1.5" />
+      <rect class="batang" x="17" y="8" width="3" height="10" rx="1.5" />
+    </svg>
+  </button>
+  <div class="info-musik" id="infoMusik" role="status"></div>
+</div>
+
+<script>
+(function () {
+  // Nama tamu dari ?to=
+  var nama = new URLSearchParams(location.search).get("to");
+  if (nama && nama.trim()) document.getElementById("namaTamu").textContent = nama.trim();
+
+  // Kelopak melati jatuh
+  var hujan = document.getElementById("hujanKelopak");
+  var sampul = document.getElementById("sampul");
+  for (var i = 0; i < 12; i++) {
+    var k = document.createElement("span");
+    k.className = "kelopak";
+    var uk = 9 + Math.random() * 8;
+    k.style.left = (Math.random() * 96) + "%";
+    k.style.animationDuration = (7 + Math.random() * 7) + "s";
+    k.style.animationDelay = (-Math.random() * 12) + "s";
+    k.style.opacity = (0.5 + Math.random() * 0.5).toFixed(2);
+    var dalam = document.createElement("i");
+    dalam.style.width = uk + "px";
+    dalam.style.height = (uk * 0.72) + "px";
+    dalam.style.animationDuration = (1.6 + Math.random() * 1.6) + "s";
+    k.appendChild(dalam);
+    sampul.appendChild(k);
+  }
+
+  // Hitung mundur
+  var target = new Date("2026-12-19T08:00:00+08:00").getTime();
+  var el = { h: document.getElementById("hHari"), j: document.getElementById("hJam"), m: document.getElementById("hMenit"), d: document.getElementById("hDetik") };
+  function dua(n) { return String(n).padStart(2, "0"); }
+  function jalankanHitung() {
+    var sisa = Math.max(0, target - Date.now());
+    el.h.textContent = Math.floor(sisa / 864e5);
+    el.j.textContent = dua(Math.floor(sisa / 36e5) % 24);
+    el.m.textContent = dua(Math.floor(sisa / 6e4) % 60);
+    el.d.textContent = dua(Math.floor(sisa / 1e3) % 60);
+  }
+  jalankanHitung();
+  setInterval(jalankanHitung, 1000);
+
+  // Musik + buka undangan
+  var musik = document.getElementById("musik");
+  var btnMusik = document.getElementById("btnMusik");
+  var info = document.getElementById("infoMusik");
+  var infoTimer = null;
+  function tampilInfo(teks) {
+    info.textContent = teks;
+    info.classList.add("ada");
+    clearTimeout(infoTimer);
+    infoTimer = setTimeout(function () { info.classList.remove("ada"); }, 2600);
+  }
+  function sinkronBtn() {
+    var nyala = !musik.paused;
+    btnMusik.classList.toggle("nyala", nyala);
+    btnMusik.setAttribute("aria-pressed", nyala ? "true" : "false");
+  }
+  function putarMusik() {
+    var janji = musik.play();
+    if (janji && janji.catch) janji.catch(function () { tampilInfo("Musik belum dapat diputar di peramban ini."); });
+  }
+  musik.addEventListener("play", sinkronBtn);
+  musik.addEventListener("pause", sinkronBtn);
+  btnMusik.addEventListener("click", function () {
+    if (musik.paused) { putarMusik(); tampilInfo("Musik diputar."); }
+    else { musik.pause(); tampilInfo("Musik dijeda."); }
+  });
+
+  document.getElementById("btnBuka").addEventListener("click", function () {
+    putarMusik();
+    sampul.classList.add("terbuka");
+    document.getElementById("isi").classList.add("tampil");
+    btnMusik.classList.add("tampil");
+    window.scrollTo(0, 0);
+    setTimeout(function () { sampul.style.display = "none"; }, 1250);
+  });
+})();
+</script>
+</body>
+</html>
