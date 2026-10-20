@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Undangan Yosua &amp; Debora — Contoh Tema Toraja Sinematik</title>
+<title>Undangan Yosua &amp; Debora — Contoh Tradisional Art Sinematik</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -295,24 +295,35 @@
         .btn-open { margin-top: 11px; padding: 11px 28px; }
       }
 
-      /* ================= ADEGAN GULIR SINEMATIK ================= */
+      /* ================= ADEGAN GULIR SINEMATIK =================
+         Geometri terkunci (perbaikan miring 21 Okt): panggung terpusat maks
+         480px; matahari + rumah SATU komposisi pada sumbu yang sama dengan
+         judul; matahari relatif terhadap rumah, bukan layar. Lapisan gerak
+         memakai PNG pra-render (tekstur GPU) — yang dianimasikan hanya
+         transform/opacity; will-change hanya selama adegan aktif. */
       .adegan { position: relative; height: 260vh; margin: 0 calc(50% - 50vw); }
       .adegan-panggung {
         position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden;
         background: linear-gradient(180deg, #31160a 0%, #5f2413 34%, #a04a24 58%, #d98e4a 76%, #8a5a28 100%);
       }
-      .ad-matahari { position: absolute; z-index: 1; left: 50%; top: 5%; width: min(92vw, 430px); aspect-ratio: 1/1; margin-left: min(-46vw, -215px); pointer-events: none; will-change: transform; }
-      .ad-matahari svg { width: 100%; height: 100%; display: block; }
-      .ad-gunung { position: absolute; z-index: 2; left: 0; width: 100%; bottom: 15%; height: 42%; pointer-events: none; will-change: transform; }
+      .ad-panggung-dalam { position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: min(100vw, 480px); margin: 0 auto; }
+      .ad-gunung { position: absolute; z-index: 2; left: 0; width: 100%; bottom: 15%; height: 42%; pointer-events: none; }
       .ad-gunung svg { width: 100%; height: 100%; display: block; }
-      .ad-rumah { position: absolute; z-index: 3; left: 50%; bottom: 13.5%; width: min(96vw, 440px); margin-left: min(-48vw, -220px); pointer-events: none; will-change: transform, opacity; transform-origin: 50% 100%; }
-      .ad-rumah svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 16px 22px rgba(20, 8, 2, .5)); }
-      .ad-depan { position: absolute; z-index: 4; left: 0; bottom: 0; width: 100%; height: 21%; pointer-events: none; will-change: transform; }
+      .ad-komposisi {
+        position: absolute; z-index: 3; left: 0; right: 0; margin: 0 auto;
+        width: min(92%, 400px); aspect-ratio: 640 / 560; top: 42%;
+        transform: translateY(-50%); pointer-events: none;
+      }
+      .ad-matahari { position: absolute; z-index: 1; left: 50%; top: -9.5%; width: 62%; margin-left: -31%; aspect-ratio: 1/1; pointer-events: none; transform-origin: 50% 50%; }
+      .ad-matahari img { width: 100%; height: 100%; display: block; }
+      .ad-rumah { position: relative; z-index: 2; width: 100%; pointer-events: none; transform-origin: 50% 50%; }
+      .ad-rumah img { width: 100%; height: auto; display: block; }
+      .ad-depan { position: absolute; z-index: 4; left: 0; bottom: 0; width: 100%; height: 21%; pointer-events: none; }
       .ad-depan svg { width: 100%; height: 100%; display: block; }
       .ad-scrim { position: absolute; z-index: 5; left: 0; right: 0; bottom: 0; height: 46%; background: linear-gradient(180deg, transparent, rgba(24, 10, 3, .78)); pointer-events: none; }
       .ad-judul {
-        position: absolute; z-index: 6; left: 0; right: 0; bottom: 24%; text-align: center;
-        color: #fdf3dd; padding: 0 28px; opacity: 0; pointer-events: none; will-change: transform, opacity;
+        position: absolute; z-index: 6; left: 0; right: 0; bottom: 6.5%; text-align: center;
+        color: #fdf3dd; padding: 0 28px; opacity: 0; pointer-events: none;
       }
       .ad-judul .k { letter-spacing: 4px; font-size: 12px; text-transform: uppercase; color: #e9c886; margin: 0; }
       .ad-judul h2 { font-size: clamp(30px, 8.4vw, 42px); line-height: 1.15; margin-top: 6px; text-shadow: 0 3px 16px rgba(0,0,0,.55); }
@@ -323,6 +334,18 @@
         color: rgba(246, 231, 200, .85); pointer-events: none; animation: tkGeser 1.8s ease-in-out infinite;
       }
       @keyframes tkGeser { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+      body.tk-scene-on .ad-matahari, body.tk-scene-on .ad-rumah,
+      body.tk-scene-on .ad-gunung, body.tk-scene-on .ad-depan,
+      body.tk-scene-on .ad-judul { will-change: transform, opacity; }
+      @media (max-height: 760px) {
+        .ad-komposisi { width: min(84%, 340px); top: 40%; }
+      }
+      @media (max-height: 660px) {
+        .ad-komposisi { width: min(74%, 280px); top: 36%; }
+        .ad-judul { bottom: 11%; }
+        .ad-judul h2 { font-size: 30px; }
+        .ad-judul p { font-size: 14px; }
+      }
       /* mutu menyusut / gerak dikurangi: adegan ringkas & statis rapi */
       body.tkq-0 .adegan { height: 118vh; }
       body.tkq-0 .ad-judul { opacity: 1; }
@@ -494,9 +517,9 @@
   <div class="cover-scrim" aria-hidden="true"></div>
   <div class="cover-konten">
     <p class="monogram" aria-hidden="true">Y &amp; D</p>
-    <p class="cover-kicker">Undangan Pernikahan Adat Toraja</p>
+    <p class="cover-kicker">Undangan Pernikahan Tradisional Art</p>
     <h1 class="cover-names script">Yosua Tandipayuk<br /><span class="amp">&amp;</span><br />Debora Salinding</h1>
-    <span class="badge-contoh">Contoh Tema Toraja · Sinematik</span>
+    <span class="badge-contoh">Contoh Tradisional Art · Sinematik</span>
     <p class="cover-date">Sabtu, 19 Desember 2026</p>
     <p class="cover-guest">Kepada Yth. Bapak/Ibu/Saudara/i<strong id="namaTamu">Keluarga Besar Tandipayuk</strong></p>
     <button class="btn-open" id="btnOpen" type="button"><span aria-hidden="true">✉</span> Buka Undangan</button>
@@ -510,16 +533,20 @@
   <!-- ================= ADEGAN GULIR SINEMATIK ================= -->
   <div class="adegan" id="adegan" aria-label="Adegan pembuka Tongkonan">
     <div class="adegan-panggung">
-      <div class="ad-matahari" id="adMatahari" aria-hidden="true"><svg viewBox="-110 -110 220 220"><use href="#simbol-matahari" /></svg></div>
-      <div class="ad-gunung" id="adGunung" aria-hidden="true"><svg viewBox="0 0 800 300" preserveAspectRatio="none"><use href="#simbol-gunung" /></svg></div>
-      <div class="ad-rumah" id="adRumah" aria-hidden="true"><svg viewBox="0 0 640 560"><use href="#simbol-tongkonan" /></svg></div>
-      <div class="ad-depan" id="adDepan" aria-hidden="true"><svg viewBox="0 0 800 160" preserveAspectRatio="none"><use href="#simbol-depan" /></svg></div>
-      <div class="ad-scrim" aria-hidden="true"></div>
-      <div class="ad-petunjuk" id="adPetunjuk" aria-hidden="true">Gulir ke bawah ↓</div>
-      <div class="ad-judul" id="adJudul">
-        <p class="k">Selamat Datang</p>
-        <h2>Di Bawah Atap Tongkonan,<br />Dua Hati Menjadi Satu</h2>
-        <p>Dengan sukacita kami mengundang Bapak/Ibu/Saudara/i menyaksikan hari bahagia kami di tanah Toraja.</p>
+      <div class="ad-panggung-dalam">
+        <div class="ad-gunung" id="adGunung" aria-hidden="true"><svg viewBox="0 0 800 300" preserveAspectRatio="none"><use href="#simbol-gunung" /></svg></div>
+        <div class="ad-komposisi" id="adKomposisi">
+          <div class="ad-matahari" id="adMatahari" aria-hidden="true"><img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/toraja-matahari.png" alt="" width="768" height="768" /></div>
+          <div class="ad-rumah" id="adRumah" aria-hidden="true"><img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/toraja-tongkonan.png" alt="" width="1280" height="1120" /></div>
+        </div>
+        <div class="ad-depan" id="adDepan" aria-hidden="true"><svg viewBox="0 0 800 160" preserveAspectRatio="none"><use href="#simbol-depan" /></svg></div>
+        <div class="ad-scrim" aria-hidden="true"></div>
+        <div class="ad-petunjuk" id="adPetunjuk" aria-hidden="true">Gulir ke bawah ↓</div>
+        <div class="ad-judul" id="adJudul">
+          <p class="k">Selamat Datang</p>
+          <h2>Di Bawah Atap Tongkonan,<br />Dua Hati Menjadi Satu</h2>
+          <p>Dengan sukacita kami mengundang Bapak/Ibu/Saudara/i menyaksikan hari bahagia kami di tanah Toraja.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1013,6 +1040,7 @@
 
   var adegan = document.getElementById('adegan');
   var elRumah = document.getElementById('adRumah');
+  var elKomposisi = document.getElementById('adKomposisi');
   var elMatahari = document.getElementById('adMatahari');
   var elGunung = document.getElementById('adGunung');
   var elDepan = document.getElementById('adDepan');
@@ -1042,10 +1070,11 @@
   window.__tkDiag = function () { return { deltas: frameDeltas.length, running: loopRunning, opened: opened, lastScrollAt: Math.round(lastScrollAt) }; };
   if ((navigator.hardwareConcurrency || 8) <= 4) Q.level = 1;
   function clearSceneInline() {
-    [elRumah, elMatahari, elGunung, elDepan, elJudul].forEach(function (el) { if (el) el.style.transform = ''; });
-    if (elRumah) elRumah.style.opacity = '';
+    [elRumah, elMatahari, elGunung, elDepan, elJudul].forEach(function (el) { if (el) { el.style.transform = ''; el.__lw = {}; } });
+    if (elKomposisi) elKomposisi.style.opacity = '';
     if (elJudul) elJudul.style.opacity = '';
     if (elPetunjuk) elPetunjuk.style.opacity = '';
+    document.body.classList.remove('tk-scene-on');
   }
   function setLevel(n) {
     Q.level = clamp(Math.round(n), 0, 2);
@@ -1056,7 +1085,7 @@
   }
 
   /* ---------- keadaan adegan ---------- */
-  var disp = { hs: 1, hty: 0, ho: 1, sr: 0, sty: 0, gty: 0, dty: 0, jo: 0, jty: 26, po: 1 };
+  var disp = { hs: 1, hty: 0, ho: 1, sr: 0, gty: 0, dty: 0, jo: 0, jty: 26, po: 1 };
   var lastP = 0;
   window.__sceneState = function () {
     return { p: +lastP.toFixed(3), hs: +disp.hs.toFixed(3), sr: +disp.sr.toFixed(1),
@@ -1067,16 +1096,16 @@
     var total = Math.max(1, adegan.offsetHeight - vh);
     var p = clamp(((window.scrollY || 0) - docTop(adegan)) / total, 0, 1);
     var f = Q.level === 2 ? 1 : (Q.level === 1 ? 0.5 : 0);
-    var scaleMax = Q.level === 2 ? 0.6 : (Q.level === 1 ? 0.35 : 0);
+    var hF = vh < 700 ? 0.78 : 1;
+    var scaleMax = (Q.level === 2 ? 0.5 : (Q.level === 1 ? 0.3 : 0)) * hF;
     var fadeIn = clamp((p - 0.34) / 0.2, 0, 1);
     var fadeOut = 1 - clamp((p - 0.86) / 0.14, 0, 1);
     return {
       p: p,
       hs: 1 + scaleMax * p,
-      hty: p * vh * 0.10 * f,
+      hty: p * vh * 0.02 * f,
       ho: p > 0.82 ? 1 - (p - 0.82) / 0.18 : 1,
       sr: 40 * p * f,
-      sty: -p * vh * 0.16 * f,
       gty: p * vh * 0.06 * f,
       dty: p * vh * 0.34 * f,
       jo: Math.min(fadeIn, fadeOut),
@@ -1084,15 +1113,21 @@
       po: 1 - clamp(p / 0.12, 0, 1)
     };
   }
+  /* tulis gaya hanya bila nilai berubah nyata (hemat gaya per frame) */
+  function tulis(el, prop, val) {
+    if (!el) return;
+    if (!el.__lw) el.__lw = {};
+    if (el.__lw[prop] !== val) { el.__lw[prop] = val; el.style[prop] = val; }
+  }
   function applyScene() {
-    elRumah.style.transform = 'translate3d(0,' + disp.hty.toFixed(1) + 'px,0) scale(' + disp.hs.toFixed(3) + ')';
-    elRumah.style.opacity = disp.ho.toFixed(3);
-    elMatahari.style.transform = 'translate3d(0,' + disp.sty.toFixed(1) + 'px,0) rotate(' + disp.sr.toFixed(2) + 'deg)';
-    elGunung.style.transform = 'translate3d(0,' + disp.gty.toFixed(1) + 'px,0)';
-    elDepan.style.transform = 'translate3d(0,' + disp.dty.toFixed(1) + 'px,0)';
-    elJudul.style.opacity = disp.jo.toFixed(3);
-    elJudul.style.transform = 'translate3d(0,' + disp.jty.toFixed(1) + 'px,0)';
-    if (elPetunjuk) elPetunjuk.style.opacity = disp.po.toFixed(3);
+    tulis(elRumah, 'transform', 'translate3d(0,' + disp.hty.toFixed(1) + 'px,0) scale(' + disp.hs.toFixed(3) + ')');
+    tulis(elKomposisi, 'opacity', disp.ho.toFixed(3));
+    tulis(elMatahari, 'transform', 'rotate(' + disp.sr.toFixed(2) + 'deg)');
+    tulis(elGunung, 'transform', 'translate3d(0,' + disp.gty.toFixed(1) + 'px,0)');
+    tulis(elDepan, 'transform', 'translate3d(0,' + disp.dty.toFixed(1) + 'px,0)');
+    tulis(elJudul, 'opacity', disp.jo.toFixed(3));
+    tulis(elJudul, 'transform', 'translate3d(0,' + disp.jty.toFixed(1) + 'px,0)');
+    if (elPetunjuk) tulis(elPetunjuk, 'opacity', disp.po.toFixed(3));
   }
 
   /* ---------- navigasi aktif ---------- */
@@ -1150,7 +1185,7 @@
     if (Q.level > 0) {
       var tg = sceneTargets();
       lastP = tg.p;
-      var keys = ['hs', 'hty', 'ho', 'sr', 'sty', 'gty', 'dty', 'jo', 'jty', 'po'];
+      var keys = ['hs', 'hty', 'ho', 'sr', 'gty', 'dty', 'jo', 'jty', 'po'];
       for (var i = 0; i < keys.length; i++) {
         var k = keys[i];
         disp[k] += (tg[k] - disp[k]) * 0.18;
@@ -1164,7 +1199,7 @@
     updateNav();
     var recent = ts - lastScrollAt < 180;
     if (recent || !settled || animGulir) requestAnimationFrame(frame);
-    else { loopRunning = false; lastTs = 0; }
+    else { loopRunning = false; lastTs = 0; document.body.classList.remove('tk-scene-on'); }
   }
   /* PRINSIP RESMI (vonis lapangan ARIFIN atas v5): megah di sampul, TENANG di
      dalam. Gerak sinematik hanya di sampul + adegan pindahan pembuka ini.
@@ -1177,6 +1212,7 @@
     if (reduced || loopRunning || !opened) return;
     if (!adeganRelevan()) return;
     loopRunning = true;
+    if (Q.level > 0) document.body.classList.add('tk-scene-on');
     requestAnimationFrame(frame);
   }
   window.addEventListener('scroll', function () { lastScrollAt = performance.now(); updateNav(); startLoop(); }, { passive: true });
