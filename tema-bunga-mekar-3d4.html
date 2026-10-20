@@ -1475,10 +1475,12 @@
      terlihat lagi, jadi tidak perlu menguras CPU selama isi digulir.
    - Video cincin hanya memutar saat kartunya dekat/aktif di layar
      (IntersectionObserver); di luar itu pause. Musik TIDAK disentuh.
-   - Perangkat yang BENAR-BENAR tersendat (laju bingkai rata-rata < 20 fps
-     selama 1,2 detik saat sampul tampil): 5 bunga terkecil diganti poster
-     diam — tampilan diam identik, beban decode jauh berkurang. Ambang
-     sengaja rendah supaya HP menengah ke atas tidak ikut diringankan. */
+   - Perangkat yang BENAR-BENAR tersendat: bila laju bingkai rata-rata
+     < 20 fps selama 1,5 detik saat sampul tampil DAN memori perangkat
+     dilaporkan <= 4 GB (navigator.deviceMemory — ciri HP murah; HP
+     menengah ke atas melaporkan 8), 5 bunga terkecil diganti poster diam:
+     tampilan diam identik, beban decode jauh berkurang. Syarat ganda ini
+     sengaja ketat supaya hanya perangkat lemah sungguhan yang diringankan. */
 (function () {
   var bunga = Array.prototype.slice.call(document.querySelectorAll('video.bunga-tepi'));
   var cincin = document.querySelector('video.cincin3d');
@@ -1519,7 +1521,8 @@
   }
   function deteksiLambat() {
     if (!document.body.classList.contains('locked')) return;
-    var jumlah = 0, t0 = performance.now(), tAkhir = t0 + 1200;
+    if (!(typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4)) return;
+    var jumlah = 0, t0 = performance.now(), tAkhir = t0 + 1500;
     function f(now) {
       if (now <= tAkhir) { jumlah++; requestAnimationFrame(f); return; }
       var fps = jumlah / ((now - t0) / 1000);
@@ -1527,8 +1530,8 @@
     }
     requestAnimationFrame(f);
   }
-  if (document.readyState === 'complete') setTimeout(deteksiLambat, 700);
-  else window.addEventListener('load', function () { setTimeout(deteksiLambat, 700); });
+  if (document.readyState === 'complete') setTimeout(deteksiLambat, 1500);
+  else window.addEventListener('load', function () { setTimeout(deteksiLambat, 1500); });
 })();
 </script>
 
