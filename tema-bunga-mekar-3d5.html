@@ -232,7 +232,8 @@
       .live-label { margin: 0 0 12px; font-weight: 700; color: var(--sage-deep); letter-spacing: .04em; }
       .btn-live { display: inline-block; background: var(--gold); color: #fff; padding: 12px 22px; border-radius: 999px; font-weight: 700; text-decoration: none; }
       /* ---------- muncul perlahan saat digulir (riset UI babak 2) ---------- */
-      .rv { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+      /* v.5 rombak tenang: tanpa animasi muncul di dalam — semua bagian tampil statis */
+      .rv { opacity: 1; transform: none; }
       .rv.tampil { opacity: 1; transform: none; }
       @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } }
 
@@ -393,14 +394,7 @@
     </style>
 <style>
       /* ================= ANIMASI PENUH (versi animasi) ================= */
-      /* --- Lapisan kelopak jatuh di seluruh halaman --- */
-      .lapisan-kelopak { position: fixed; inset: 0; z-index: 45; pointer-events: none; overflow: hidden; }
-      .lpetal { position: absolute; top: -6vh; pointer-events: none; animation: jatuh linear infinite; }
-      .lpetal i { display: block; border-radius: 90% 4px 90% 4px; box-shadow: 0 1px 4px rgba(110,51,69,.25); animation: goyang ease-in-out infinite alternate; }
-      .lpetal.emas i { background: radial-gradient(circle at 35% 35%, #FFF7DD, #D4A017); }
-      .lpetal.sage i { background: radial-gradient(circle at 35% 35%, #FBE3EA, #C97B92); }
-      .lpetal.krem i { background: radial-gradient(circle at 35% 35%, #FFFFFF, #EBD9AE); }
-      @media (prefers-reduced-motion: reduce) { .lapisan-kelopak { display: none; } }
+      /* v.5 rombak tenang: lapisan kelopak sehalaman dihapus (kelopak hanya di sampul) */
       /* --- Bingkai sudut bunga pada kartu mempelai dan kartu acara --- */
       .person, .event-card {
         position: relative;
@@ -434,8 +428,8 @@
       #cover .mekar-besar { transform: scale(.25) rotate(-35deg); opacity: .4; animation: none; }
       body:not(.locked) #cover .mekar-besar { animation: mekarBuka 1.9s cubic-bezier(.34,1.35,.44,1) .2s forwards; }
       /* Bunga judul tiap bagian: mekar saat bagiannya masuk layar */
-      main .mekar { transform: scale(.25) rotate(-35deg); opacity: .4; transition: transform 1.2s ease, opacity 1.2s ease; }
-      main .tampil .mekar { transform: scale(1) rotate(0deg); opacity: 1; }
+      /* v.5 rombak tenang: bunga judul di dalam tampil diam (mekar hanya di sampul) */
+      main .mekar { transform: none; opacity: 1; }
       .ornament svg.bunga-judul { width: 40px; height: 40px; }
       svg.bunga-penutup { width: 46px; height: 46px; display: block; margin: 10px auto 0; }
       @media (prefers-reduced-motion: reduce) {
@@ -443,37 +437,8 @@
       }
     </style>
     <div class="wash" aria-hidden="true"></div>
-    <div class="lapisan-kelopak" aria-hidden="true">
-      <span class="lpetal emas" style="left:2%;animation-duration:12.5s;animation-delay:-1.0s;"><i style="width:11px;height:11px;animation-duration:2.6s;"></i></span>
-      <span class="lpetal sage" style="left:9%;animation-duration:10.5s;animation-delay:-6.0s;"><i style="width:9px;height:9px;animation-duration:2.1s;"></i></span>
-      <span class="lpetal krem" style="left:17%;animation-duration:14.0s;animation-delay:-3.0s;"><i style="width:13px;height:13px;animation-duration:3.1s;"></i></span>
-      <span class="lpetal emas" style="left:25%;animation-duration:11.0s;animation-delay:-9.0s;"><i style="width:10px;height:10px;animation-duration:2.4s;"></i></span>
-      <span class="lpetal krem" style="left:33%;animation-duration:13.0s;animation-delay:-5.0s;"><i style="width:12px;height:12px;animation-duration:2.9s;"></i></span>
-      <span class="lpetal sage" style="left:41%;animation-duration:9.8s;animation-delay:-11.0s;"><i style="width:8px;height:8px;animation-duration:2.0s;"></i></span>
-      <span class="lpetal emas" style="left:49%;animation-duration:12.0s;animation-delay:-2.0s;"><i style="width:14px;height:14px;animation-duration:3.3s;"></i></span>
-      <span class="lpetal sage" style="left:57%;animation-duration:14.5s;animation-delay:-7.5s;"><i style="width:10px;height:10px;animation-duration:2.5s;"></i></span>
-      <span class="lpetal krem" style="left:65%;animation-duration:10.8s;animation-delay:-4.0s;"><i style="width:12px;height:12px;animation-duration:2.8s;"></i></span>
-      <span class="lpetal emas" style="left:72%;animation-duration:13.4s;animation-delay:-10.0s;"><i style="width:9px;height:9px;animation-duration:2.2s;"></i></span>
-      <span class="lpetal sage" style="left:79%;animation-duration:11.6s;animation-delay:-6.5s;"><i style="width:13px;height:13px;animation-duration:3.0s;"></i></span>
-      <span class="lpetal krem" style="left:86%;animation-duration:12.8s;animation-delay:-3.4s;"><i style="width:11px;height:11px;animation-duration:2.7s;"></i></span>
-      <span class="lpetal emas" style="left:92%;animation-duration:10.2s;animation-delay:-8.6s;"><i style="width:8px;height:8px;animation-duration:2.3s;"></i></span>
-      <span class="lpetal sage" style="left:97%;animation-duration:13.8s;animation-delay:-5.2s;"><i style="width:12px;height:12px;animation-duration:2.9s;"></i></span>
-    </div>
 
 
-    <!-- v.5: debu emas tambahan, terasa di zona tumpukan -->
-    <div class="debu" id="debu" aria-hidden="true">
-      <span style="left:6%;width:6px;height:6px;animation-duration:9s;animation-delay:-2s;"></span>
-      <span style="left:16%;width:4px;height:4px;animation-duration:12s;animation-delay:-7s;"></span>
-      <span style="left:27%;width:7px;height:7px;animation-duration:10s;animation-delay:-4s;"></span>
-      <span style="left:38%;width:4px;height:4px;animation-duration:13s;animation-delay:-9s;"></span>
-      <span style="left:49%;width:6px;height:6px;animation-duration:9.5s;animation-delay:-1s;"></span>
-      <span style="left:58%;width:5px;height:5px;animation-duration:11s;animation-delay:-6s;"></span>
-      <span style="left:67%;width:4px;height:4px;animation-duration:12.5s;animation-delay:-3s;"></span>
-      <span style="left:76%;width:7px;height:7px;animation-duration:10.5s;animation-delay:-8s;"></span>
-      <span style="left:86%;width:5px;height:5px;animation-duration:11.5s;animation-delay:-5s;"></span>
-      <span style="left:94%;width:6px;height:6px;animation-duration:9.8s;animation-delay:-2.6s;"></span>
-    </div>
 
     <!-- ================= SAMPUL ================= -->
     
@@ -510,16 +475,7 @@
       /* --- Isi menyambut dengan gerak kedalaman saat sampul dibuka --- */
       main.page { transition: transform 1.15s cubic-bezier(.22,.8,.3,1) .1s; }
       body.locked main.page { transform: perspective(1100px) translateZ(-52px) scale(.97); }
-      /* --- Kartu 3D saat digulir: berdiri membalik ke arah pembaca --- */
-      main section, .couple-grid, .countdown, .gallery, .love-timeline { perspective: 1000px; }
-      /* v.3: gerak .k3d TERIKAT POSISI GULIR (JS scroll + rAF); tanpa transisi CSS */
-      .k3d { transform-origin: 50% 100%; transform: rotateX(36deg) translateY(44px); opacity: 0;
-        transition: none !important; will-change: transform, opacity; }
-      /* Galeri berkedalaman: pelat bayangan bergeser di belakang bingkai + miring awal */
-      .k3d-gal { transform: rotateX(22deg) rotateY(-9deg) translateY(34px);
-        box-shadow: 12px 14px 0 -2px rgba(87,31,48,.28), 0 22px 38px rgba(34,6,15,.30); }
-      .k3d-gal::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%;
-        background: linear-gradient(to top, rgba(34,6,15,.30), rgba(34,6,15,0)); z-index: 1; pointer-events: none; }
+      /* v.5 rombak tenang: gerak .k3d terikat gulir dihapus — interior statis */
       /* --- Cincin 3D di bagian mempelai --- */
       .cincin-bingkai { width: 192px; height: 192px; margin: 26px auto 6px; border-radius: 50%;
         border: 1.5px solid rgba(184,134,11,.65); padding: 5px; box-shadow: 0 14px 30px rgba(110,51,69,.18); }
@@ -563,34 +519,27 @@
       @media (prefers-reduced-motion: reduce) {
         body.locked main.page { transform: none; }
         main.page { transition: none; }
-        .k3d, .k3d-gal { transform: none !important; opacity: 1 !important; transition: none !important; }
       }
 </style>
 
 <style>
-      /* ================= v.4: INTERIOR TUMPUKAN KARTU ================= */
-      .tumpukan { position: relative; perspective: 1200px; }
+      /* ================= v.5 ROMBAK TENANG: INTERIOR ALIRAN NORMAL =================
+         Vonis lapangan ARIFIN: animasi di dalam dihilangkan, megah hanya di sampul.
+         Lima bagian kini panel statis berurutan dalam aliran gulir normal:
+         tanpa sticky, tanpa transform terikat gulir, tanpa paralaks/kilau/debu. */
+      .alir { position: relative; }
       .tk {
-        position: sticky; top: 0; height: 100dvh; overflow: hidden;
-        display: flex; flex-direction: column; justify-content: center;
-        padding: 24px 18px 92px; border-radius: 26px;
+        position: relative; height: auto; overflow: visible;
+        padding: 36px 20px 38px; margin: 0 auto 24px; border-radius: 26px;
         border: 1px solid var(--line);
         background: linear-gradient(180deg, var(--card), var(--bg-soft));
-        box-shadow: 0 26px 60px rgba(94, 18, 36, 0.20);
-        transform-origin: 50% 0; will-change: transform; text-align: center;
+        box-shadow: 0 18px 44px rgba(94, 18, 36, 0.14);
+        text-align: center;
       }
-      .tk[data-tk="1"] { z-index: 15; }
-      .tk[data-tk="2"] { z-index: 14; background: linear-gradient(180deg, var(--sage-pale), var(--card)); }
-      .tk[data-tk="3"] { z-index: 13; }
-      .tk[data-tk="4"] { z-index: 12; background: linear-gradient(180deg, var(--bg-soft), var(--card)); }
-      .tk[data-tk="5"] { z-index: 11; }
-      /* netralkan gerak lama di dalam kartu: gerak kartu yang menggantikan */
+      .tk[data-tk="2"] { background: linear-gradient(180deg, var(--sage-pale), var(--card)); }
+      .tk[data-tk="4"] { background: linear-gradient(180deg, var(--bg-soft), var(--card)); }
       .tk section { padding: 0; }
       .tk .hero { padding: 0; }
-      .tk .rv { opacity: 1; transform: none; transition: none; }
-      .tk .k3d { opacity: 1; transform: none; }
-      .tk figure.k3d-gal { transform: rotateX(8deg) rotateY(-5deg); }
-      /* pemadatan isi kartu agar muat ±100dvh */
       .tk .hero-photo { max-width: 224px; margin-top: 12px; }
       .tk .hero-names { font-size: clamp(33px, 8.8vw, 46px); margin-top: 4px; }
       .tk .hero-date { margin-top: 6px; font-size: 18px; }
@@ -615,9 +564,6 @@
       .tk .event-when { font-size: 16.5px; margin-top: 4px; }
       .tk .event-place { font-size: 13.5px; margin-top: 3px; }
       .tk .btn-map { margin-top: 10px; padding: 8px 20px; font-size: 13.5px; }
-      .tk .live-card { padding: 12px 14px; margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left; }
-      .tk .live-label { margin: 0; }
-      .tk .btn-live { padding: 9px 16px; font-size: 13.5px; white-space: nowrap; }
       .tk .love-timeline { margin-top: 4px; width: 100%; }
       .tk .love-item { padding: 12px 14px; margin-bottom: 10px; }
       .tk .love-item p:last-child { font-size: 13.5px; line-height: 1.5; }
@@ -625,31 +571,18 @@
       @media (min-width: 560px) { .tk .gallery { grid-template-columns: repeat(2, 1fr); } }
       .tk .gallery img { aspect-ratio: 1 / 1; }
       .tk .gallery-note { margin-top: 8px; }
+      .tk div:has(> .btn-simpan) { margin-top: 12px !important; }
 
-      /* v.5 perbaikan uji HP 22:28: kartu acara SATU KOLOM — teks lebih besar, tombol lokasi besar lebar penuh */
+      /* Kartu acara SATU KOLOM: teks lebih besar, tombol lokasi besar lebar penuh
+         (tata letak final uji HP 22:28, dipertahankan kini dalam aliran normal) */
       .tk section[aria-label="Waktu dan tempat acara"] .event-card { margin-top: 12px; padding: 12px 18px 14px; }
       .tk section[aria-label="Waktu dan tempat acara"] .event-card h3 { font-size: 23px; line-height: 1.2; }
       .tk section[aria-label="Waktu dan tempat acara"] .event-when { font-size: 16.5px; line-height: 1.45; margin-bottom: 0; }
       .tk section[aria-label="Waktu dan tempat acara"] .event-place { font-size: 14px; line-height: 1.45; margin-bottom: 0; }
       .tk section[aria-label="Waktu dan tempat acara"] .btn-map { display: block; width: 100%; box-sizing: border-box; padding: 11px 16px; font-size: 15px; margin-top: 10px; }
-      /* pemadatan kartu 3: dua bagian (hitung mundur + acara) wajib muat utuh 100dvh */
       .tk section[aria-label="Waktu dan tempat acara"] > .ornament { display: none; }
-      .tk[data-tk="3"] { padding-top: 20px; padding-bottom: 88px; }
-      .tk[data-tk="3"] .section-title { font-size: 25px; }
-      .tk[data-tk="3"] .section-sub { margin-top: 4px; font-size: 13.5px; }
-      .tk[data-tk="3"] .countdown { margin-top: 8px; }
-      .tk[data-tk="3"] .cd-cell { padding: 8px 6px 7px; }
-      .tk[data-tk="3"] .divider { margin-top: 8px; }
-      .tk div:has(> .btn-simpan) { margin-top: 12px !important; }
-      /* petunjuk geser di tepi bawah tiap kartu (di atas bilah navigasi, tidak tertutup) */
-      .tk-petunjuk {
-        position: absolute; left: 0; right: 0; bottom: 88px; text-align: center;
-        font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
-        color: var(--gold); opacity: .85; pointer-events: none;
-        animation: tkGeser 1.8s ease-in-out infinite;
-      }
-      @keyframes tkGeser { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
-      /* penanda kemajuan tumpukan: bilah navigasi ikon (bisa diketuk) */
+
+      /* Bilah navigasi ikon (bisa diketuk): 6 ikon tanpa angka — dipertahankan persis */
       .tk-ind {
         position: fixed; left: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 200;
         pointer-events: auto; touch-action: manipulation;
@@ -674,90 +607,16 @@
         border-radius: 50%; background: #e8c766; transform: translateX(-50%);
       }
       .tk-nav:focus-visible { outline: 2px solid #e8c766; outline-offset: 1px; }
-      @media (max-height: 700px) {
-        .tk { padding: 16px 14px 86px; }
-        .tk .hero-photo { max-width: 166px; margin-top: 8px; }
-        .tk .ornament svg.bunga-judul { width: 24px; height: 24px; }
-        .tk .section-title { font-size: clamp(25px, 6vw, 32px); }
-        .tk .section-sub { font-size: 13.5px; line-height: 1.5; }
-        .tk .cincin-bingkai { width: 102px; height: 102px; margin-top: 8px; }
-        .tk .person { padding: 12px; }
-        .tk .person .initial { width: 46px; height: 46px; font-size: 23px; margin-bottom: 6px; }
-        .tk .person h3 { font-size: 20px; }
-        .tk .person p { font-size: 13px; }
-        .tk .event-card { padding: 11px 14px; }
-        .tk .love-item { padding: 10px 12px; margin-bottom: 8px; }
-        .tk .cd-cell { min-width: 58px; padding: 8px 5px 7px; }
-        .tk .cd-num { font-size: 24px; }
-        .tk .btn-map { margin-top: 8px; padding: 7px 18px; }
-        .tk .live-card { padding: 10px 12px; margin-top: 8px; }
-        /* pemadatan ekstra kartu 1 & 3 (terukur meluap ±47px pada 412x640) */
-        .tk { padding-top: 12px; padding-bottom: 84px; }
-        .tk .hero-photo { max-width: 138px; }
-        .tk .hero-names { line-height: 1.2; }
-        .tk .hero .monogram { font-size: 23px; }
-        .tk .hero-date { font-size: 16.5px; }
-        .tk .verse { font-size: 13.5px; line-height: 1.5; margin-top: 10px; }
-        .tk div:has(> .btn-simpan) { margin-top: 10px !important; }
-        .tk .cd-cell { padding: 6px 5px 6px; }
-        .tk .cd-num { font-size: 22px; }
-        .tk section[aria-label="Waktu dan tempat acara"] > .ornament { display: none; }
-        .tk section[aria-label="Waktu dan tempat acara"] > .section-sub { font-size: 12.5px; line-height: 1.45; }
-        .tk section[aria-label="Waktu dan tempat acara"] .event-card { padding: 10px 12px; margin-top: 8px; }
-        .tk section[aria-label="Waktu dan tempat acara"] .event-card h3 { font-size: 19px; }
-        .tk section[aria-label="Waktu dan tempat acara"] .event-when { font-size: 13.5px; line-height: 1.4; }
-        .tk section[aria-label="Waktu dan tempat acara"] .event-place { font-size: 12px; line-height: 1.4; }
-        .tk section[aria-label="Waktu dan tempat acara"] .btn-map { padding: 9px 12px; font-size: 13.5px; margin-top: 8px; }
-        /* pemadatan lanjutan <=700: ruang aman bilah (padding bawah besar) tidak boleh meluapkan kartu mana pun */
-        .tk { padding-top: 10px; }
-        .tk[data-tk="3"] { padding-top: 10px; padding-bottom: 84px; }
-        .tk .hero-photo { max-width: 130px; margin-top: 6px; }
-        .tk .hero-names { margin-top: 2px; }
-        .tk .hero-date { margin-top: 4px; }
-        .tk .verse { margin-top: 6px; line-height: 1.45; }
-        .tk .cincin-bingkai { width: 84px; height: 84px; margin-top: 4px; }
-        .tk .couple-grid { margin-top: 8px; gap: 8px; }
-        .tk .person { padding: 10px 12px; }
-        .tk .person .initial { width: 40px; height: 40px; font-size: 20px; margin-bottom: 4px; }
-        .tk .person h3 { font-size: 19px; }
-        .tk .person p { margin-top: 2px; }
-        .tk .love-item { padding: 8px 12px; margin-bottom: 6px; }
-        .tk .love-timeline { margin-top: 2px; }
-        .tk .love-item h3 { font-size: 16px; }
-        .tk .love-item p:last-child { font-size: 13px; line-height: 1.42; }
-        .tk .love-year { margin-bottom: 4px; }
-        .tk[data-tk="4"] .section-title { font-size: 23px; }
-        .tk section[aria-label="Hitung mundur"] > .ornament { display: none; }
-        .tk[data-tk="3"] .section-title { font-size: 21px; line-height: 1.15; }
-        .tk[data-tk="3"] .countdown { margin-top: 6px; }
-        .tk[data-tk="3"] .cd-cell { min-width: 54px; padding: 5px; }
-        .tk[data-tk="3"] .cd-num { font-size: 18px; }
-        .tk[data-tk="3"] .cd-label { margin-top: 4px; font-size: 10.5px; }
-        .tk[data-tk="3"] .divider { margin-top: 4px; }
-        .tk div:has(> .btn-simpan) { margin-top: 8px !important; }
-        .tk .btn-simpan { padding: 9px 22px; font-size: 14px; }
-        .tk section[aria-label="Waktu dan tempat acara"] > .section-sub { font-size: 12px; line-height: 1.38; }
-        .tk section[aria-label="Waktu dan tempat acara"] .event-card { padding: 9px 12px; margin-top: 6px; }
-        .tk section[aria-label="Waktu dan tempat acara"] .event-card h3 { font-size: 18px; line-height: 1.15; }
-        .tk section[aria-label="Waktu dan tempat acara"] .event-when { font-size: 13px; line-height: 1.38; margin-top: 2px; }
-        .tk section[aria-label="Waktu dan tempat acara"] .event-place { font-size: 12px; line-height: 1.35; margin-top: 2px; }
-        .tk section[aria-label="Waktu dan tempat acara"] .btn-map { padding: 8px 12px; margin-top: 6px; }
-      }
       @media (prefers-reduced-motion: reduce) {
-        .tk { position: relative; height: auto; min-height: 0; margin-bottom: 18px;
-          transform: none !important; opacity: 1 !important; visibility: visible !important; }
-        .tk figure.k3d-gal { transform: none; }
-        .tk-petunjuk { animation: none; }
-        /* bilah ikon tetap tampil & bisa diketuk walau gerak dikurangi */
         .tk-nav { transition: none; }
       }
 </style>
 <style>
-      /* ================= v.5: EFEK PENUH + MUTU ADAPTIF ================= */
+      /* ================= v.5: SAMPUL EFEK PENUH (interior sudah tenang) ================= */
       /* Pintu membuka lebih lebar, perspektif lebih dalam */
       #cover { transition: transform 1.35s cubic-bezier(.6,.05,.3,1), opacity .7s ease .55s, visibility 1.45s; }
       #cover.membuka { transform: perspective(950px) rotateY(-100deg); }
-      /* Paralaks bingkai bunga mengikuti penunjuk: --mx/--my (-1..1) dari JS, faktor per bunga */
+      /* Paralaks bingkai bunga sampul mengikuti penunjuk: --mx/--my (-1..1) dari JS, faktor per bunga */
       .bt-a { transform: translate3d(calc(var(--mx, 0) * 6px), calc(var(--my, 0) * 6px), 0) rotate(-7deg); }
       .bt-b { transform: translate3d(calc(var(--mx, 0) * 3px), calc(var(--my, 0) * 3px), 0) scaleX(-1) rotate(6deg); }
       .bt-c { transform: translate3d(calc(var(--mx, 0) * 4px), calc(var(--my, 0) * 4px), 0) rotate(4deg); }
@@ -766,35 +625,7 @@
       .bt-f { transform: translate3d(calc(var(--mx, 0) * 6px), calc(var(--my, 0) * 6px), 0) scaleX(-1) rotate(5deg); }
       .bt-g { transform: translate3d(calc(var(--mx, 0) * 3px), calc(var(--my, 0) * 3px), 0) rotate(-5deg); }
       .bt-h { transform: translate3d(calc(var(--mx, 0) * 6px), calc(var(--my, 0) * 6px), 0) rotate(-5deg); }
-      /* will-change hanya pada kartu yang bergerak (diatur JS) */
-      .tk { will-change: auto; }
-      /* Kilau emas menyapu kartu yang baru menetap */
-      .tk::after {
-        content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: 4;
-        background: linear-gradient(115deg, transparent 32%, rgba(255, 238, 196, .30) 47%, rgba(255, 255, 255, .48) 52%, transparent 68%);
-        transform: translateX(-135%); opacity: 0; pointer-events: none;
-      }
-      .tk.kilau::after { animation: kilauSapuan 1.05s ease forwards; }
-      @keyframes kilauSapuan {
-        0% { transform: translateX(-135%); opacity: 0; }
-        18% { opacity: 1; }
-        82% { opacity: 1; }
-        100% { transform: translateX(135%); opacity: 0; }
-      }
-      /* Debu emas zona tumpukan */
-      .debu { position: fixed; inset: 0; z-index: 44; pointer-events: none; overflow: hidden;
-        opacity: 0; transition: opacity .7s ease; }
-      .debu.nyala { opacity: 1; }
-      .debu span { position: absolute; top: -4vh; border-radius: 50%;
-        background: radial-gradient(circle at 35% 35%, #FFF3C4, #D4A017);
-        box-shadow: 0 0 7px rgba(232, 199, 102, .85); animation: debuJatuh linear infinite; }
-      @keyframes debuJatuh { to { transform: translateY(112vh) translateX(3vw); } }
-      /* Gerbang mutu adaptif: tingkat menyusut menyembunyikan lapisan termahal */
-      body.tkq-0 .debu { display: none; }
-      body.tkq-1 .debu span:nth-child(even) { display: none; }
       @media (prefers-reduced-motion: reduce) {
-        .debu { display: none; }
-        .tk.kilau::after { animation: none; }
         #cover.membuka { transform: none; }
       }
 </style>
@@ -824,7 +655,7 @@
     </div>
 
     <main class="page">
-      <div class="tumpukan" id="tumpukan">
+      <div class="alir">
   <article class="tk" data-tk="1" aria-label="Pembuka">
 <!-- ================= PEMBUKA ================= -->
       <div class="hero">
@@ -834,7 +665,7 @@
         <p class="hero-date">Sabtu, 19 Desember 2026 · Samarinda</p>
         <p class="hero-date" style="font-style:italic">Di taman inilah dua hati mekar bersama.</p>
         <!-- SLOT FOTO MEMPELAI: bingkai lengkung di bawah ini adalah slot foto sampul. Ganti src img di dalamnya dengan foto pemesan; bila pemesan tanpa foto, pola monogram inisial pada sampul tetap tampil baik. -->
-        <div class="hero-photo rv" data-plx="20">
+        <div class="hero-photo rv">
           <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/gambar/sampul-tema-bungamekar.jpg" alt="Ilustrasi cat air kedua mempelai di taman bunga mekar penuh dengan gerbang lengkung bunga mawar dan peony" />
         </div>
         <p class="verse rv">
@@ -843,16 +674,15 @@
         </p>
       </div>
 
-      <div class="tk-petunjuk" aria-hidden="true">Geser ke bawah &#8595;</div>
   </article>
   <article class="tk" data-tk="2" aria-label="Mempelai">
 <!-- ================= MEMPELAI ================= -->
       <section aria-label="Mempelai" class="rv">
         <div class="ornament" aria-hidden="true"><svg class="bunga-judul" viewBox="-24 -24 48 48" aria-hidden="true"><g class="mekar"><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(0)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(60)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(120)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(180)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(240)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(300)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(30)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(90)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(150)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(210)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(270)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(330)"/><circle r="2.9" fill="#E8C766"/><circle r="1.4" fill="#B8860B"/></g></svg></div>
         <h2 class="section-title">Kedua Mempelai</h2>
-        <p class="section-sub" data-plx="-8">Dengan penuh sukacita dan rasa syukur, kami bermaksud menyempurnakan ikatan cinta kami dalam ikatan pernikahan dan membangun keluarga yang bahagia.</p>
-        <div class="cincin-bingkai rv" data-plx="22" aria-hidden="true">
-          <video class="cincin3d" autoplay muted loop playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/cincin-3d-poster.jpg" aria-label="Animasi 3D sepasang cincin emas yang berputar"><source src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/cincin-3d.mp4" type="video/mp4" /></video>
+        <p class="section-sub">Dengan penuh sukacita dan rasa syukur, kami bermaksud menyempurnakan ikatan cinta kami dalam ikatan pernikahan dan membangun keluarga yang bahagia.</p>
+        <div class="cincin-bingkai">
+          <img class="cincin3d" src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/cincin-3d-poster.jpg" alt="Gambar diam dari animasi 3D sepasang cincin emas" loading="lazy" />
         </div>
         <div class="couple-grid">
           <div class="person rv k3d">
@@ -868,14 +698,13 @@
         </div>
       </section>
 
-      <div class="tk-petunjuk" aria-hidden="true">Geser ke bawah &#8595;</div>
   </article>
   <article class="tk" data-tk="3" aria-label="Acara dan hitung mundur">
 <!-- ================= HITUNG MUNDUR ================= -->
       <section aria-label="Hitung mundur" class="rv">
         <div class="ornament" aria-hidden="true"><svg class="bunga-judul" viewBox="-24 -24 48 48" aria-hidden="true"><g class="mekar"><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(0)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(60)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(120)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(180)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(240)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(300)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(30)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(90)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(150)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(210)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(270)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(330)"/><circle r="2.9" fill="#E8C766"/><circle r="1.4" fill="#B8860B"/></g></svg></div>
         <h2 class="section-title">Menghitung Hari</h2>
-        <div class="countdown rv" id="countdown" data-plx="12">
+        <div class="countdown rv" id="countdown">
           <div class="cd-cell k3d"><div class="cd-num" id="cd-days">–</div><div class="cd-label">Hari</div></div>
           <div class="cd-cell k3d"><div class="cd-num" id="cd-hours">–</div><div class="cd-label">Jam</div></div>
           <div class="cd-cell k3d"><div class="cd-num" id="cd-mins">–</div><div class="cd-label">Menit</div></div>
@@ -892,14 +721,14 @@
         <h2 class="section-title">Waktu &amp; Tempat</h2>
         <p class="section-sub">Merupakan suatu kehormatan dan kebahagiaan bagi kami beserta keluarga apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
 
-        <div class="event-card rv k3d" data-plx="16">
+        <div class="event-card rv k3d">
           <h3>Upacara Pernikahan</h3>
           <p class="event-when">Sabtu, 19 Desember 2026<br />Pukul <strong>08.00 – 10.00 WITA</strong></p>
           <p class="event-place">Taman Contoh Bunga Mekar<br />Samarinda, Kalimantan Timur</p>
           <a class="btn-map" href="https://www.google.com/maps/search/?api=1&amp;query=Samarinda" target="_blank" rel="noopener">Lihat Lokasi</a>
         </div>
 
-        <div class="event-card rv k3d" data-plx="16">
+        <div class="event-card rv k3d">
           <h3>Resepsi</h3>
           <p class="event-when">Sabtu, 19 Desember 2026<br />Pukul <strong>11.00 – 13.00 WITA</strong></p>
           <p class="event-place">Taman Contoh Bunga Mekar<br />Samarinda, Kalimantan Timur</p>
@@ -910,7 +739,6 @@
 
       
 
-      <div class="tk-petunjuk" aria-hidden="true">Geser ke bawah &#8595;</div>
   </article>
   <article class="tk" data-tk="4" aria-label="Kisah cinta">
 <!-- ================= KISAH CINTA ================= -->
@@ -919,17 +747,17 @@
         <h2 class="section-title">Kisah Cinta Kami</h2>
         <p class="section-sub">Sedikit cerita tentang perjalanan kami sampai ke hari bahagia ini.</p>
         <div class="love-timeline">
-          <div class="love-item rv k3d" data-plx="14">
+          <div class="love-item rv k3d">
             <h3>Awal Bertemu</h3>
             <p class="love-year">2019</p>
             <p>Pertemuan pertama kami terjadi tanpa sengaja di sebuah acara keluarga. Dari obrolan sederhana sore itu, kami merasa ada kecocokan yang sulit dijelaskan dengan kata-kata.</p>
           </div>
-          <div class="love-item rv k3d" data-plx="14">
+          <div class="love-item rv k3d">
             <h3>Lamaran</h3>
             <p class="love-year">2025</p>
             <p>Setelah bertahun saling mengenal dan mendukung, Bagas Wicaksono menyampaikan niat baiknya. Dengan restu kedua keluarga, kami resmi bertunangan.</p>
           </div>
-          <div class="love-item rv k3d" data-plx="14">
+          <div class="love-item rv k3d">
             <h3>Menikah</h3>
             <p class="love-year">2026</p>
             <p>Kini, dengan penuh syukur, kami melangkah ke jenjang pernikahan dan mengundang Bapak/Ibu/Saudara/i untuk menjadi saksi hari bahagia kami.</p>
@@ -937,7 +765,6 @@
         </div>
       </section>
 
-      <div class="tk-petunjuk" aria-hidden="true">Geser ke bawah &#8595;</div>
   </article>
   <article class="tk" data-tk="5" aria-label="Galeri">
 <!-- ================= GALERI ================= -->
@@ -945,7 +772,7 @@
         <div class="ornament" aria-hidden="true"><svg class="bunga-judul" viewBox="-24 -24 48 48" aria-hidden="true"><g class="mekar"><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(0)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(60)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(120)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(180)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(240)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(300)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(30)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(90)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(150)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(210)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(270)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(330)"/><circle r="2.9" fill="#E8C766"/><circle r="1.4" fill="#B8860B"/></g></svg></div>
         <h2 class="section-title">Galeri Kami</h2>
         <p class="section-sub">Momen-momen yang kami abadikan menjelang hari bahagia.</p>
-        <div class="gallery rv" id="gallery" data-plx="-8">
+        <div class="gallery rv" id="gallery">
           <figure class="k3d k3d-gal" tabindex="0" role="button" aria-label="Perbesar foto 1" data-full="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/gambar/sampul-tema-bungamekar.jpg" data-alt="Ilustrasi cat air kedua mempelai di taman bunga mekar penuh dengan gerbang lengkung bunga mawar dan peony">
             <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/gambar/sampul-tema-bungamekar.jpg" alt="Ilustrasi cat air kedua mempelai di taman bunga mekar penuh dengan gerbang lengkung bunga mawar dan peony" loading="lazy" />
             <span class="zoom-hint" aria-hidden="true">⤢</span>
@@ -970,7 +797,6 @@
         <p class="gallery-note">Ketuk foto untuk melihatnya dalam ukuran besar.</p>
       </section>
 
-      <div class="tk-petunjuk" aria-hidden="true">Lanjut: konfirmasi kehadiran &#8595;</div>
   </article>
 </div>
 <nav class="tk-ind" id="tkInd" aria-label="Navigasi bagian undangan"><button type="button" class="tk-nav on" data-ke="0" aria-label="Ke Pembuka" title="Pembuka"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1.7"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(72 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(144 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(216 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(288 12 12)"/></svg></button><button type="button" class="tk-nav" data-ke="1" aria-label="Ke Mempelai" title="Mempelai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="14.5" r="5.2"/><circle cx="15.2" cy="10.8" r="5.2"/><path d="M15.2 2.9l1.9 2-1.9 2-1.9-2z"/></svg></button><button type="button" class="tk-nav" data-ke="2" aria-label="Ke Acara" title="Acara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.8" y="5.5" width="16.4" height="14.5" rx="2"/><path d="M3.8 10h16.4"/><path d="M8 3.5v4"/><path d="M16 3.5v4"/><circle cx="8.6" cy="14.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="12" cy="14.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="15.4" cy="14.6" r="1.15" fill="currentColor" stroke="none"/></svg></button><button type="button" class="tk-nav" data-ke="3" aria-label="Ke Kisah Cinta" title="Kisah Cinta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.2C6.6 16.9 3.2 13.7 3.2 10 3.2 7.3 5.2 5.2 7.8 5.2c1.7 0 3.3.9 4.2 2.4.9-1.5 2.5-2.4 4.2-2.4 2.6 0 4.6 2.1 4.6 4.8 0 3.7-3.4 6.9-8.8 10.2z"/></svg></button><button type="button" class="tk-nav" data-ke="4" aria-label="Ke Galeri" title="Galeri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.7"/><path d="M3.8 17.8l4.8-4.8 3.1 3.1 3.4-3.4 5.1 5.1"/></svg></button><button type="button" class="tk-nav" data-ke="rsvp" aria-label="Ke Konfirmasi &amp; Amplop" title="Konfirmasi &amp; Amplop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M4.2 7.3l7.8 5.7 7.8-5.7"/></svg></button></nav>
@@ -1357,420 +1183,117 @@
   })();
 })();
 </script>
-<script>
-/* Kartu 3D gulir PER BINGKAI (v.3): transform & opacity terikat posisi gulir (scroll + rAF).
-   Di bawah tengah viewport: miring rotateX positif + turun + pudar, membaik mengikuti guliran.
-   Di tengah viewport: rata penuh. Di atas tengah: miring berlawanan halus (maks 14deg). */
-(function () {
-  var els = Array.prototype.filter.call(document.querySelectorAll('.k3d'), function (el) { return !el.closest('.tumpukan'); });
-  if (!els.length) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    Array.prototype.forEach.call(els, function (el) { el.style.transform = 'none'; el.style.opacity = '1'; });
-    return;
-  }
-  function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
-  var ticking = false;
-  function update() {
-    ticking = false;
-    var vh = window.innerHeight;
-    for (var i = 0; i < els.length; i++) {
-      var el = els[i];
-      var r = el.getBoundingClientRect();
-      if (r.bottom < -240 || r.top > vh + 240) continue;
-      var gal = el.classList.contains('k3d-gal');
-      var co = (r.top + r.height / 2 - vh / 2) / (vh / 2);
-      if (co >= 0) {
-        var f = clamp(co / 0.85, 0, 1);
-        var ang = (gal ? 22 : 36) * f;
-        var ty = (gal ? 34 : 44) * f;
-        el.style.opacity = String(1 - f);
-        el.style.transform = 'rotateX(' + ang.toFixed(2) + 'deg)' +
-          (gal ? ' rotateY(' + (-9 * f).toFixed(2) + 'deg)' : '') +
-          ' translateY(' + ty.toFixed(2) + 'px)';
-      } else {
-        var f2 = clamp(-co / 0.85, 0, 1);
-        el.style.opacity = '1';
-        el.style.transform = 'rotateX(' + (-14 * f2).toFixed(2) + 'deg)' +
-          (gal ? ' rotateY(' + (6 * f2).toFixed(2) + 'deg)' : '') +
-          ' translateY(' + (-10 * f2).toFixed(2) + 'px)';
-      }
-    }
-  }
-  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  var bo = document.getElementById('btnOpen');
-  if (bo) {
-    var jadwalUlang = function () { setTimeout(update, 1450); };
-    bo.addEventListener('click', jadwalUlang);
-    bo.addEventListener('touchend', jadwalUlang, { passive: true });
-  }
-  update();
-})();
-</script>
+
 
 
 <script>
-/* v.5: TUMPUKAN KARTU EFEK PENUH + MUTU ADAPTIF.
-   Ayunan lebih dramatis dari v4, nilai tampil mengejar sasaran gulir dengan
-   penghalusan lerp (rasa pegas), kurva easeInOut, paralaks lapisan dalam kartu,
-   kilau emas saat kartu menetap, pintu sampul & paralaks bunga di skrip yang sama.
-   MUTU ADAPTIF: waktu frame nyata diukur selama halaman berjalan; perangkat
-   lemah (frame lambat beruntun / inti CPU <= 4) menurunkan tingkat efek
-   bertahap 2 -> 1 -> 0 (blur & paralaks mati, partikel menyusut, ayunan ke
-   tingkat v4, lebih banyak video dijeda). Tingkat tidak naik lagi sesudah turun. */
+/* v.5 ROMBAK TENANG: megah hanya di sampul, interior aliran normal statis.
+   Skrip ini hanya mengurus: (1) paralaks bunga bingkai sampul selama sampul
+   tampil, (2) jeda video bunga sampul sesudah dibuka, (3) bilah navigasi
+   6 ikon: tampil sesudah dibuka, ikon aktif mengikuti bagian yang terlihat,
+   ketukan melompat dengan gulir mulus bawaan (tanpa penjaga animasi buatan —
+   pelajaran bug 23:13: gulir bawaan berhenti sendiri oleh gesture pengguna). */
 (function () {
-  var cont = document.getElementById('tumpukan');
-  if (!cont) return;
-  var cards = Array.prototype.slice.call(cont.querySelectorAll('.tk'));
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cover = document.getElementById('cover');
   var ind = document.getElementById('tkInd');
   var navBtns = ind ? Array.prototype.slice.call(ind.querySelectorAll('.tk-nav')) : [];
-  var debu = document.getElementById('debu');
-  var cover = document.getElementById('cover');
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cards = Array.prototype.slice.call(document.querySelectorAll('article.tk'));
+  var rsvpSec = document.querySelector('section[aria-label="Konfirmasi kehadiran"]');
+  var amplopSec = document.querySelector('section[aria-label="Amplop digital"]');
   function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
-  function easeIO(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
 
-  /* ---------- MUTU ADAPTIF ---------- */
-  var cores = navigator.hardwareConcurrency || 8;
-  var Q = { level: 2, avg: 0, cores: cores, demoted: false, promoted: false };
-  if (cores <= 4) Q.level = 1;                 /* CPU kecil: mulai hemat */
-  var frameDeltas = [], lastEval = 0, lastChange = performance.now();
-  function setLevel(l) {
-    Q.level = l;
-    document.body.classList.remove('tkq-0', 'tkq-1', 'tkq-2');
-    document.body.classList.add('tkq-' + l);
-    document.documentElement.setAttribute('data-tkq', String(l));
-    lastChange = performance.now();
-    frameDeltas.length = 0;
-    ringsThreshold = l === 0 ? 0.6 : 0.25;     /* tingkat 0: cincin dijeda lebih agresif */
+  /* ---------- (1) paralaks bunga sampul: loop rAF hanya selama terkunci ---------- */
+  var mx = 0, my = 0, txP = 0, tyP = 0, pointerSeen = false, parJalan = false;
+  function langkahPar(ts) {
+    if (!document.body.classList.contains('locked')) { parJalan = false; return; }
+    if (!pointerSeen) { txP = Math.sin(ts * 0.0006) * 0.45; tyP = Math.cos(ts * 0.0005) * 0.35; }
+    mx += (txP - mx) * 0.06; my += (tyP - my) * 0.06;
+    if (cover) { cover.style.setProperty('--mx', mx.toFixed(3)); cover.style.setProperty('--my', my.toFixed(3)); }
+    requestAnimationFrame(langkahPar);
   }
-  window.__tkQ = Q;
-  /* kait uji: sematkan tingkat secara manual (monitor otomatis melewatinya) */
-  window.__tkSetLevel = function (l) { Q.pin = true; setLevel(clamp(l, 0, 2)); startLoop(); };
-
-  /* parameter efek per tingkat */
-  function params() {
-    if (Q.level === 2) return { rxOut: -20, rzOut: -6, lift: -135, scaleUp: 0.04, rxIn: 18, sMin: 0.90 };
-    if (Q.level === 1) return { rxOut: -16, rzOut: -4.5, lift: -124, scaleUp: 0.02, rxIn: 15, sMin: 0.93 };
-    return { rxOut: -12, rzOut: -3.5, lift: -112, scaleUp: 0, rxIn: 12, sMin: 0.965 };
-  }
-  var SHADOWS = [
-    '0 26px 60px rgba(94, 18, 36, 0.20)',
-    '0 34px 68px rgba(80, 10, 28, 0.30)',
-    '0 42px 78px rgba(70, 6, 24, 0.40)',
-    '0 50px 88px rgba(60, 4, 20, 0.50)'
-  ];
-
-  /* ---------- penjaga video ---------- */
-  var coverVideos = Array.prototype.slice.call(document.querySelectorAll('.bunga-tepi'));
-  var ringsVideo = document.querySelector('.cincin3d');
-  var ringsThreshold = 0.25;
-  if ('IntersectionObserver' in window && ringsVideo) {
-    var rio = new IntersectionObserver(function (es) {
-      es.forEach(function (e) {
-        if (e.isIntersecting && e.intersectionRatio >= ringsThreshold) { var p = ringsVideo.play(); if (p) p.catch(function () {}); }
-        else ringsVideo.pause();
-      });
-    }, { threshold: [0, 0.25, 0.6, 0.85] });
-    rio.observe(ringsVideo);
-  }
-  var bo = document.getElementById('btnOpen');
-  if (bo) {
-    var jedaBunga = function () {
-      setTimeout(function () { coverVideos.forEach(function (v) { v.pause(); }); }, 1500);
-    };
-    bo.addEventListener('click', jedaBunga);
-    bo.addEventListener('touchend', jedaBunga, { passive: true });
-  }
-
-  /* ---------- paralaks penunjuk di sampul ---------- */
-  var mx = 0, my = 0, txP = 0, tyP = 0, pointerSeen = false;
   if (cover && !reduced) {
     cover.addEventListener('pointermove', function (e) {
       pointerSeen = true;
       txP = clamp((e.clientX / window.innerWidth - 0.5) * 2, -1, 1);
       tyP = clamp((e.clientY / window.innerHeight - 0.5) * 2, -1, 1);
-      startLoop();
     }, { passive: true });
     window.addEventListener('deviceorientation', function (e) {
       if (e.gamma === null || e.beta === null) return;
       pointerSeen = true;
       txP = clamp(e.gamma / 18, -1, 1);
       tyP = clamp((e.beta - 45) / 18, -1, 1);
-      startLoop();
     });
+    parJalan = true;
+    requestAnimationFrame(langkahPar);
   }
 
-  /* ---------- keadaan gerak ---------- */
-  var disp = cards.map(function () { return { exit: 0, enter: 1 }; });
-  var shadowStep = cards.map(function () { return -1; });
-  var lastActive = -1, lastShow = null, lastShineFor = -2, lastDebu = null, zonaAkhir = false;
-  var plxEls = cards.map(function (c) {
-    return Array.prototype.slice.call(c.querySelectorAll('[data-plx]')).map(function (el) {
-      return { el: el, depth: parseFloat(el.getAttribute('data-plx')) || 0 };
-    });
-  });
-  var loopRunning = false, lastScrollAt = 0, lastTs = 0;
-
-  function targets() {
-    var vh = window.innerHeight;
-    var sy = window.scrollY || window.pageYOffset || 0;
-    var contRect = cont.getBoundingClientRect();
-    var contDocTop = contRect.top + sy;
-    var tops = cards.map(function (c) { return contDocTop + c.offsetTop; });
-    var zone = vh * 0.7;
-    var out = [], exited = 0;
-    cards.forEach(function (card, k) {
-      var isLast = k === cards.length - 1;
-      var pExit = 0;
-      if (!isLast) pExit = clamp((sy - (tops[k + 1] - zone)) / zone, 0, 1);
-      if (pExit >= 0.5) exited = k + 1;
-      var enter = 1;
-      var r = card.getBoundingClientRect();
-      if (pExit <= 0 && r.top > 0.5) enter = clamp(1 - r.top / vh, 0, 1);
-      out.push({ exit: easeIO(pExit), enter: easeIO(enter) });
-    });
-    /* bilah tampil sejak memasuki tumpukan dan tetap tersedia sampai akhir halaman
-       (ikon amplop perlu aktif di zona RSVP/Amplop); debu hanya di zona tumpukan */
-    var diTumpukan = contRect.bottom > vh * 0.12;
-    var show = contRect.top < vh * 0.92 && !document.body.classList.contains('locked');
-    return { list: out, active: Math.min(exited, cards.length - 1), show: show, diTumpukan: diTumpukan };
-  }
-
-  function applyCard(k, d, P) {
-    var card = cards[k];
-    var t = '';
-    if (d.exit > 0.0005) {
-      var sc = 1 + P.scaleUp * Math.sin(Math.PI * clamp(d.exit, 0, 1));
-      t = 'rotateX(' + (P.rxOut * d.exit).toFixed(2) + 'deg) rotate(' + (P.rzOut * d.exit).toFixed(2) + 'deg) translateY(' + (P.lift * d.exit).toFixed(2) + '%) scale(' + sc.toFixed(3) + ')';
-      card.style.visibility = d.exit >= 0.999 ? 'hidden' : 'visible';
-      if (card.style.filter) card.style.filter = '';
-    } else if (d.enter < 0.9995) {
-      t = 'rotateX(' + (P.rxIn * (1 - d.enter)).toFixed(2) + 'deg) translateY(' + (26 * (1 - d.enter)).toFixed(1) + 'px) scale(' + (P.sMin + (1 - P.sMin) * d.enter).toFixed(3) + ')';
-      card.style.visibility = 'visible';
-      if (Q.level === 2) card.style.filter = 'brightness(' + (0.8 + 0.2 * d.enter).toFixed(3) + ') blur(' + (2.5 * (1 - d.enter)).toFixed(2) + 'px)';
-      else if (Q.level === 1) card.style.filter = 'brightness(' + (0.86 + 0.14 * d.enter).toFixed(3) + ')';
-      else if (card.style.filter) card.style.filter = '';
-    } else {
-      card.style.visibility = 'visible';
-      if (card.style.filter) card.style.filter = '';
-    }
-    card.style.transform = t;
-    card.style.willChange = (d.exit > 0.0005 || (d.enter > 0.001 && d.enter < 0.9995)) ? 'transform' : '';
-    /* paralaks lapisan dalam: hanya tingkat penuh, digerakkan kemajuan masuk kartu */
-    var plx = plxEls[k];
-    for (var i = 0; i < plx.length; i++) {
-      var it = plx[i];
-      if (Q.level === 2 && d.exit <= 0.0005 && d.enter < 0.9995) {
-        it.el.style.transform = 'translateY(' + ((1 - d.enter) * it.depth).toFixed(1) + 'px)';
-      } else if (it.el.style.transform) it.el.style.transform = '';
-    }
-    /* bayangan kartu berikutnya menegas mengikuti kepergian kartu ini (bertahap, hemat) */
-    if (k + 1 < cards.length) {
-      var step = Math.round(clamp(d.exit, 0, 1) * 3);
-      if (step !== shadowStep[k + 1]) { cards[k + 1].style.boxShadow = SHADOWS[step]; shadowStep[k + 1] = step; }
-    }
-  }
-
-  function frame(ts) {
-    if (!loopRunning) return;
-    /* ukur waktu frame nyata */
-    if (lastTs && ts > lastTs) {
-      frameDeltas.push(ts - lastTs);
-      if (frameDeltas.length > 90) frameDeltas.shift();
-      if (!reduced && !Q.pin && frameDeltas.length >= 50 && ts - lastChange > 1200) {
-        var sum = 0; for (var i = 0; i < frameDeltas.length; i++) sum += frameDeltas[i];
-        Q.avg = sum / frameDeltas.length;
-        if (Q.avg > 26 && Q.level > 0) { Q.demoted = true; setLevel(Q.level - 1); }
-        else if (Q.avg < 17.5 && Q.level < 2 && !Q.demoted && frameDeltas.length >= 90) { Q.promoted = true; setLevel(Q.level + 1); }
-      }
-    }
-    lastTs = ts;
-    /* selama sampul terkunci: cukup paralaks bunga + statistik frame (kartu tak terlihat) */
-    if (document.body.classList.contains('locked')) {
-      if (cover && !reduced) {
-        if (!pointerSeen) { txP = Math.sin(ts * 0.0006) * 0.45; tyP = Math.cos(ts * 0.0005) * 0.35; }
-        mx += (txP - mx) * 0.06; my += (tyP - my) * 0.06;
-        cover.style.setProperty('--mx', mx.toFixed(3));
-        cover.style.setProperty('--my', my.toFixed(3));
-      }
-      requestAnimationFrame(frame);
-      return;
-    }
-    var P = params();
-    var tg = targets();
-    var settled = true;
-    for (var k = 0; k < cards.length; k++) {
-      var d = disp[k], want = tg.list[k];
-      d.exit += (want.exit - d.exit) * 0.18;
-      d.enter += (want.enter - d.enter) * 0.18;
-      if (Math.abs(want.exit - d.exit) < 0.0015) d.exit = want.exit;
-      if (Math.abs(want.enter - d.enter) < 0.0015) d.enter = want.enter;
-      if (d.exit !== want.exit || d.enter !== want.enter) settled = false;
-      applyCard(k, d, P);
-      cards[k].style.pointerEvents = 'none';
-    }
-    if (cards[tg.active]) cards[tg.active].style.pointerEvents = 'auto';
-    /* indikator + debu */
-    if (ind) {
-      if (tg.show !== lastShow) {
-        ind.classList.toggle('tampil-ind', tg.show);
-        lastShow = tg.show;
-      }
-      var dn = tg.show && tg.diTumpukan;
-      if (debu && dn !== lastDebu) { debu.classList.toggle('nyala', dn); lastDebu = dn; }
-      if (tg.show) {
-        var ingin = zonaAkhir ? 5 : (tg.diTumpukan ? tg.active : lastActive);
-        if (ingin !== lastActive && ingin >= 0) {
-          navBtns.forEach(function (b, i) {
-            var on = i === ingin;
-            b.classList.toggle('on', on);
-            if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
-          });
-          lastActive = ingin;
-        }
-      }
-    }
-    /* kilau saat kartu aktif baru saja menetap */
-    if (Q.level >= 1 && tg.active !== lastShineFor && disp[tg.active] &&
-        disp[tg.active].enter > 0.985 && disp[tg.active].exit <= 0.0005) {
-      var ck = cards[tg.active];
-      lastShineFor = tg.active;
-      ck.classList.remove('kilau'); void ck.offsetWidth; ck.classList.add('kilau');
-      setTimeout(function () { ck.classList.remove('kilau'); }, 1200);
-    }
-    /* paralaks bunga sampul selama sampul tampil */
-    var locked = document.body.classList.contains('locked');
-    if (locked && cover && !reduced) {
-      if (!pointerSeen) { txP = Math.sin(ts * 0.0006) * 0.45; tyP = Math.cos(ts * 0.0005) * 0.35; }
-      mx += (txP - mx) * 0.06; my += (tyP - my) * 0.06;
-      cover.style.setProperty('--mx', mx.toFixed(3));
-      cover.style.setProperty('--my', my.toFixed(3));
-    }
-    var recentScroll = ts - lastScrollAt < 160;
-    if (locked || recentScroll || !settled) requestAnimationFrame(frame);
-    else { loopRunning = false; lastTs = 0; }
-  }
-  function startLoop() {
-    if (reduced || loopRunning) return;
-    loopRunning = true;
-    requestAnimationFrame(frame);
-  }
-  function onScroll() { lastScrollAt = performance.now(); startLoop(); }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
+  /* ---------- (2) jeda video bunga sampul sesudah dibuka + tampilkan bilah ---------- */
+  var bo = document.getElementById('btnOpen');
   if (bo) {
-    var jadwalUlang = function () { setTimeout(startLoop, 1450); };
-    bo.addEventListener('click', jadwalUlang);
-    bo.addEventListener('touchend', jadwalUlang, { passive: true });
-  }
-  /* ---------- lompatan ikon: animasi gulir rAF sendiri (easeInOutCubic) ----------
-     Semulus gulir biasa; ketukan ikon lain di tengah jalan membatalkan &
-     mengalihkan dengan halus. Gulir bebas pengguna tidak diubah: sentuhan/roda
-     hanya MEMBATALKAN animasi yang sedang berjalan. */
-  function easeCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-  var animGulir = 0;
-  function gulirKe(yAkhir) {
-    yAkhir = Math.max(0, Math.round(yAkhir));
-    if (reduced) { window.scrollTo(0, yAkhir); return; }
-    var yAwal = window.scrollY || window.pageYOffset || 0;
-    var jarak = yAkhir - yAwal;
-    if (Math.abs(jarak) < 2) return;
-    var skala = Q.level === 0 ? 0.62 : (Q.level === 1 ? 0.82 : 1); /* tingkat menyusut: lebih singkat */
-    var dur = Math.round(clamp(620 + Math.abs(jarak) * 0.22, 880, 1180) * skala);
-    var t0 = performance.now();
-    if (animGulir) cancelAnimationFrame(animGulir);
-    var langkah = function (ts) {
-      var t = clamp((ts - t0) / dur, 0, 1);
-      window.scrollTo(0, Math.round(yAwal + jarak * easeCubic(t)));
-      if (t < 1) animGulir = requestAnimationFrame(langkah);
-      else animGulir = 0;
+    var sesudahBuka = function () {
+      setTimeout(function () {
+        Array.prototype.forEach.call(document.querySelectorAll('.bunga-tepi'), function (v) { v.pause(); });
+      }, 1500);
+      setTimeout(function () {
+        if (ind && !document.body.classList.contains('locked')) ind.classList.add('tampil-ind');
+      }, 60);
     };
-    animGulir = requestAnimationFrame(langkah);
+    bo.addEventListener('click', sesudahBuka);
+    bo.addEventListener('touchend', sesudahBuka, { passive: true });
   }
-  ['wheel', 'touchmove'].forEach(function (ev) {
-    window.addEventListener(ev, function () {
-      if (animGulir) { cancelAnimationFrame(animGulir); animGulir = 0; }
-    }, { passive: true });
-  });
-  /* zona akhir: ikon amplop menyala saat RSVP / Amplop Digital berada di layar */
-  var rsvpSec = document.querySelector('section[aria-label="Konfirmasi kehadiran"]');
-  var amplopSec = document.querySelector('section[aria-label="Amplop digital"]');
-  var rsvpTerlihat = false, amplopTerlihat = false;
-  if ('IntersectionObserver' in window && (rsvpSec || amplopSec)) {
-    var zio = new IntersectionObserver(function (es) {
+
+  /* ---------- (3a) ikon aktif mengikuti bagian yang terlihat ---------- */
+  var aktifIdx = -1;
+  function setAktif(i) {
+    if (i === aktifIdx) return;
+    aktifIdx = i;
+    navBtns.forEach(function (b, k) {
+      var on = k === i;
+      b.classList.toggle('on', on);
+      if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+    });
+  }
+  setAktif(0);
+  if ('IntersectionObserver' in window && cards.length) {
+    var terlihat = cards.map(function () { return false; });
+    var rsvpTerlihat = false, amplopTerlihat = false;
+    var hitungAktif = function () {
+      if (rsvpTerlihat || amplopTerlihat) { setAktif(5); return; }
+      for (var k = terlihat.length - 1; k >= 0; k--) { if (terlihat[k]) { setAktif(k); return; } }
+    };
+    var bio = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
+        var idx = cards.indexOf(e.target);
+        if (idx >= 0) terlihat[idx] = e.isIntersecting;
         if (e.target === rsvpSec) rsvpTerlihat = e.isIntersecting;
         if (e.target === amplopSec) amplopTerlihat = e.isIntersecting;
       });
-      zonaAkhir = rsvpTerlihat || amplopTerlihat;
-      startLoop();
-      if (reduced && typeof updR === 'function') updR();
-    }, { threshold: 0.08 });
-    if (rsvpSec) zio.observe(rsvpSec);
-    if (amplopSec) zio.observe(amplopSec);
+      hitungAktif();
+    }, { rootMargin: '-42% 0px -42% 0px', threshold: 0 });
+    cards.forEach(function (c) { bio.observe(c); });
+    if (rsvpSec) bio.observe(rsvpSec);
+    if (amplopSec) bio.observe(amplopSec);
   }
-  /* ketuk ikon bilah: lompat ke posisi gulir tujuan (kartu: akumulasi offsetHeight
-     seperti v4 — offsetTop kartu sticky ikut bergeser; amplop: melewati tumpukan
-     ke bagian Konfirmasi Kehadiran).
-     BENTENG SENTUH (pola yang sama dengan tombol Buka Undangan): penangan GANDA
-     touchend + click dengan penjaga anti-dobel — di HP nyata click saja bisa
-     tertelan (kasus POCO F3 23:13: ikon tidak merespons sama sekali). */
+
+  /* ---------- (3b) ketuk ikon: lompat ke bagian dalam aliran normal ----------
+     BENTENG SENTUH (pola tombol Buka Undangan): penangan ganda touchend + click
+     dengan penjaga anti-dobel 600ms, supaya ketukan jari nyata selalu tertangkap. */
+  var perilaku = reduced ? 'auto' : 'smooth';
   navBtns.forEach(function (btn) {
     var jagaKetuk = 0;
     function jalanKetuk() {
       var kiniMs = Date.now();
-      if (kiniMs - jagaKetuk < 600) return; /* anti-dobel touchend -> click */
+      if (kiniMs - jagaKetuk < 600) return;
       jagaKetuk = kiniMs;
       var ke = btn.getAttribute('data-ke');
-      var syNow = window.scrollY || window.pageYOffset || 0;
-      if (ke === 'rsvp') {
-        if (rsvpSec) gulirKe(rsvpSec.getBoundingClientRect().top + syNow);
-        return;
-      }
-      var i = parseInt(ke, 10) || 0;
-      var top = cont.getBoundingClientRect().top + syNow;
-      for (var k = 0; k < i; k++) top += cards[k].offsetHeight;
-      gulirKe(top);
+      var tujuan = (ke === 'rsvp') ? rsvpSec : cards[parseInt(ke, 10) || 0];
+      if (tujuan) tujuan.scrollIntoView({ behavior: perilaku, block: 'start' });
     }
     btn.addEventListener('click', jalanKetuk);
     btn.addEventListener('touchend', function (e) { e.preventDefault(); jalanKetuk(); }, { passive: false });
   });
-
-  if (reduced) {
-    /* tanpa gerak: kartu statis rata; indikator dari posisi tepi atas */
-    setLevel(0);
-    var updR = function () {
-      var vh = window.innerHeight;
-      var contRect = cont.getBoundingClientRect();
-      var active = 0;
-      cards.forEach(function (card, k) { if (card.getBoundingClientRect().top <= vh * 0.5) active = k; });
-      var diTumpukan = contRect.bottom > vh * 0.12;
-      var show = contRect.top < vh * 0.92 && !document.body.classList.contains('locked');
-      var ingin = zonaAkhir ? 5 : (diTumpukan ? active : -1);
-      if (ind) {
-        ind.classList.toggle('tampil-ind', show);
-        if (ingin >= 0) navBtns.forEach(function (b, i) {
-          var on = i === ingin;
-          b.classList.toggle('on', on);
-          if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
-        });
-      }
-    };
-    window.addEventListener('scroll', updR, { passive: true });
-    window.addEventListener('resize', updR);
-    if (bo) {
-      bo.addEventListener('click', function () { setTimeout(updR, 1450); });
-      bo.addEventListener('touchend', function () { setTimeout(updR, 1450); }, { passive: true });
-    }
-    updR();
-    return;
-  }
-  setLevel(Q.level);
-  startLoop();
 })();
-
 </script>
 
 </body>
