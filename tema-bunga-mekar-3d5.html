@@ -1383,6 +1383,8 @@
     ringsThreshold = l === 0 ? 0.6 : 0.25;     /* tingkat 0: cincin dijeda lebih agresif */
   }
   window.__tkQ = Q;
+  /* kait uji: sematkan tingkat secara manual (monitor otomatis melewatinya) */
+  window.__tkSetLevel = function (l) { Q.pin = true; setLevel(clamp(l, 0, 2)); startLoop(); };
 
   /* parameter efek per tingkat */
   function params() {
@@ -1511,7 +1513,7 @@
     if (lastTs && ts > lastTs) {
       frameDeltas.push(ts - lastTs);
       if (frameDeltas.length > 90) frameDeltas.shift();
-      if (!reduced && frameDeltas.length >= 50 && ts - lastChange > 1200) {
+      if (!reduced && !Q.pin && frameDeltas.length >= 50 && ts - lastChange > 1200) {
         var sum = 0; for (var i = 0; i < frameDeltas.length; i++) sum += frameDeltas[i];
         Q.avg = sum / frameDeltas.length;
         if (Q.avg > 26 && Q.level > 0) { Q.demoted = true; setLevel(Q.level - 1); }
@@ -1519,6 +1521,17 @@
       }
     }
     lastTs = ts;
+    /* selama sampul terkunci: cukup paralaks bunga + statistik frame (kartu tak terlihat) */
+    if (document.body.classList.contains('locked')) {
+      if (cover && !reduced) {
+        if (!pointerSeen) { txP = Math.sin(ts * 0.0006) * 0.45; tyP = Math.cos(ts * 0.0005) * 0.35; }
+        mx += (txP - mx) * 0.06; my += (tyP - my) * 0.06;
+        cover.style.setProperty('--mx', mx.toFixed(3));
+        cover.style.setProperty('--my', my.toFixed(3));
+      }
+      requestAnimationFrame(frame);
+      return;
+    }
     var P = params();
     var tg = targets();
     var settled = true;
