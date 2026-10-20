@@ -1223,7 +1223,11 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
   var bo = document.getElementById('btnOpen');
-  if (bo) bo.addEventListener('click', function () { setTimeout(update, 1450); });
+  if (bo) {
+    var jadwalUlang = function () { setTimeout(update, 1450); };
+    bo.addEventListener('click', jadwalUlang);
+    bo.addEventListener('touchend', jadwalUlang, { passive: true });
+  }
   update();
 })();
 </script>
@@ -1294,7 +1298,11 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
   var bo = document.getElementById('btnOpen');
-  if (bo) bo.addEventListener('click', function () { setTimeout(update, 1450); });
+  if (bo) {
+    var jadwalUlang = function () { setTimeout(update, 1450); };
+    bo.addEventListener('click', jadwalUlang);
+    bo.addEventListener('touchend', jadwalUlang, { passive: true });
+  }
   update();
 })();
 </script>
