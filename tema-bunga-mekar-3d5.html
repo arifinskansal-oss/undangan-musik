@@ -573,7 +573,7 @@
       .tk {
         position: sticky; top: 0; height: 100dvh; overflow: hidden;
         display: flex; flex-direction: column; justify-content: center;
-        padding: 24px 18px 30px; border-radius: 26px;
+        padding: 24px 18px 92px; border-radius: 26px;
         border: 1px solid var(--line);
         background: linear-gradient(180deg, var(--card), var(--bg-soft));
         box-shadow: 0 26px 60px rgba(94, 18, 36, 0.20);
@@ -626,19 +626,24 @@
       .tk .gallery img { aspect-ratio: 1 / 1; }
       .tk .gallery-note { margin-top: 8px; }
 
-      /* v.4 perbaikan: kartu 3 — dua kartu acara berdampingan agar muat 100dvh */
-      .tk section[aria-label="Waktu dan tempat acara"] { display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; }
-      .tk section[aria-label="Waktu dan tempat acara"] > .ornament,
-      .tk section[aria-label="Waktu dan tempat acara"] > .section-title,
-      .tk section[aria-label="Waktu dan tempat acara"] > .section-sub { grid-column: 1 / -1; }
-      .tk section[aria-label="Waktu dan tempat acara"] .event-card { margin-top: 10px; padding: 12px 10px; }
-      .tk section[aria-label="Waktu dan tempat acara"] .event-card h3 { font-size: 20px; line-height: 1.15; }
-      .tk section[aria-label="Waktu dan tempat acara"] .event-when { font-size: 14.5px; line-height: 1.45; }
-      .tk section[aria-label="Waktu dan tempat acara"] .event-place { font-size: 12.5px; line-height: 1.45; }
-      .tk section[aria-label="Waktu dan tempat acara"] .btn-map { padding: 6px 14px; font-size: 12.5px; margin-top: 8px; }
-      /* petunjuk geser di tepi bawah tiap kartu */
+      /* v.5 perbaikan uji HP 22:28: kartu acara SATU KOLOM — teks lebih besar, tombol lokasi besar lebar penuh */
+      .tk section[aria-label="Waktu dan tempat acara"] .event-card { margin-top: 12px; padding: 12px 18px 14px; }
+      .tk section[aria-label="Waktu dan tempat acara"] .event-card h3 { font-size: 23px; line-height: 1.2; }
+      .tk section[aria-label="Waktu dan tempat acara"] .event-when { font-size: 16.5px; line-height: 1.45; margin-bottom: 0; }
+      .tk section[aria-label="Waktu dan tempat acara"] .event-place { font-size: 14px; line-height: 1.45; margin-bottom: 0; }
+      .tk section[aria-label="Waktu dan tempat acara"] .btn-map { display: block; width: 100%; box-sizing: border-box; padding: 11px 16px; font-size: 15px; margin-top: 10px; }
+      /* pemadatan kartu 3: dua bagian (hitung mundur + acara) wajib muat utuh 100dvh */
+      .tk section[aria-label="Waktu dan tempat acara"] > .ornament { display: none; }
+      .tk[data-tk="3"] { padding-top: 20px; padding-bottom: 88px; }
+      .tk[data-tk="3"] .section-title { font-size: 25px; }
+      .tk[data-tk="3"] .section-sub { margin-top: 4px; font-size: 13.5px; }
+      .tk[data-tk="3"] .countdown { margin-top: 8px; }
+      .tk[data-tk="3"] .cd-cell { padding: 8px 6px 7px; }
+      .tk[data-tk="3"] .divider { margin-top: 8px; }
+      .tk div:has(> .btn-simpan) { margin-top: 12px !important; }
+      /* petunjuk geser di tepi bawah tiap kartu (di atas bilah navigasi, tidak tertutup) */
       .tk-petunjuk {
-        position: absolute; left: 0; right: 0; bottom: 9px; text-align: center;
+        position: absolute; left: 0; right: 0; bottom: 88px; text-align: center;
         font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
         color: var(--gold); opacity: .85; pointer-events: none;
         animation: tkGeser 1.8s ease-in-out infinite;
@@ -647,9 +652,9 @@
       /* penanda kemajuan tumpukan: bilah navigasi ikon (bisa diketuk) */
       .tk-ind {
         position: fixed; left: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 46;
-        display: none; align-items: center; gap: 2px;
+        display: none; align-items: center; gap: 3px;
         background: rgba(56, 16, 31, .88); color: #f3e6cf;
-        padding: 5px 10px 5px 6px; border-radius: 999px;
+        padding: 5px 8px; border-radius: 999px;
         box-shadow: 0 12px 30px rgba(38, 6, 18, .35);
       }
       .tk-ind.tampil-ind { display: inline-flex; }
@@ -660,16 +665,15 @@
         color: rgba(243, 230, 207, .5); -webkit-tap-highlight-color: transparent;
         touch-action: manipulation; transition: color .25s ease, background .25s ease;
       }
-      .tk-nav svg { width: 23px; height: 23px; display: block; }
+      .tk-nav svg { width: 25px; height: 25px; display: block; }
       .tk-nav.on { color: #e8c766; background: rgba(232, 199, 102, .14); }
       .tk-nav.on::after {
         content: ""; position: absolute; left: 50%; bottom: 4px; width: 4px; height: 4px;
         border-radius: 50%; background: #e8c766; transform: translateX(-50%);
       }
       .tk-nav:focus-visible { outline: 2px solid #e8c766; outline-offset: 1px; }
-      .tk-ind-num { font-size: 12px; letter-spacing: 1.5px; margin-left: 4px; white-space: nowrap; }
       @media (max-height: 700px) {
-        .tk { padding: 16px 14px 26px; }
+        .tk { padding: 16px 14px 86px; }
         .tk .hero-photo { max-width: 166px; margin-top: 8px; }
         .tk .ornament svg.bunga-judul { width: 24px; height: 24px; }
         .tk .section-title { font-size: clamp(25px, 6vw, 32px); }
@@ -686,7 +690,7 @@
         .tk .btn-map { margin-top: 8px; padding: 7px 18px; }
         .tk .live-card { padding: 10px 12px; margin-top: 8px; }
         /* pemadatan ekstra kartu 1 & 3 (terukur meluap ±47px pada 412x640) */
-        .tk { padding-top: 12px; padding-bottom: 22px; }
+        .tk { padding-top: 12px; padding-bottom: 84px; }
         .tk .hero-photo { max-width: 138px; }
         .tk .hero-names { line-height: 1.2; }
         .tk .hero .monogram { font-size: 23px; }
@@ -697,10 +701,45 @@
         .tk .cd-num { font-size: 22px; }
         .tk section[aria-label="Waktu dan tempat acara"] > .ornament { display: none; }
         .tk section[aria-label="Waktu dan tempat acara"] > .section-sub { font-size: 12.5px; line-height: 1.45; }
-        .tk section[aria-label="Waktu dan tempat acara"] .event-card { padding: 10px; }
+        .tk section[aria-label="Waktu dan tempat acara"] .event-card { padding: 10px 12px; margin-top: 8px; }
         .tk section[aria-label="Waktu dan tempat acara"] .event-card h3 { font-size: 19px; }
         .tk section[aria-label="Waktu dan tempat acara"] .event-when { font-size: 13.5px; line-height: 1.4; }
         .tk section[aria-label="Waktu dan tempat acara"] .event-place { font-size: 12px; line-height: 1.4; }
+        .tk section[aria-label="Waktu dan tempat acara"] .btn-map { padding: 9px 12px; font-size: 13.5px; margin-top: 8px; }
+        /* pemadatan lanjutan <=700: ruang aman bilah (padding bawah besar) tidak boleh meluapkan kartu mana pun */
+        .tk { padding-top: 10px; }
+        .tk[data-tk="3"] { padding-top: 10px; padding-bottom: 84px; }
+        .tk .hero-photo { max-width: 130px; margin-top: 6px; }
+        .tk .hero-names { margin-top: 2px; }
+        .tk .hero-date { margin-top: 4px; }
+        .tk .verse { margin-top: 6px; line-height: 1.45; }
+        .tk .cincin-bingkai { width: 84px; height: 84px; margin-top: 4px; }
+        .tk .couple-grid { margin-top: 8px; gap: 8px; }
+        .tk .person { padding: 10px 12px; }
+        .tk .person .initial { width: 40px; height: 40px; font-size: 20px; margin-bottom: 4px; }
+        .tk .person h3 { font-size: 19px; }
+        .tk .person p { margin-top: 2px; }
+        .tk .love-item { padding: 8px 12px; margin-bottom: 6px; }
+        .tk .love-timeline { margin-top: 2px; }
+        .tk .love-item h3 { font-size: 16px; }
+        .tk .love-item p:last-child { font-size: 13px; line-height: 1.42; }
+        .tk .love-year { margin-bottom: 4px; }
+        .tk[data-tk="4"] .section-title { font-size: 23px; }
+        .tk section[aria-label="Hitung mundur"] > .ornament { display: none; }
+        .tk[data-tk="3"] .section-title { font-size: 21px; line-height: 1.15; }
+        .tk[data-tk="3"] .countdown { margin-top: 6px; }
+        .tk[data-tk="3"] .cd-cell { min-width: 54px; padding: 5px; }
+        .tk[data-tk="3"] .cd-num { font-size: 18px; }
+        .tk[data-tk="3"] .cd-label { margin-top: 4px; font-size: 10.5px; }
+        .tk[data-tk="3"] .divider { margin-top: 4px; }
+        .tk div:has(> .btn-simpan) { margin-top: 8px !important; }
+        .tk .btn-simpan { padding: 9px 22px; font-size: 14px; }
+        .tk section[aria-label="Waktu dan tempat acara"] > .section-sub { font-size: 12px; line-height: 1.38; }
+        .tk section[aria-label="Waktu dan tempat acara"] .event-card { padding: 9px 12px; margin-top: 6px; }
+        .tk section[aria-label="Waktu dan tempat acara"] .event-card h3 { font-size: 18px; line-height: 1.15; }
+        .tk section[aria-label="Waktu dan tempat acara"] .event-when { font-size: 13px; line-height: 1.38; margin-top: 2px; }
+        .tk section[aria-label="Waktu dan tempat acara"] .event-place { font-size: 12px; line-height: 1.35; margin-top: 2px; }
+        .tk section[aria-label="Waktu dan tempat acara"] .btn-map { padding: 8px 12px; margin-top: 6px; }
       }
       @media (prefers-reduced-motion: reduce) {
         .tk { position: relative; height: auto; min-height: 0; margin-bottom: 18px;
@@ -932,7 +971,7 @@
       <div class="tk-petunjuk" aria-hidden="true">Lanjut: konfirmasi kehadiran &#8595;</div>
   </article>
 </div>
-<nav class="tk-ind" id="tkInd" aria-label="Navigasi bagian undangan"><button type="button" class="tk-nav on" data-ke="0" aria-label="Ke Pembuka" title="Pembuka"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1.7"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(72 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(144 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(216 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(288 12 12)"/></svg></button><button type="button" class="tk-nav" data-ke="1" aria-label="Ke Mempelai" title="Mempelai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="14.5" r="5.2"/><circle cx="15.2" cy="10.8" r="5.2"/><path d="M15.2 2.9l1.9 2-1.9 2-1.9-2z"/></svg></button><button type="button" class="tk-nav" data-ke="2" aria-label="Ke Acara" title="Acara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.8" y="5.5" width="16.4" height="14.5" rx="2"/><path d="M3.8 10h16.4"/><path d="M8 3.5v4"/><path d="M16 3.5v4"/><circle cx="8.6" cy="14.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="12" cy="14.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="15.4" cy="14.6" r="1.15" fill="currentColor" stroke="none"/></svg></button><button type="button" class="tk-nav" data-ke="3" aria-label="Ke Kisah Cinta" title="Kisah Cinta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.2C6.6 16.9 3.2 13.7 3.2 10 3.2 7.3 5.2 5.2 7.8 5.2c1.7 0 3.3.9 4.2 2.4.9-1.5 2.5-2.4 4.2-2.4 2.6 0 4.6 2.1 4.6 4.8 0 3.7-3.4 6.9-8.8 10.2z"/></svg></button><button type="button" class="tk-nav" data-ke="4" aria-label="Ke Galeri" title="Galeri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.7"/><path d="M3.8 17.8l4.8-4.8 3.1 3.1 3.4-3.4 5.1 5.1"/></svg></button><span class="tk-ind-num" id="tkIndNum">1 / 5</span></nav>
+<nav class="tk-ind" id="tkInd" aria-label="Navigasi bagian undangan"><button type="button" class="tk-nav on" data-ke="0" aria-label="Ke Pembuka" title="Pembuka"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1.7"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(72 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(144 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(216 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(288 12 12)"/></svg></button><button type="button" class="tk-nav" data-ke="1" aria-label="Ke Mempelai" title="Mempelai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="14.5" r="5.2"/><circle cx="15.2" cy="10.8" r="5.2"/><path d="M15.2 2.9l1.9 2-1.9 2-1.9-2z"/></svg></button><button type="button" class="tk-nav" data-ke="2" aria-label="Ke Acara" title="Acara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.8" y="5.5" width="16.4" height="14.5" rx="2"/><path d="M3.8 10h16.4"/><path d="M8 3.5v4"/><path d="M16 3.5v4"/><circle cx="8.6" cy="14.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="12" cy="14.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="15.4" cy="14.6" r="1.15" fill="currentColor" stroke="none"/></svg></button><button type="button" class="tk-nav" data-ke="3" aria-label="Ke Kisah Cinta" title="Kisah Cinta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.2C6.6 16.9 3.2 13.7 3.2 10 3.2 7.3 5.2 5.2 7.8 5.2c1.7 0 3.3.9 4.2 2.4.9-1.5 2.5-2.4 4.2-2.4 2.6 0 4.6 2.1 4.6 4.8 0 3.7-3.4 6.9-8.8 10.2z"/></svg></button><button type="button" class="tk-nav" data-ke="4" aria-label="Ke Galeri" title="Galeri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.7"/><path d="M3.8 17.8l4.8-4.8 3.1 3.1 3.4-3.4 5.1 5.1"/></svg></button><button type="button" class="tk-nav" data-ke="rsvp" aria-label="Ke Konfirmasi &amp; Amplop" title="Konfirmasi &amp; Amplop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M4.2 7.3l7.8 5.7 7.8-5.7"/></svg></button></nav>
 
 <!-- ================= LIVE STREAMING ================= -->
       <section aria-label="Live streaming" class="rv">
@@ -1090,6 +1129,29 @@
         });
         music.addEventListener('play', function () { setMusicUI(true); });
         music.addEventListener('pause', function () { setMusicUI(false); });
+
+        /* ---- Musik WAJIB berhenti otomatis saat penerima KELUAR dari undangan ----
+           Tab/aplikasi disembunyikan (visibilitychange hidden) atau halaman ditutup
+           (pagehide/beforeunload) -> musik dijeda saat itu juga. Saat halaman
+           terlihat lagi, musik hanya diputar kembali bila jedanya disebabkan
+           aturan ini; bila pengguna sendiri yang mematikan lewat tombol musik,
+           tidak pernah dinyalakan otomatis. UI tombol mengikuti peristiwa
+           play/pause di atas, jadi selalu mencerminkan keadaan nyata. */
+        var jedaKarenaSembunyi = false;
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) {
+            if (!music.paused) { jedaKarenaSembunyi = true; music.pause(); }
+          } else if (jedaKarenaSembunyi) {
+            jedaKarenaSembunyi = false;
+            var pv = music.play();
+            if (pv && pv.catch) pv.catch(function () {});
+          }
+        });
+        function jedaSaatKeluar() {
+          if (!music.paused) { jedaKarenaSembunyi = true; music.pause(); }
+        }
+        window.addEventListener('pagehide', jedaSaatKeluar);
+        window.addEventListener('beforeunload', jedaSaatKeluar);
 
         /* ---- Hitung mundur ---- */
         var target = new Date('2026-12-19T08:00:00+08:00').getTime();
@@ -1360,7 +1422,6 @@
   if (!cont) return;
   var cards = Array.prototype.slice.call(cont.querySelectorAll('.tk'));
   var ind = document.getElementById('tkInd');
-  var indNum = document.getElementById('tkIndNum');
   var navBtns = ind ? Array.prototype.slice.call(ind.querySelectorAll('.tk-nav')) : [];
   var debu = document.getElementById('debu');
   var cover = document.getElementById('cover');
@@ -1442,7 +1503,7 @@
   /* ---------- keadaan gerak ---------- */
   var disp = cards.map(function () { return { exit: 0, enter: 1 }; });
   var shadowStep = cards.map(function () { return -1; });
-  var lastActive = -1, lastShow = null, lastShineFor = -2;
+  var lastActive = -1, lastShow = null, lastShineFor = -2, lastDebu = null, zonaAkhir = false;
   var plxEls = cards.map(function (c) {
     return Array.prototype.slice.call(c.querySelectorAll('[data-plx]')).map(function (el) {
       return { el: el, depth: parseFloat(el.getAttribute('data-plx')) || 0 };
@@ -1468,8 +1529,11 @@
       if (pExit <= 0 && r.top > 0.5) enter = clamp(1 - r.top / vh, 0, 1);
       out.push({ exit: easeIO(pExit), enter: easeIO(enter) });
     });
-    var show = contRect.top < vh * 0.92 && contRect.bottom > vh * 0.12 && !document.body.classList.contains('locked');
-    return { list: out, active: Math.min(exited, cards.length - 1), show: show };
+    /* bilah tampil sejak memasuki tumpukan dan tetap tersedia sampai akhir halaman
+       (ikon amplop perlu aktif di zona RSVP/Amplop); debu hanya di zona tumpukan */
+    var diTumpukan = contRect.bottom > vh * 0.12;
+    var show = contRect.top < vh * 0.92 && !document.body.classList.contains('locked');
+    return { list: out, active: Math.min(exited, cards.length - 1), show: show, diTumpukan: diTumpukan };
   }
 
   function applyCard(k, d, P) {
@@ -1550,17 +1614,20 @@
     if (ind) {
       if (tg.show !== lastShow) {
         ind.classList.toggle('tampil-ind', tg.show);
-        if (debu) debu.classList.toggle('nyala', tg.show);
         lastShow = tg.show;
       }
-      if (tg.show && tg.active !== lastActive) {
-        indNum.textContent = (tg.active + 1) + ' / ' + cards.length;
-        navBtns.forEach(function (b, i) {
-          var on = i === tg.active;
-          b.classList.toggle('on', on);
-          if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
-        });
-        lastActive = tg.active;
+      var dn = tg.show && tg.diTumpukan;
+      if (debu && dn !== lastDebu) { debu.classList.toggle('nyala', dn); lastDebu = dn; }
+      if (tg.show) {
+        var ingin = zonaAkhir ? 5 : (tg.diTumpukan ? tg.active : lastActive);
+        if (ingin !== lastActive && ingin >= 0) {
+          navBtns.forEach(function (b, i) {
+            var on = i === ingin;
+            b.classList.toggle('on', on);
+            if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+          });
+          lastActive = ingin;
+        }
       }
     }
     /* kilau saat kartu aktif baru saja menetap */
@@ -1596,14 +1663,67 @@
     bo.addEventListener('click', jadwalUlang);
     bo.addEventListener('touchend', jadwalUlang, { passive: true });
   }
-  /* ketuk ikon bilah: lompat ke posisi gulir kartu tujuan (sama seperti v4:
-     sasaran dari akumulasi offsetHeight, bukan offsetTop kartu sticky) */
-  navBtns.forEach(function (btn, i) {
+  /* ---------- lompatan ikon: animasi gulir rAF sendiri (easeInOutCubic) ----------
+     Semulus gulir biasa; ketukan ikon lain di tengah jalan membatalkan &
+     mengalihkan dengan halus. Gulir bebas pengguna tidak diubah: sentuhan/roda
+     hanya MEMBATALKAN animasi yang sedang berjalan. */
+  function easeCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  var animGulir = 0;
+  function gulirKe(yAkhir) {
+    yAkhir = Math.max(0, Math.round(yAkhir));
+    if (reduced) { window.scrollTo(0, yAkhir); return; }
+    var yAwal = window.scrollY || window.pageYOffset || 0;
+    var jarak = yAkhir - yAwal;
+    if (Math.abs(jarak) < 2) return;
+    var skala = Q.level === 0 ? 0.62 : (Q.level === 1 ? 0.82 : 1); /* tingkat menyusut: lebih singkat */
+    var dur = Math.round(clamp(620 + Math.abs(jarak) * 0.22, 880, 1180) * skala);
+    var t0 = performance.now();
+    if (animGulir) cancelAnimationFrame(animGulir);
+    var langkah = function (ts) {
+      var t = clamp((ts - t0) / dur, 0, 1);
+      window.scrollTo(0, Math.round(yAwal + jarak * easeCubic(t)));
+      if (t < 1) animGulir = requestAnimationFrame(langkah);
+      else animGulir = 0;
+    };
+    animGulir = requestAnimationFrame(langkah);
+  }
+  ['wheel', 'touchmove'].forEach(function (ev) {
+    window.addEventListener(ev, function () {
+      if (animGulir) { cancelAnimationFrame(animGulir); animGulir = 0; }
+    }, { passive: true });
+  });
+  /* zona akhir: ikon amplop menyala saat RSVP / Amplop Digital berada di layar */
+  var rsvpSec = document.querySelector('section[aria-label="Konfirmasi kehadiran"]');
+  var amplopSec = document.querySelector('section[aria-label="Amplop digital"]');
+  var rsvpTerlihat = false, amplopTerlihat = false;
+  if ('IntersectionObserver' in window && (rsvpSec || amplopSec)) {
+    var zio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.target === rsvpSec) rsvpTerlihat = e.isIntersecting;
+        if (e.target === amplopSec) amplopTerlihat = e.isIntersecting;
+      });
+      zonaAkhir = rsvpTerlihat || amplopTerlihat;
+      startLoop();
+      if (reduced && typeof updR === 'function') updR();
+    }, { threshold: 0.08 });
+    if (rsvpSec) zio.observe(rsvpSec);
+    if (amplopSec) zio.observe(amplopSec);
+  }
+  /* ketuk ikon bilah: lompat ke posisi gulir tujuan (kartu: akumulasi offsetHeight
+     seperti v4 — offsetTop kartu sticky ikut bergeser; amplop: melewati tumpukan
+     ke bagian Konfirmasi Kehadiran) */
+  navBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
+      var ke = btn.getAttribute('data-ke');
       var syNow = window.scrollY || window.pageYOffset || 0;
+      if (ke === 'rsvp') {
+        if (rsvpSec) gulirKe(rsvpSec.getBoundingClientRect().top + syNow);
+        return;
+      }
+      var i = parseInt(ke, 10) || 0;
       var top = cont.getBoundingClientRect().top + syNow;
       for (var k = 0; k < i; k++) top += cards[k].offsetHeight;
-      window.scrollTo({ top: Math.max(0, Math.round(top)), behavior: reduced ? 'auto' : 'smooth' });
+      gulirKe(top);
     });
   });
 
@@ -1615,12 +1735,13 @@
       var contRect = cont.getBoundingClientRect();
       var active = 0;
       cards.forEach(function (card, k) { if (card.getBoundingClientRect().top <= vh * 0.5) active = k; });
-      var show = contRect.top < vh * 0.92 && contRect.bottom > vh * 0.12 && !document.body.classList.contains('locked');
+      var diTumpukan = contRect.bottom > vh * 0.12;
+      var show = contRect.top < vh * 0.92 && !document.body.classList.contains('locked');
+      var ingin = zonaAkhir ? 5 : (diTumpukan ? active : -1);
       if (ind) {
         ind.classList.toggle('tampil-ind', show);
-        indNum.textContent = (active + 1) + ' / ' + cards.length;
-        navBtns.forEach(function (b, i) {
-          var on = i === active;
+        if (ingin >= 0) navBtns.forEach(function (b, i) {
+          var on = i === ingin;
           b.classList.toggle('on', on);
           if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
         });
