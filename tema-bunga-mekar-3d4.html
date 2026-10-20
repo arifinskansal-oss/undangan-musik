@@ -630,17 +630,30 @@
         animation: tkGeser 1.8s ease-in-out infinite;
       }
       @keyframes tkGeser { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
-      /* penanda kemajuan tumpukan (pil tetap) */
+      /* penanda kemajuan tumpukan: bilah navigasi ikon (bisa diketuk) */
       .tk-ind {
         position: fixed; left: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 46;
-        display: none; align-items: center; gap: 7px; pointer-events: none;
-        background: rgba(56, 16, 31, .84); color: #f3e6cf; padding: 7px 12px;
-        border-radius: 999px; font-size: 12px; letter-spacing: 1.5px;
+        display: none; align-items: center; gap: 2px;
+        background: rgba(56, 16, 31, .88); color: #f3e6cf;
+        padding: 5px 10px 5px 6px; border-radius: 999px;
+        box-shadow: 0 12px 30px rgba(38, 6, 18, .35);
       }
       .tk-ind.tampil-ind { display: inline-flex; }
-      .tk-ind .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(243, 230, 207, .35); display: inline-block; }
-      .tk-ind .dot.on { background: #e8c766; }
-      .tk-ind-geser { font-size: 10.5px; text-transform: uppercase; letter-spacing: 2px; opacity: .8; }
+      .tk-nav {
+        position: relative; width: 48px; height: 48px; flex: 0 0 auto;
+        display: grid; place-items: center; padding: 0; cursor: pointer;
+        background: transparent; border: 0; border-radius: 50%;
+        color: rgba(243, 230, 207, .5); -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation; transition: color .25s ease, background .25s ease;
+      }
+      .tk-nav svg { width: 23px; height: 23px; display: block; }
+      .tk-nav.on { color: #e8c766; background: rgba(232, 199, 102, .14); }
+      .tk-nav.on::after {
+        content: ""; position: absolute; left: 50%; bottom: 4px; width: 4px; height: 4px;
+        border-radius: 50%; background: #e8c766; transform: translateX(-50%);
+      }
+      .tk-nav:focus-visible { outline: 2px solid #e8c766; outline-offset: 1px; }
+      .tk-ind-num { font-size: 12px; letter-spacing: 1.5px; margin-left: 4px; white-space: nowrap; }
       @media (max-height: 700px) {
         .tk { padding: 16px 14px 26px; }
         .tk .hero-photo { max-width: 166px; margin-top: 8px; }
@@ -680,7 +693,8 @@
           transform: none !important; opacity: 1 !important; visibility: visible !important; }
         .tk figure.k3d-gal { transform: none; }
         .tk-petunjuk { animation: none; }
-        .tk-ind { display: none !important; }
+        /* bilah ikon tetap tampil & bisa diketuk walau gerak dikurangi */
+        .tk-nav { transition: none; }
       }
 </style>
 </head>
@@ -858,7 +872,7 @@
       <div class="tk-petunjuk" aria-hidden="true">Lanjut: konfirmasi kehadiran &#8595;</div>
   </article>
 </div>
-<div class="tk-ind" id="tkInd" aria-hidden="true"><span class="tk-ind-geser">Geser</span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span id="tkIndNum">1 / 5</span></div>
+<nav class="tk-ind" id="tkInd" aria-label="Navigasi bagian undangan"><button type="button" class="tk-nav on" data-ke="0" aria-label="Ke Pembuka" title="Pembuka"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1.7"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(72 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(144 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(216 12 12)"/><ellipse cx="12" cy="6.9" rx="2.5" ry="3.3" transform="rotate(288 12 12)"/></svg></button><button type="button" class="tk-nav" data-ke="1" aria-label="Ke Mempelai" title="Mempelai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="14.5" r="5.2"/><circle cx="15.2" cy="10.8" r="5.2"/><path d="M15.2 2.9l1.9 2-1.9 2-1.9-2z"/></svg></button><button type="button" class="tk-nav" data-ke="2" aria-label="Ke Acara" title="Acara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.8" y="5.5" width="16.4" height="14.5" rx="2"/><path d="M3.8 10h16.4"/><path d="M8 3.5v4"/><path d="M16 3.5v4"/><circle cx="8.6" cy="14.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="12" cy="14.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="15.4" cy="14.6" r="1.15" fill="currentColor" stroke="none"/></svg></button><button type="button" class="tk-nav" data-ke="3" aria-label="Ke Kisah Cinta" title="Kisah Cinta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.2C6.6 16.9 3.2 13.7 3.2 10 3.2 7.3 5.2 5.2 7.8 5.2c1.7 0 3.3.9 4.2 2.4.9-1.5 2.5-2.4 4.2-2.4 2.6 0 4.6 2.1 4.6 4.8 0 3.7-3.4 6.9-8.8 10.2z"/></svg></button><button type="button" class="tk-nav" data-ke="4" aria-label="Ke Galeri" title="Galeri"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.7"/><path d="M3.8 17.8l4.8-4.8 3.1 3.1 3.4-3.4 5.1 5.1"/></svg></button><span class="tk-ind-num" id="tkIndNum">1 / 5</span></nav>
 
 <!-- ================= LIVE STREAMING ================= -->
       <section aria-label="Live streaming" class="rv">
@@ -1283,11 +1297,8 @@
   var cards = Array.prototype.slice.call(cont.querySelectorAll('.tk'));
   var ind = document.getElementById('tkInd');
   var indNum = document.getElementById('tkIndNum');
-  var dots = ind ? Array.prototype.slice.call(ind.querySelectorAll('.dot')) : [];
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    if (ind) ind.style.display = 'none';
-    return;
-  }
+  var navBtns = ind ? Array.prototype.slice.call(ind.querySelectorAll('.tk-nav')) : [];
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
   var ticking = false, lastActive = -1, lastShow = null;
   function update() {
@@ -1297,6 +1308,14 @@
     var contRect = cont.getBoundingClientRect();
     var contDocTop = contRect.top + sy;
     var tops = cards.map(function (c) { return contDocTop + c.offsetTop; });
+    var active;
+    if (reduced) {
+      /* tanpa gerak gulir: kartu aktif = kartu terakhir yang tepi atasnya melewati tengah layar */
+      active = 0;
+      cards.forEach(function (card, k) {
+        if (card.getBoundingClientRect().top <= vh * 0.5) active = k;
+      });
+    } else {
     var zone = vh * 0.7;
     var exited = 0;
     cards.forEach(function (card, k) {
@@ -1321,14 +1340,19 @@
       }
       card.style.pointerEvents = 'none';
     });
-    var active = Math.min(exited, cards.length - 1);
+    active = Math.min(exited, cards.length - 1);
     if (cards[active]) cards[active].style.pointerEvents = 'auto';
+    }
     var show = contRect.top < vh * 0.92 && contRect.bottom > vh * 0.12 && !document.body.classList.contains('locked');
     if (ind) {
       if (show !== lastShow) { ind.classList.toggle('tampil-ind', show); lastShow = show; }
       if (show && active !== lastActive) {
         indNum.textContent = (active + 1) + ' / ' + cards.length;
-        dots.forEach(function (d, i) { d.classList.toggle('on', i === active); });
+        navBtns.forEach(function (b, i) {
+          var on = i === active;
+          b.classList.toggle('on', on);
+          if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+        });
         lastActive = active;
       }
     }
@@ -1342,6 +1366,14 @@
     bo.addEventListener('click', jadwalUlang);
     bo.addEventListener('touchend', jadwalUlang, { passive: true });
   }
+  /* ketuk ikon bilah: lompat ke posisi gulir kartu tujuan (kartu rata penuh) */
+  navBtns.forEach(function (btn, i) {
+    btn.addEventListener('click', function () {
+      var syNow = window.scrollY || window.pageYOffset || 0;
+      var top = cont.getBoundingClientRect().top + syNow + cards[i].offsetTop;
+      window.scrollTo({ top: Math.max(0, Math.round(top)), behavior: reduced ? 'auto' : 'smooth' });
+    });
+  });
   update();
 })();
 </script>
