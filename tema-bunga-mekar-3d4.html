@@ -1366,11 +1366,14 @@
     bo.addEventListener('click', jadwalUlang);
     bo.addEventListener('touchend', jadwalUlang, { passive: true });
   }
-  /* ketuk ikon bilah: lompat ke posisi gulir kartu tujuan (kartu rata penuh) */
+  /* ketuk ikon bilah: lompat ke posisi gulir kartu tujuan (kartu rata penuh).
+     Sasaran dihitung dari tinggi susun kartu (offsetHeight), BUKAN offsetTop:
+     pada kartu sticky, offsetTop ikut bergeser mengikuti posisi lengketnya. */
   navBtns.forEach(function (btn, i) {
     btn.addEventListener('click', function () {
       var syNow = window.scrollY || window.pageYOffset || 0;
-      var top = cont.getBoundingClientRect().top + syNow + cards[i].offsetTop;
+      var top = cont.getBoundingClientRect().top + syNow;
+      for (var k = 0; k < i; k++) top += cards[k].offsetHeight;
       window.scrollTo({ top: Math.max(0, Math.round(top)), behavior: reduced ? 'auto' : 'smooth' });
     });
   });
