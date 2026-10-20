@@ -354,14 +354,14 @@
       #cover .cover-inner { position: relative; z-index: 2; }
       #cover .monogram { color: #e8c766; }
       #cover .cover-kicker { color: #e8c766; }
-      #cover .cover-names { color: #f0d089; text-shadow: 0 4px 24px rgba(0,0,0,.5); }
-      #cover .cover-date { color: #f3e6cf; }
-      #cover .guest { color: #e9dcc0; } #cover .guest strong { color: #ffffff; }
-      #cover .badge-premium { background: rgba(212,160,23,.16); border: 1px solid rgba(232,199,102,.65); color: #f0d089; }
+      #cover .cover-names { font-size: clamp(40px, 11vw, 54px); color: #f0d089; text-shadow: 0 4px 24px rgba(0,0,0,.5); }
+      #cover .cover-date { color: #f3e6cf; margin-top: 12px; }
+      #cover .guest { color: #e9dcc0; margin-top: 18px; } #cover .guest strong { color: #ffffff; }
+      #cover .badge-premium { margin-top: 12px; background: rgba(212,160,23,.16); border: 1px solid rgba(232,199,102,.65); color: #f0d089; }
       #cover .btn-open { background: linear-gradient(135deg, #e8c766, #b8860b); color: #38091a; font-weight: 700; border: 0;
-        animation: masuk .9s ease 1.55s forwards, denyutminang 2.6s ease-in-out 2.6s infinite; opacity: 0; }
+        animation: masuk .9s ease 1.55s forwards, denyutminang 2.6s ease-in-out 2.6s infinite; opacity: 0; margin-top: 14px; }
       @keyframes denyutminang { 0%,100% { box-shadow: 0 10px 26px rgba(212,160,23,.45), 0 0 0 0 rgba(232,199,102,.45); } 50% { box-shadow: 0 10px 26px rgba(212,160,23,.45), 0 0 0 13px rgba(232,199,102,0); } }
-      .gadang { width: 264px; max-width: 62vw; filter: drop-shadow(0 14px 26px rgba(0,0,0,.55)); animation: ayun 7s ease-in-out infinite; transform-origin: 50% 92%; }
+      .gadang { width: 196px; max-width: 62vw; filter: drop-shadow(0 14px 26px rgba(0,0,0,.55)); animation: ayun 7s ease-in-out infinite; transform-origin: 50% 92%; }
       @keyframes ayun { 0%,100% { transform: rotate(-1.1deg); } 50% { transform: rotate(1.1deg); } }
       #cover .tahap { opacity: 0; transform: translateY(16px); animation: masuk .9s ease forwards; }
       @keyframes masuk { to { opacity: 1; transform: translateY(0); } }
@@ -372,6 +372,7 @@
       @keyframes jatuh { to { transform: translateY(116vh); } }
       @keyframes goyang { from { transform: translateX(-14px) rotate(0deg); } to { transform: translateX(14px) rotate(300deg); } }
       @media (prefers-reduced-motion: reduce) { .gadang, #cover .btn-open { animation: none; opacity: 1; } #cover .tahap { animation: none; opacity: 1; transform: none; } }
+      .hero-photo img { aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 16%; }
     </style>
     <div class="wash" aria-hidden="true"></div>
 
