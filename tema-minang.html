@@ -4,8 +4,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Undangan Sari &amp; Fikri — Contoh Tema Minang</title>
-</head>
-<body class="locked">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -373,11 +371,22 @@
       @keyframes goyang { from { transform: translateX(-14px) rotate(0deg); } to { transform: translateX(14px) rotate(300deg); } }
       @media (prefers-reduced-motion: reduce) { .gadang, #cover .btn-open { animation: none; opacity: 1; } #cover .tahap { animation: none; opacity: 1; transform: none; } }
       .hero-photo img { aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 16%; }
+      @media (max-height: 740px) {
+        .gadang { width: 148px; }
+        #cover .monogram { font-size: 24px; }
+        #cover .cover-names { font-size: clamp(34px, 10vw, 46px); }
+        #cover .guest { margin-top: 10px; }
+        #cover .btn-open { margin-top: 10px; }
+        #cover .cover-date { margin-top: 8px; }
+        #cover .badge-premium { margin-top: 8px; }
+      }
     </style>
     <div class="wash" aria-hidden="true"></div>
 
     <!-- ================= SAMPUL ================= -->
-    <div class="cover" id="cover" role="dialog" aria-modal="true" aria-label="Sampul undangan">
+    </head>
+<body class="locked">
+<div class="cover" id="cover" role="dialog" aria-modal="true" aria-label="Sampul undangan">
       <div class="cover-inner">
                 <svg class="gadang tahap t1" viewBox="0 0 320 220" role="img" aria-label="Ilustrasi rumah gadang">
           <defs>
