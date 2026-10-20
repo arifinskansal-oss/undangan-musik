@@ -611,6 +611,17 @@
       @media (min-width: 560px) { .tk .gallery { grid-template-columns: repeat(2, 1fr); } }
       .tk .gallery img { aspect-ratio: 1 / 1; }
       .tk .gallery-note { margin-top: 8px; }
+
+      /* v.4 perbaikan: kartu 3 — dua kartu acara berdampingan agar muat 100dvh */
+      .tk section[aria-label="Waktu dan tempat acara"] { display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; }
+      .tk section[aria-label="Waktu dan tempat acara"] > .ornament,
+      .tk section[aria-label="Waktu dan tempat acara"] > .section-title,
+      .tk section[aria-label="Waktu dan tempat acara"] > .section-sub { grid-column: 1 / -1; }
+      .tk section[aria-label="Waktu dan tempat acara"] .event-card { margin-top: 10px; padding: 12px 10px; }
+      .tk section[aria-label="Waktu dan tempat acara"] .event-card h3 { font-size: 20px; line-height: 1.15; }
+      .tk section[aria-label="Waktu dan tempat acara"] .event-when { font-size: 14.5px; line-height: 1.45; }
+      .tk section[aria-label="Waktu dan tempat acara"] .event-place { font-size: 12.5px; line-height: 1.45; }
+      .tk section[aria-label="Waktu dan tempat acara"] .btn-map { padding: 6px 14px; font-size: 12.5px; margin-top: 8px; }
       /* petunjuk geser di tepi bawah tiap kartu */
       .tk-petunjuk {
         position: absolute; left: 0; right: 0; bottom: 9px; text-align: center;
@@ -766,16 +777,7 @@
       </section>
 
 
-      <!-- ================= LIVE STREAMING ================= -->
-      <section aria-label="Live streaming" class="rv">
-        <div class="ornament" aria-hidden="true"><svg class="bunga-judul" viewBox="-24 -24 48 48" aria-hidden="true"><g class="mekar"><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(0)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(60)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(120)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(180)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(240)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(300)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(30)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(90)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(150)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(210)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(270)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(330)"/><circle r="2.9" fill="#E8C766"/><circle r="1.4" fill="#B8860B"/></g></svg></div>
-        <h2 class="section-title">Live Streaming</h2>
-        <p class="section-sub">Bagi Bapak/Ibu/Saudara/i yang berhalangan hadir, acara kami dapat disaksikan secara langsung melalui:</p>
-        <div class="live-card rv">
-          <p class="live-label">Instagram Live</p>
-          <a class="btn-live" href="https://www.instagram.com/" target="_blank" rel="noopener">Tonton Live Streaming</a>
-        </div>
-      </section>
+      
 
       <div class="tk-petunjuk" aria-hidden="true">Geser ke bawah &#8595;</div>
   </article>
@@ -841,6 +843,17 @@
   </article>
 </div>
 <div class="tk-ind" id="tkInd" aria-hidden="true"><span class="tk-ind-geser">Geser</span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span id="tkIndNum">1 / 5</span></div>
+
+<!-- ================= LIVE STREAMING ================= -->
+      <section aria-label="Live streaming" class="rv">
+        <div class="ornament" aria-hidden="true"><svg class="bunga-judul" viewBox="-24 -24 48 48" aria-hidden="true"><g class="mekar"><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(0)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(60)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(120)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(180)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(240)"/><path d="M0 0 C -5.8 -5.1, -4.9 -12.2, 0 -17.0 C 4.9 -12.2, 5.8 -5.1, 0 0 Z" fill="#C96A84" opacity=".92" transform="rotate(300)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(30)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(90)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(150)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(210)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(270)"/><path d="M0 0 C -3.4 -3.0, -2.8 -7.1, 0 -9.9 C 2.8 -7.1, 3.4 -3.0, 0 0 Z" fill="#F2C4D0" opacity=".95" transform="rotate(330)"/><circle r="2.9" fill="#E8C766"/><circle r="1.4" fill="#B8860B"/></g></svg></div>
+        <h2 class="section-title">Live Streaming</h2>
+        <p class="section-sub">Bagi Bapak/Ibu/Saudara/i yang berhalangan hadir, acara kami dapat disaksikan secara langsung melalui:</p>
+        <div class="live-card rv">
+          <p class="live-label">Instagram Live</p>
+          <a class="btn-live" href="https://www.instagram.com/" target="_blank" rel="noopener">Tonton Live Streaming</a>
+        </div>
+      </section>
 
 <!-- ================= RSVP ================= -->
       <section aria-label="Konfirmasi kehadiran" class="rv">
