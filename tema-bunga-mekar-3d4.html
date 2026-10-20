@@ -637,7 +637,8 @@
       @keyframes tkGeser { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
       /* penanda kemajuan tumpukan: bilah navigasi ikon (bisa diketuk) */
       .tk-ind {
-        position: fixed; left: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 46;
+        position: fixed; left: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 200;
+        pointer-events: auto; touch-action: manipulation;
         display: none; align-items: center; gap: 3px;
         background: rgba(56, 16, 31, .88); color: #f3e6cf;
         padding: 5px 8px; border-radius: 999px;
@@ -651,7 +652,8 @@
         color: rgba(243, 230, 207, .5); -webkit-tap-highlight-color: transparent;
         touch-action: manipulation; transition: color .25s ease, background .25s ease;
       }
-      .tk-nav svg { width: 25px; height: 25px; display: block; }
+      .tk-nav svg { width: 25px; height: 25px; display: block; pointer-events: none; }
+      .tk-nav svg * { pointer-events: none; }
       .tk-nav.on { color: #e8c766; background: rgba(232, 199, 102, .14); }
       .tk-nav.on::after {
         content: ""; position: absolute; left: 50%; bottom: 4px; width: 4px; height: 4px;
@@ -1534,14 +1536,9 @@
     var dur = Math.round(clamp(620 + Math.abs(jarak) * 0.22, 880, 1180));
     var t0 = performance.now();
     if (animGulir) cancelAnimationFrame(animGulir);
-    var terakhir = yAwal;
     var langkah = function (ts) {
-      var kini = window.scrollY || window.pageYOffset || 0;
-      if (Math.abs(kini - terakhir) > 6) { animGulir = 0; return; } /* gulir lain mengambil alih */
       var t = clamp((ts - t0) / dur, 0, 1);
-      var y = Math.round(yAwal + jarak * easeCubic(t));
-      window.scrollTo(0, y);
-      terakhir = y;
+      window.scrollTo(0, Math.round(yAwal + jarak * easeCubic(t)));
       if (t < 1) animGulir = requestAnimationFrame(langkah);
       else animGulir = 0;
     };
@@ -1571,9 +1568,16 @@
   /* ketuk ikon bilah: lompat ke posisi gulir kartu tujuan (kartu rata penuh).
      Sasaran kartu dari tinggi susun (offsetHeight), BUKAN offsetTop:
      pada kartu sticky, offsetTop ikut bergeser mengikuti posisi lengketnya.
-     Ikon amplop: melewati tumpukan ke bagian Konfirmasi Kehadiran. */
+     Ikon amplop: melewati tumpukan ke bagian Konfirmasi Kehadiran.
+     BENTENG SENTUH (pola yang sama dengan tombol Buka Undangan): penangan GANDA
+     touchend + click dengan penjaga anti-dobel — di HP nyata click saja bisa
+     tertelan (kasus POCO F3 23:13: ikon tidak merespons sama sekali). */
   navBtns.forEach(function (btn) {
-    btn.addEventListener('click', function () {
+    var jagaKetuk = 0;
+    function jalanKetuk() {
+      var kiniMs = Date.now();
+      if (kiniMs - jagaKetuk < 600) return; /* anti-dobel touchend -> click */
+      jagaKetuk = kiniMs;
       var ke = btn.getAttribute('data-ke');
       var syNow = window.scrollY || window.pageYOffset || 0;
       if (ke === 'rsvp') {
@@ -1584,7 +1588,9 @@
       var top = cont.getBoundingClientRect().top + syNow;
       for (var k = 0; k < i; k++) top += cards[k].offsetHeight;
       gulirKe(top);
-    });
+    }
+    btn.addEventListener('click', jalanKetuk);
+    btn.addEventListener('touchend', function (e) { e.preventDefault(); jalanKetuk(); }, { passive: false });
   });
   update();
 })();
