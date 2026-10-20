@@ -371,6 +371,16 @@
       @keyframes goyang { from { transform: translateX(-14px) rotate(0deg); } to { transform: translateX(14px) rotate(300deg); } }
       @media (prefers-reduced-motion: reduce) { .gadang, #cover .btn-open { animation: none; opacity: 1; } #cover .tahap { animation: none; opacity: 1; transform: none; } }
       .hero-photo img { aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 16%; }
+      #cover .btn-open { touch-action: manipulation; -webkit-tap-highlight-color: rgba(0,0,0,0); position: relative; z-index: 6; }
+      @media (max-height: 620px) {
+        .gadang { width: 102px; }
+        #cover .monogram { font-size: 21px; }
+        #cover .cover-names { font-size: clamp(27px, 8.5vw, 36px); }
+        #cover .guest { margin-top: 6px; }
+        #cover .btn-open { margin-top: 8px; }
+        #cover .cover-date { margin-top: 6px; }
+        #cover .badge-premium { margin-top: 6px; }
+      }
       @media (max-height: 740px) {
         .gadang { width: 148px; }
         #cover .monogram { font-size: 24px; }
