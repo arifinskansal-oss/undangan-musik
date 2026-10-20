@@ -500,7 +500,7 @@
       main section, .couple-grid, .countdown, .gallery, .love-timeline { perspective: 1000px; }
       /* v.3: gerak .k3d TERIKAT POSISI GULIR (JS scroll + rAF); tanpa transisi CSS */
       .k3d { transform-origin: 50% 100%; transform: rotateX(36deg) translateY(44px); opacity: 0;
-        transition: none !important; will-change: transform, opacity; }
+        transition: none !important; }
       /* Galeri berkedalaman: pelat bayangan bergeser di belakang bingkai + miring awal */
       .k3d-gal { transform: rotateX(22deg) rotateY(-9deg) translateY(34px);
         box-shadow: 12px 14px 0 -2px rgba(87,31,48,.28), 0 22px 38px rgba(34,6,15,.30); }
@@ -563,7 +563,7 @@
         border: 1px solid var(--line);
         background: linear-gradient(180deg, var(--card), var(--bg-soft));
         box-shadow: 0 26px 60px rgba(94, 18, 36, 0.20);
-        transform-origin: 50% 0; will-change: transform; text-align: center;
+        transform-origin: 50% 0; text-align: center;
       }
       .tk[data-tk="1"] { z-index: 15; }
       .tk[data-tk="2"] { z-index: 14; background: linear-gradient(180deg, var(--sage-pale), var(--card)); }
@@ -751,7 +751,7 @@
         <h2 class="section-title">Kedua Mempelai</h2>
         <p class="section-sub">Dengan penuh sukacita dan rasa syukur, kami bermaksud menyempurnakan ikatan cinta kami dalam ikatan pernikahan dan membangun keluarga yang bahagia.</p>
         <div class="cincin-bingkai rv" aria-hidden="true">
-          <video class="cincin3d" autoplay muted loop playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/cincin-3d-poster.jpg" aria-label="Animasi 3D sepasang cincin emas yang berputar"><source src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/cincin-3d.mp4" type="video/mp4" /></video>
+          <video class="cincin3d" autoplay muted loop playsinline preload="auto" poster="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/cincin-3d-poster.jpg" aria-label="Animasi 3D sepasang cincin emas yang berputar"><source src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/cincin-3d.mp4" type="video/mp4" /></video>
         </div>
         <div class="couple-grid">
           <div class="person rv k3d">
@@ -1234,9 +1234,11 @@
 })();
 </script>
 <script>
-/* Kartu 3D gulir PER BINGKAI (v.3): transform & opacity terikat posisi gulir (scroll + rAF).
-   Di bawah tengah viewport: miring rotateX positif + turun + pudar, membaik mengikuti guliran.
-   Di tengah viewport: rata penuh. Di atas tengah: miring berlawanan halus (maks 14deg). */
+/* Kartu 3D gulir PER BINGKAI dengan PENGHALUSAN BERINERSIA: transform & opacity
+   tidak lagi dipasang persis linier dari posisi gulir — nilai tampil MENGEJAR
+   sasaran gulir per bingkai (lerp ternormalisasi waktu + batas langkah, kurva
+   smoothstep), lalu menetap tepat di sasaran. Loop rAF berhenti total begitu
+   semua elemen menetap atau tab tersembunyi (hemat baterai HP kelas bawah). */
 (function () {
   var els = Array.prototype.filter.call(document.querySelectorAll('.k3d'), function (el) { return !el.closest('.tumpukan'); });
   if (!els.length) return;
@@ -1245,52 +1247,83 @@
     return;
   }
   function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
-  var ticking = false;
-  function update() {
-    ticking = false;
-    var vh = window.innerHeight;
-    for (var i = 0; i < els.length; i++) {
-      var el = els[i];
-      var r = el.getBoundingClientRect();
-      if (r.bottom < -240 || r.top > vh + 240) continue;
-      var gal = el.classList.contains('k3d-gal');
-      var co = (r.top + r.height / 2 - vh / 2) / (vh / 2);
-      if (co >= 0) {
-        var f = clamp(co / 0.85, 0, 1);
-        var ang = (gal ? 22 : 36) * f;
-        var ty = (gal ? 34 : 44) * f;
-        el.style.opacity = String(1 - f);
-        el.style.transform = 'rotateX(' + ang.toFixed(2) + 'deg)' +
-          (gal ? ' rotateY(' + (-9 * f).toFixed(2) + 'deg)' : '') +
-          ' translateY(' + ty.toFixed(2) + 'px)';
-      } else {
-        var f2 = clamp(-co / 0.85, 0, 1);
-        el.style.opacity = '1';
-        el.style.transform = 'rotateX(' + (-14 * f2).toFixed(2) + 'deg)' +
-          (gal ? ' rotateY(' + (6 * f2).toFixed(2) + 'deg)' : '') +
-          ' translateY(' + (-10 * f2).toFixed(2) + 'px)';
-      }
+  function licin(x) { return x * x * (3 - 2 * x); }
+  var N = els.length, EPS = 0.002;
+  var gal = [], tgt = [], dsp = [];
+  for (var i0 = 0; i0 < N; i0++) { gal.push(els[i0].classList.contains('k3d-gal')); tgt.push(1); dsp.push(1); }
+  var jalan = false, tBingkai = 0;
+
+  function terapkan(i) {
+    var el = els[i], p = dsp[i], g = gal[i];
+    if (p >= 0) {
+      el.style.opacity = String(1 - p);
+      el.style.transform = 'rotateX(' + ((g ? 22 : 36) * p).toFixed(2) + 'deg)' +
+        (g ? ' rotateY(' + (-9 * p).toFixed(2) + 'deg)' : '') +
+        ' translateY(' + ((g ? 34 : 44) * p).toFixed(2) + 'px)';
+    } else {
+      var q = -p;
+      el.style.opacity = '1';
+      el.style.transform = 'rotateX(' + (-14 * q).toFixed(2) + 'deg)' +
+        (g ? ' rotateY(' + (6 * q).toFixed(2) + 'deg)' : '') +
+        ' translateY(' + (-10 * q).toFixed(2) + 'px)';
     }
   }
-  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
+  function hitungSasaran() {
+    var vh = window.innerHeight;
+    for (var i = 0; i < N; i++) {
+      var r = els[i].getBoundingClientRect();
+      if (r.bottom < -240 || r.top > vh + 240) continue;
+      var co = (r.top + r.height / 2 - vh / 2) / (vh / 2);
+      var p = clamp(co / 0.85, -1, 1);
+      tgt[i] = (p < 0 ? -1 : 1) * licin(Math.abs(p));
+    }
+  }
+  function bingkai(now) {
+    var dt = Math.min(100, Math.max(1, now - tBingkai)); tBingkai = now;
+    var f = 1 - Math.pow(1 - 0.22, Math.min(dt, 34) / 16.7);
+    var cap = 0.0022 * dt;
+    var netap = true;
+    for (var i = 0; i < N; i++) {
+      var sel = tgt[i] - dsp[i];
+      if (Math.abs(sel) <= EPS) {
+        if (dsp[i] !== tgt[i]) { dsp[i] = tgt[i]; terapkan(i); }
+        if (els[i].style.willChange) els[i].style.willChange = '';
+        continue;
+      }
+      netap = false;
+      var s = sel * f; if (s > cap) s = cap; else if (s < -cap) s = -cap;
+      dsp[i] += s;
+      els[i].style.willChange = 'transform, opacity';
+      terapkan(i);
+    }
+    if (!netap && !document.hidden) requestAnimationFrame(bingkai);
+    else jalan = false;
+  }
+  function kejar() {
+    hitungSasaran();
+    if (!jalan && !document.hidden) { jalan = true; tBingkai = performance.now(); requestAnimationFrame(bingkai); }
+  }
+  window.addEventListener('scroll', kejar, { passive: true });
+  window.addEventListener('resize', kejar);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) kejar(); });
   var bo = document.getElementById('btnOpen');
   if (bo) {
-    var jadwalUlang = function () { setTimeout(update, 1450); };
+    var jadwalUlang = function () { setTimeout(kejar, 1450); };
     bo.addEventListener('click', jadwalUlang);
     bo.addEventListener('touchend', jadwalUlang, { passive: true });
   }
-  update();
+  kejar();
 })();
 </script>
 
 
 <script>
-/* v.4: TUMPUKAN KARTU — gerak kartu terikat posisi gulir (per bingkai, dua arah).
-   Kartu teratas miring rotateX/rotate lalu terangkat keluar mengikuti gulir;
-   kartu berikutnya naik dari tumpukan menjadi rata. Tanpa scroll-jacking:
-   gulir alami halaman yang menggerakkan kartu (position sticky). */
+/* v.4: TUMPUKAN KARTU — gerak kartu terikat posisi gulir DENGAN PENGHALUSAN
+   BERINERSIA: nilai tampil MENGEJAR sasaran gulir per bingkai (lerp
+   ternormalisasi waktu + batas langkah), kurva kemajuan dilunakkan smoothstep,
+   sehingga kartu meluncur cair dan menetap lembut — tidak kaku mengikuti
+   gulir mentah, termasuk di HP kelas bawah. Loop rAF berhenti total saat
+   semua kartu menetap. Tanpa scroll-jacking: gulir alami + position sticky. */
 (function () {
   var cont = document.getElementById('tumpukan');
   if (!cont) return;
@@ -1300,7 +1333,59 @@
   var navBtns = ind ? Array.prototype.slice.call(ind.querySelectorAll('.tk-nav')) : [];
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+  function licin(x) { return x * x * (3 - 2 * x); }
   var ticking = false, lastActive = -1, lastShow = null;
+
+  /* ---- keadaan tampil (D) & sasaran (T) per kartu: x = kemajuan keluar, e = kemajuan masuk ---- */
+  var EPS = 0.002;
+  var T = cards.map(function () { return { x: 0, e: 1 }; });
+  var D = cards.map(function () { return { x: 0, e: 1 }; });
+  var jepretAwal = true, jalan = false, tBingkai = 0;
+
+  function terapkan(k) {
+    var card = cards[k], d = D[k];
+    if (d.x > 0.0008) {
+      card.style.transform = 'rotateX(' + (-12 * d.x).toFixed(2) + 'deg) rotate(' + (-3.5 * d.x).toFixed(2) + 'deg) translateY(' + (-112 * d.x).toFixed(2) + '%)';
+      card.style.visibility = d.x >= 0.999 ? 'hidden' : 'visible';
+    } else if (d.e > 0.999) {
+      card.style.transform = '';
+      card.style.visibility = 'visible';
+    } else {
+      card.style.transform = 'rotateX(' + (12 * (1 - d.e)).toFixed(2) + 'deg) translateY(' + (26 * (1 - d.e)).toFixed(1) + 'px) scale(' + (0.965 + 0.035 * d.e).toFixed(3) + ')';
+      card.style.visibility = 'visible';
+    }
+    card.style.opacity = '1';
+  }
+
+  function bingkai(now) {
+    var dt = Math.min(100, Math.max(1, now - tBingkai)); tBingkai = now;
+    var f = 1 - Math.pow(1 - 0.22, Math.min(dt, 34) / 16.7);
+    var cap = 0.0022 * dt;
+    var netap = true;
+    for (var k = 0; k < cards.length; k++) {
+      var d = D[k], t = T[k];
+      var dx = t.x - d.x, de = t.e - d.e;
+      if (Math.abs(dx) <= EPS && Math.abs(de) <= EPS) {
+        if (d.x !== t.x || d.e !== t.e) { d.x = t.x; d.e = t.e; terapkan(k); }
+        if (cards[k].style.willChange) cards[k].style.willChange = '';
+        continue;
+      }
+      netap = false;
+      var sx = dx * f; if (sx > cap) sx = cap; else if (sx < -cap) sx = -cap;
+      var se = de * f; if (se > cap) se = cap; else if (se < -cap) se = -cap;
+      d.x += sx; d.e += se;
+      cards[k].style.willChange = 'transform';
+      terapkan(k);
+    }
+    if (!netap && !document.hidden) requestAnimationFrame(bingkai);
+    else jalan = false;
+  }
+  function kejar() {
+    if (reduced || jalan || document.hidden) return;
+    jalan = true; tBingkai = performance.now();
+    requestAnimationFrame(bingkai);
+  }
+
   function update() {
     ticking = false;
     var vh = window.innerHeight;
@@ -1316,32 +1401,34 @@
         if (card.getBoundingClientRect().top <= vh * 0.5) active = k;
       });
     } else {
-    var zone = vh * 0.7;
-    var exited = 0;
-    cards.forEach(function (card, k) {
-      var isLast = k === cards.length - 1;
-      var pExit = 0;
-      if (!isLast) pExit = clamp((sy - (tops[k + 1] - zone)) / zone, 0, 1);
-      if (pExit >= 0.5) exited = k + 1;
-      if (pExit > 0) {
-        card.style.transform = 'rotateX(' + (-12 * pExit).toFixed(2) + 'deg) rotate(' + (-3.5 * pExit).toFixed(2) + 'deg) translateY(' + (-112 * pExit).toFixed(2) + '%)';
-        card.style.visibility = pExit >= 0.999 ? 'hidden' : 'visible';
-        card.style.opacity = '1';
-      } else {
-        var r = card.getBoundingClientRect();
-        if (r.top > 0.5) {
-          var e = clamp(1 - r.top / vh, 0, 1);
-          card.style.transform = 'rotateX(' + (12 * (1 - e)).toFixed(2) + 'deg) translateY(' + (26 * (1 - e)).toFixed(1) + 'px) scale(' + (0.965 + 0.035 * e).toFixed(3) + ')';
+      var zone = vh * 0.7;
+      var exited = 0;
+      cards.forEach(function (card, k) {
+        var isLast = k === cards.length - 1;
+        var pExit = 0;
+        if (!isLast) pExit = clamp((sy - (tops[k + 1] - zone)) / zone, 0, 1);
+        if (pExit >= 0.5) exited = k + 1;
+        if (pExit > 0) {
+          T[k] = { x: licin(pExit), e: 1 };
         } else {
-          card.style.transform = '';
+          var r = card.getBoundingClientRect();
+          if (r.top > 0.5) {
+            var e = clamp(1 - r.top / vh, 0, 1);
+            T[k] = { x: 0, e: licin(e) };
+          } else {
+            T[k] = { x: 0, e: 1 };
+          }
         }
-        card.style.visibility = 'visible';
-        card.style.opacity = '1';
+        card.style.pointerEvents = 'none';
+      });
+      active = Math.min(exited, cards.length - 1);
+      if (cards[active]) cards[active].style.pointerEvents = 'auto';
+      if (jepretAwal) {
+        jepretAwal = false;
+        for (var k2 = 0; k2 < cards.length; k2++) { D[k2].x = T[k2].x; D[k2].e = T[k2].e; terapkan(k2); }
+      } else {
+        kejar();
       }
-      card.style.pointerEvents = 'none';
-    });
-    active = Math.min(exited, cards.length - 1);
-    if (cards[active]) cards[active].style.pointerEvents = 'auto';
     }
     var show = contRect.top < vh * 0.92 && contRect.bottom > vh * 0.12 && !document.body.classList.contains('locked');
     if (ind) {
@@ -1360,6 +1447,7 @@
   function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) onScroll(); });
   var bo = document.getElementById('btnOpen');
   if (bo) {
     var jadwalUlang = function () { setTimeout(update, 1450); };
@@ -1378,6 +1466,69 @@
     });
   });
   update();
+})();
+</script>
+
+<script>
+/* v.4 poles: HEMAT BEBAN VIDEO (patokan HP kelas bawah).
+   - Bunga sampul (8 video) di-pause sesudah sampul selesai dibuka: tidak
+     terlihat lagi, jadi tidak perlu menguras CPU selama isi digulir.
+   - Video cincin hanya memutar saat kartunya dekat/aktif di layar
+     (IntersectionObserver); di luar itu pause. Musik TIDAK disentuh.
+   - Perangkat yang BENAR-BENAR tersendat (laju bingkai rata-rata < 20 fps
+     selama 1,2 detik saat sampul tampil): 5 bunga terkecil diganti poster
+     diam — tampilan diam identik, beban decode jauh berkurang. Ambang
+     sengaja rendah supaya HP menengah ke atas tidak ikut diringankan. */
+(function () {
+  var bunga = Array.prototype.slice.call(document.querySelectorAll('video.bunga-tepi'));
+  var cincin = document.querySelector('video.cincin3d');
+  var bo = document.getElementById('btnOpen');
+  var sudahBuka = false;
+  function jedaBunga() {
+    if (sudahBuka) return; sudahBuka = true;
+    setTimeout(function () {
+      bunga.forEach(function (v) { try { v.pause(); } catch (e) {} });
+    }, 1400);
+  }
+  if (bo) {
+    bo.addEventListener('click', jedaBunga);
+    bo.addEventListener('touchend', jedaBunga, { passive: true });
+  }
+  if (cincin && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (en.isIntersecting) { var p = cincin.play(); if (p && p.catch) p.catch(function () {}); }
+        else cincin.pause();
+      });
+    }, { threshold: 0.1, rootMargin: '35% 0px 35% 0px' });
+    io.observe(cincin);
+  }
+  function ringankan() {
+    if (!document.body.classList.contains('locked')) return;
+    var kecil = { 'bt-b': 1, 'bt-d': 1, 'bt-f': 1, 'bt-g': 1, 'bt-h': 1 };
+    bunga.forEach(function (v) {
+      var cls = v.className.split(' ');
+      if (!kecil[cls[cls.length - 1]] || !v.parentNode) return;
+      var img = document.createElement('img');
+      img.className = v.className;
+      img.src = v.getAttribute('poster') || '';
+      img.alt = '';
+      img.setAttribute('aria-hidden', 'true');
+      v.parentNode.replaceChild(img, v);
+    });
+  }
+  function deteksiLambat() {
+    if (!document.body.classList.contains('locked')) return;
+    var jumlah = 0, t0 = performance.now(), tAkhir = t0 + 1200;
+    function f(now) {
+      if (now <= tAkhir) { jumlah++; requestAnimationFrame(f); return; }
+      var fps = jumlah / ((now - t0) / 1000);
+      if (fps < 20) ringankan();
+    }
+    requestAnimationFrame(f);
+  }
+  if (document.readyState === 'complete') setTimeout(deteksiLambat, 700);
+  else window.addEventListener('load', function () { setTimeout(deteksiLambat, 700); });
 })();
 </script>
 
