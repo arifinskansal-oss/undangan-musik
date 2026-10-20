@@ -1679,9 +1679,14 @@
     var dur = Math.round(clamp(620 + Math.abs(jarak) * 0.22, 880, 1180) * skala);
     var t0 = performance.now();
     if (animGulir) cancelAnimationFrame(animGulir);
+    var terakhir = yAwal;
     var langkah = function (ts) {
+      var kini = window.scrollY || window.pageYOffset || 0;
+      if (Math.abs(kini - terakhir) > 6) { animGulir = 0; return; } /* gulir lain mengambil alih */
       var t = clamp((ts - t0) / dur, 0, 1);
-      window.scrollTo(0, Math.round(yAwal + jarak * easeCubic(t)));
+      var y = Math.round(yAwal + jarak * easeCubic(t));
+      window.scrollTo(0, y);
+      terakhir = y;
       if (t < 1) animGulir = requestAnimationFrame(langkah);
       else animGulir = 0;
     };
