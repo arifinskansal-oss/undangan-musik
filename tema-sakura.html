@@ -444,7 +444,6 @@
     position: absolute; top: -6vh; display: block; opacity: 0; will-change: transform, opacity;
     border-radius: 82% 4px 82% 4px;
     background: linear-gradient(145deg, #fff8f5, #f6c3d1 58%, #e79fb2);
-    box-shadow: inset -1px -1px 3px rgba(190, 110, 135, .35);
   }
   @media (prefers-reduced-motion: reduce) {
     .hujan-kelopak { display: none !important; }
@@ -1133,18 +1132,19 @@
     if (mau <= 0) diag.mati = true;
   }
 
-  var contohTerakhir = 0, jendelaMulai = 0, jumlahFrame = 0, tenggangSampai = 0;
+  var contohTerakhir = 0, jendelaMulai = 0, jumlahFrame = 0, tenggangSampai = 0, rendahBeruntun = 0;
   function sampler(ts) {
     if (!diag.started || diag.mati) return;
     if (document.hidden) { contohTerakhir = 0; jendelaMulai = 0; jumlahFrame = 0; requestAnimationFrame(sampler); return; }
     if (contohTerakhir && ts - contohTerakhir > 250) { jendelaMulai = ts; jumlahFrame = 0; }
     contohTerakhir = ts;
-    if (!jendelaMulai) { jendelaMulai = ts; tenggangSampai = ts + 1600; }
+    if (!jendelaMulai) { jendelaMulai = ts; tenggangSampai = ts + 3500; }
     jumlahFrame++;
     if (ts - jendelaMulai >= 1200 && ts > tenggangSampai) {
       var fps = jumlahFrame / ((ts - jendelaMulai) / 1000);
       diag.fps = +fps.toFixed(1);
-      if (fps < 45) turunSatuTingkat();
+      if (fps < 45) { rendahBeruntun++; if (rendahBeruntun >= 2) { turunSatuTingkat(); rendahBeruntun = 0; } }
+      else rendahBeruntun = 0;
       jendelaMulai = ts; jumlahFrame = 0;
     }
     requestAnimationFrame(sampler);
