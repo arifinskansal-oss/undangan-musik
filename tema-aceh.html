@@ -1180,6 +1180,7 @@
 
   /* ---------- loop gulir: parallax + ukur fps saat gulir ---------- */
   var fxRunning = false, fxLastTs = 0, scrollUntil = 0, measureStart = 0, deltas = [], lowWindows = 0;
+  var fxLastSy = window.scrollY, fxLastMoveTs = 0;
   function matikanDebuPermanen() {
     if (dustDisabled) return;
     dustDisabled = true;
@@ -1191,7 +1192,12 @@
   }
   function fxFrame(ts) {
     if (!fxRunning) return;
-    if (fxLastTs && ts <= scrollUntil) {
+    var syNow = window.scrollY;
+    var bergerak = syNow !== fxLastSy;
+    fxLastSy = syNow;
+    if (bergerak) fxLastMoveTs = ts;
+    else if (fxLastMoveTs && ts - fxLastMoveTs > 1500) { deltas = []; measureStart = 0; lowWindows = 0; }
+    if (fxLastTs && bergerak && ts <= scrollUntil) {
       var d = ts - fxLastTs;
       if (d > 0 && d < 250) {
         deltas.push(d);
@@ -1212,7 +1218,7 @@
     }
     fxLastTs = ts;
     updateParallax();
-    if (ts <= scrollUntil) requestAnimationFrame(fxFrame);
+    if (ts <= scrollUntil && (!fxLastMoveTs || ts - fxLastMoveTs < 1600)) requestAnimationFrame(fxFrame);
     else { fxRunning = false; fxLastTs = 0; }
   }
   function mulaiFx() {
