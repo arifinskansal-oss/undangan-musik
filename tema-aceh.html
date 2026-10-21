@@ -415,9 +415,112 @@
       .hero-date { letter-spacing: 1.6px; font-size: 15.5px; color: var(--ink-soft); margin: 8px 0 0; }
       .cover-kicker2 { letter-spacing: 4px; font-size: 12px; text-transform: uppercase; color: var(--gold); margin: 0; }
 </style>
+<style>
+      /* ================= ACEH EFEK DALAM =================
+         Interior tenang dengan mikro-efek sekali jalan. Efek memakai
+         transform/opacity/filter ringan, berhenti di luar layar, dan mati
+         total untuk prefers-reduced-motion. */
+      main.page section { isolation: isolate; }
+      .fx-bg-layer {
+        position: absolute; z-index: -1; pointer-events: none; overflow: hidden;
+        will-change: transform;
+      }
+      .fx-bg-layer svg { width: 100%; height: 100%; display: block; }
+      .fx-bg-gunung {
+        left: 50%; bottom: -22px; width: 112%; height: 210px; opacity: .07;
+        transform: translate3d(-50%, var(--fx-layer-y, 0px), 0);
+      }
+      .fx-bg-sulur { top: 16px; width: 172px; height: 172px; opacity: .10;
+        transform: translate3d(0, var(--fx-layer-y, 0px), 0); }
+      .fx-bg-sulur.kiri { left: -18px; }
+      .fx-bg-sulur.kanan { right: -18px; }
+      #galeri .fx-bg-gunung { opacity: .05; }
+
+      html.fx-on .fx-reveal {
+        opacity: 0; filter: blur(5px);
+        transform: translate3d(0, 18px, 0);
+        transition: opacity .72s ease var(--fx-delay, 0ms),
+                    transform .72s cubic-bezier(.22,.61,.36,1) var(--fx-delay, 0ms),
+                    filter .72s ease var(--fx-delay, 0ms);
+        will-change: opacity, transform, filter;
+      }
+      html.fx-on .fx-reveal.fx-in {
+        opacity: 1; filter: blur(0); transform: translate3d(0, 0, 0);
+      }
+      html.fx-on .fx-reveal.fx-done { transition: none; will-change: auto; }
+      html.fx-on .fx-divider {
+        opacity: .2; clip-path: inset(0 50% 0 50%);
+        transform: translate3d(0, 5px, 0);
+        transition: clip-path .85s cubic-bezier(.22,.61,.36,1),
+                    opacity .85s ease, transform .85s ease;
+      }
+      html.fx-on .fx-divider.fx-in {
+        opacity: 1; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0);
+      }
+
+      .fx-dust {
+        position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none;
+      }
+      .fx-dust span {
+        position: absolute; display: block; border-radius: 50%; opacity: 0;
+        background: radial-gradient(circle at 35% 35%, #fff3c4 0%, #e9c766 48%, rgba(217,182,79,.05) 76%);
+        box-shadow: 0 0 8px rgba(217,182,79,.65);
+      }
+      body.fx-low .fx-dust { display: none !important; }
+
+      .gallery figure img {
+        transform: translate3d(0, var(--fx-img-y, 0px), 0) scale(1.12);
+        backface-visibility: hidden;
+      }
+      .gallery figure.fx-main-photo img {
+        width: 112%; height: 112%; max-width: none; margin: -6%;
+        transform: none; translate: 0 var(--fx-img-y, 0px); scale: 1;
+      }
+      #mempelai.fx-live .person, #galeri.fx-live figure img { will-change: transform; }
+
+      .envelope-card { position: relative; transform-style: preserve-3d; }
+      .envelope-card::after {
+        content: ""; position: absolute; top: -22%; bottom: -22%; left: 0; width: 42%;
+        background: linear-gradient(100deg, transparent 0%, rgba(255,238,175,.08) 28%, rgba(255,238,175,.58) 50%, rgba(255,238,175,.08) 72%, transparent 100%);
+        transform: translate3d(-190%, 0, 0) skewX(-16deg); opacity: 0; pointer-events: none;
+      }
+      .envelope-card.fx-shine::after { animation: fxKilau .95s ease-out both; }
+      .envelope-card.fx-tapped { animation: fxAmplop .85s cubic-bezier(.22,.61,.36,1) both; }
+      @keyframes fxAmplop {
+        0% { transform: perspective(820px) rotateX(0deg) rotateY(0deg) translateY(0); }
+        30% { transform: perspective(820px) rotateX(4deg) rotateY(-5deg) translateY(-2px); }
+        62% { transform: perspective(820px) rotateX(-2deg) rotateY(3deg) translateY(0); }
+        100% { transform: perspective(820px) rotateX(0deg) rotateY(0deg) translateY(0); }
+      }
+      @keyframes fxKilau {
+        0% { opacity: 0; transform: translate3d(-190%, 0, 0) skewX(-16deg); }
+        16% { opacity: 1; }
+        100% { opacity: 0; transform: translate3d(360%, 0, 0) skewX(-16deg); }
+      }
+      .fx-burst { position: absolute; inset: 0; z-index: 5; overflow: visible; pointer-events: none; }
+      .fx-burst i {
+        position: absolute; display: block; width: 7px; height: 11px; opacity: 0;
+        border-radius: 75% 0 75% 0; background: linear-gradient(135deg, #f8dc82, #c79a2b);
+        box-shadow: 0 0 8px rgba(217,182,79,.55);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html.fx-on .fx-reveal, html.fx-on .fx-divider {
+          opacity: 1 !important; filter: none !important; clip-path: none !important;
+          transform: none !important; transition: none !important; animation: none !important;
+        }
+        .fx-dust, .fx-burst { display: none !important; }
+        .gallery figure img, .gallery figure.fx-main-photo img {
+          transform: none !important; translate: none !important; scale: none !important;
+        }
+        .envelope-card.fx-tapped, .envelope-card.fx-shine::after { animation: none !important; }
+      }
+</style>
 </head>
 <body class="locked">
 <!-- ================= DEFINISI ILUSTRASI (gambar sendiri) ================= -->
+
+
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <radialGradient id="purnamaGrad" cx="44%" cy="42%" r="72%">
@@ -877,6 +980,303 @@
   <button class="lb-btn lb-next" id="lbNext" type="button" aria-label="Panel berikutnya">›</button>
   <div class="lb-caption"><span class="lb-count" id="lbCount"></span><span id="lbCaption"></span></div>
 </div>
+
+
+<script>
+/* ================= ACEH EFEK DALAM =================
+   Reveal sekali jalan, parallax tipis, debu emas terbatas, zoom sinema,
+   dan mikro-interaksi amplop/RSVP. Tidak memakai WebGL. */
+(function () {
+  var root = document.documentElement;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  root.classList.add('fx-on');
+  var diag = {
+    enabled: !reduced, reducedMotion: reduced, revealTargets: 0, revealed: 0,
+    dividers: 0, parallaxLayers: 0, galleryImages: 0, dustParticles: 0,
+    dustActive: false, kenBurns: false, adaptiveTriggered: false,
+    measuredFps: 0, scrollSamples: 0, envelopeBursts: 0, rsvpBursts: 0
+  };
+  window.__fxDiag = function () {
+    return {
+      enabled: diag.enabled, reducedMotion: diag.reducedMotion,
+      revealTargets: diag.revealTargets, revealed: diag.revealed,
+      dividers: diag.dividers, parallaxLayers: diag.parallaxLayers,
+      galleryImages: diag.galleryImages, dustParticles: diag.dustParticles,
+      dustLive: document.querySelectorAll('.fx-dust span').length,
+      dustActive: diag.dustActive, kenBurns: diag.kenBurns,
+      adaptiveTriggered: diag.adaptiveTriggered, measuredFps: diag.measuredFps,
+      scrollSamples: diag.scrollSamples, envelopeBursts: diag.envelopeBursts,
+      rsvpBursts: diag.rsvpBursts
+    };
+  };
+  if (reduced) { root.classList.add('fx-reduced'); return; }
+
+  function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+  function docHost(el) { return el.closest('section') || el.closest('.hero') || document.body; }
+
+  /* ---------- tandai reveal & pembatas bab ---------- */
+  var targets = [];
+  var seen = new Set();
+  function addTargets(selector) {
+    Array.prototype.forEach.call(document.querySelectorAll(selector), function (el) {
+      if (!seen.has(el)) { seen.add(el); targets.push(el); }
+    });
+  }
+  addTargets('.hero .monogram, .hero .cover-kicker2, .hero .hero-names, .hero .hero-date, .hero .verse');
+  addTargets('main section .section-title, main section .section-sub, #countdown, .cd-cell');
+  addTargets('.person, .event-card, .live-card, #galeri figure, .gallery-note, .love-item');
+  addTargets('.rsvp-form, #wishes .wish, .envelope-card');
+  addTargets('section[aria-label="Penutup"] .closing, section[aria-label="Penutup"] .closing-names, footer');
+  var delayByHost = new Map();
+  targets.forEach(function (el) {
+    var host = docHost(el);
+    var n = delayByHost.get(host) || 0;
+    delayByHost.set(host, n + 1);
+    el.style.setProperty('--fx-delay', Math.min(n, 5) * 45 + 'ms');
+    el.dataset.fxDelay = Math.min(n, 5) * 45;
+    el.classList.add('fx-reveal');
+  });
+  diag.revealTargets = targets.length;
+  var dividers = Array.prototype.slice.call(document.querySelectorAll('main section .ornament, .hero .ukiran, main section .ukiran'));
+  dividers.forEach(function (el) { el.classList.add('fx-divider'); });
+  diag.dividers = dividers.length;
+
+  var revealIO = null;
+  function revealNow(el) {
+    if (el.classList.contains('fx-in')) return;
+    el.classList.add('fx-in');
+    if (el.classList.contains('fx-reveal')) {
+      diag.revealed++;
+      var d = parseInt(el.dataset.fxDelay || '0', 10);
+      setTimeout(function () { el.classList.add('fx-done'); }, 820 + d);
+    }
+  }
+  if ('IntersectionObserver' in window) {
+    revealIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { revealNow(e.target); revealIO.unobserve(e.target); }
+      });
+    }, { threshold: 0.16, rootMargin: '0px 0px -8% 0px' });
+    targets.concat(dividers).forEach(function (el) { revealIO.observe(el); });
+  } else {
+    targets.concat(dividers).forEach(revealNow);
+  }
+
+  /* ---------- lapisan latar & parallax ---------- */
+  var mempelai = document.getElementById('mempelai');
+  var acara = document.getElementById('acara');
+  var galeri = document.getElementById('galeri');
+  var kisah = document.getElementById('kisah');
+  var rsvpSec = document.getElementById('rsvp');
+  var amplopSec = document.getElementById('amplop');
+  var parallax = [];
+  function makeLayer(section, cls, svg, side) {
+    if (!section) return;
+    var d = document.createElement('div');
+    d.className = 'fx-bg-layer ' + cls + (side ? ' ' + side : '');
+    d.setAttribute('aria-hidden', 'true');
+    d.innerHTML = svg;
+    section.insertBefore(d, section.firstChild);
+    parallax.push({ el: d, host: section, prop: '--fx-layer-y', factor: -0.08, max: 24, last: '' });
+    diag.parallaxLayers++;
+  }
+  var svgGunung = '<svg viewBox="0 0 1440 780" preserveAspectRatio="none" aria-hidden="true"><use href="#simbol-gunung-aceh"></use></svg>';
+  var svgSulur = '<svg viewBox="-90 -90 180 180" aria-hidden="true"><use href="#sulur" transform="scale(1.45)"></use></svg>';
+  makeLayer(mempelai, 'fx-bg-gunung', svgGunung, '');
+  makeLayer(galeri, 'fx-bg-gunung', svgGunung, '');
+  makeLayer(acara, 'fx-bg-sulur', svgSulur, 'kanan');
+  makeLayer(kisah, 'fx-bg-sulur', svgSulur, 'kiri');
+  makeLayer(amplopSec, 'fx-bg-sulur', svgSulur, 'kanan');
+
+  var mainImg = null;
+  var figures = Array.prototype.slice.call(document.querySelectorAll('#galeri figure'));
+  figures.forEach(function (fig, i) {
+    var img = fig.querySelector('img');
+    if (!img) return;
+    parallax.push({ el: img, host: fig, prop: '--fx-img-y', factor: -0.035, max: 9, last: '' });
+    diag.galleryImages++;
+    if (i === 0) { fig.classList.add('fx-main-photo'); mainImg = img; }
+  });
+  function updateParallax() {
+    var vh = window.innerHeight || 640;
+    parallax.forEach(function (it) {
+      var r = it.host.getBoundingClientRect();
+      if (r.bottom < -120 || r.top > vh + 120) return;
+      var delta = vh / 2 - (r.top + r.height / 2);
+      var y = clamp(delta * it.factor, -it.max, it.max);
+      var val = y.toFixed(1) + 'px';
+      if (val !== it.last) { it.last = val; it.el.style.setProperty(it.prop, val); }
+    });
+  }
+
+  /* ---------- debu emas: tepat 12 titik, hanya Mempelai + Galeri ---------- */
+  var dustAnims = [];
+  var dustDisabled = false;
+  function buatDebu(section, jumlah) {
+    if (!section) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'fx-dust';
+    wrap.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < jumlah; i++) {
+      var s = document.createElement('span');
+      var size = 3.5 + Math.random() * 3.5;
+      s.style.width = size.toFixed(1) + 'px';
+      s.style.height = size.toFixed(1) + 'px';
+      s.style.left = (4 + Math.random() * 92) + '%';
+      s.style.top = (18 + Math.random() * 72) + '%';
+      wrap.appendChild(s);
+      var drift = (Math.random() * 22 - 11).toFixed(1);
+      var naik = (58 + Math.random() * 58).toFixed(0);
+      var anim = s.animate([
+        { transform: 'translate3d(0, 12px, 0)', opacity: 0 },
+        { transform: 'translate3d(' + (drift * 0.45) + 'px, -' + (naik * 0.45) + 'px, 0)', opacity: 0.92, offset: 0.28 },
+        { transform: 'translate3d(' + drift + 'px, -' + naik + 'px, 0)', opacity: 0 }
+      ], {
+        duration: 7600 + Math.random() * 5200,
+        delay: -Math.random() * 11000,
+        iterations: Infinity, direction: 'alternate', easing: 'ease-in-out'
+      });
+      anim.pause();
+      dustAnims.push(anim);
+      diag.dustParticles++;
+    }
+    section.appendChild(wrap);
+  }
+  buatDebu(mempelai, 6);
+  buatDebu(galeri, 6);
+
+  var kbAnim = null;
+  if (mainImg && mainImg.animate) {
+    kbAnim = mainImg.animate([
+      { scale: '1.00' }, { scale: '1.06' }
+    ], { duration: 14000, direction: 'alternate', iterations: Infinity, easing: 'ease-in-out' });
+    kbAnim.pause();
+  }
+  var visibleSections = new Set();
+  function segarkanGerakSekitar() {
+    var aktif = !document.hidden && !dustDisabled &&
+      (visibleSections.has(mempelai) || visibleSections.has(galeri));
+    dustAnims.forEach(function (a) { if (aktif) a.play(); else a.pause(); });
+    diag.dustActive = aktif && dustAnims.length > 0;
+    if (kbAnim) {
+      if (!document.hidden && visibleSections.has(galeri)) { kbAnim.play(); diag.kenBurns = true; }
+      else { kbAnim.pause(); diag.kenBurns = false; }
+    }
+    if (mempelai) mempelai.classList.toggle('fx-live', visibleSections.has(mempelai));
+    if (galeri) galeri.classList.toggle('fx-live', visibleSections.has(galeri));
+  }
+  if ('IntersectionObserver' in window) {
+    var secIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) visibleSections.add(e.target); else visibleSections.delete(e.target);
+      });
+      segarkanGerakSekitar();
+    }, { threshold: 0.05 });
+    [mempelai, galeri].forEach(function (sec) { if (sec) secIO.observe(sec); });
+  } else {
+    visibleSections.add(mempelai); visibleSections.add(galeri); segarkanGerakSekitar();
+  }
+  document.addEventListener('visibilitychange', segarkanGerakSekitar);
+
+  /* ---------- loop gulir: parallax + ukur fps saat gulir ---------- */
+  var fxRunning = false, fxLastTs = 0, scrollUntil = 0, measureStart = 0, deltas = [], lowWindows = 0;
+  function matikanDebuPermanen() {
+    if (dustDisabled) return;
+    dustDisabled = true;
+    diag.adaptiveTriggered = true;
+    document.body.classList.add('fx-low');
+    dustAnims.forEach(function (a) { a.cancel(); });
+    dustAnims = [];
+    segarkanGerakSekitar();
+  }
+  function fxFrame(ts) {
+    if (!fxRunning) return;
+    if (fxLastTs && ts <= scrollUntil) {
+      var d = ts - fxLastTs;
+      if (d > 0 && d < 250) {
+        deltas.push(d);
+        if (deltas.length > 90) deltas.shift();
+        diag.scrollSamples = deltas.length;
+        if (!measureStart) measureStart = ts;
+        if (deltas.length >= 55 && ts - measureStart > 900) {
+          var sum = 0;
+          for (var i = 0; i < deltas.length; i++) sum += deltas[i];
+          var fps = 1000 / (sum / deltas.length);
+          diag.measuredFps = +fps.toFixed(1);
+          if (fps < 45) { lowWindows++; if (lowWindows >= 2) matikanDebuPermanen(); }
+          else lowWindows = 0;
+          measureStart = ts;
+          deltas = deltas.slice(-20);
+        }
+      }
+    }
+    fxLastTs = ts;
+    updateParallax();
+    if (ts <= scrollUntil) requestAnimationFrame(fxFrame);
+    else { fxRunning = false; fxLastTs = 0; }
+  }
+  function mulaiFx() {
+    updateParallax();
+    if (!fxRunning) { fxRunning = true; requestAnimationFrame(fxFrame); }
+  }
+  window.addEventListener('scroll', function () {
+    scrollUntil = performance.now() + 1400;
+    mulaiFx();
+  }, { passive: true });
+  window.addEventListener('resize', mulaiFx, { passive: true });
+  updateParallax();
+
+  /* ---------- mikro-interaksi amplop ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.btn-copy'), function (btn) {
+    btn.addEventListener('click', function () {
+      var card = btn.closest('.envelope-card');
+      if (!card) return;
+      card.classList.remove('fx-tapped', 'fx-shine');
+      void card.offsetWidth;
+      card.classList.add('fx-tapped', 'fx-shine');
+      diag.envelopeBursts++;
+      setTimeout(function () { card.classList.remove('fx-tapped', 'fx-shine'); }, 1020);
+    });
+  });
+
+  /* ---------- semburan kelopak emas sekali per kirim RSVP ---------- */
+  var form = document.getElementById('rsvpForm');
+  function semburRsvp() {
+    if (!rsvpSec) return;
+    var holder = rsvpSec.querySelector('.fx-burst');
+    if (!holder) {
+      holder = document.createElement('div');
+      holder.className = 'fx-burst';
+      holder.setAttribute('aria-hidden', 'true');
+      rsvpSec.appendChild(holder);
+    }
+    holder.innerHTML = '';
+    for (var i = 0; i < 12; i++) {
+      var petal = document.createElement('i');
+      petal.style.left = (36 + Math.random() * 28) + '%';
+      petal.style.top = (104 + Math.random() * 54) + 'px';
+      holder.appendChild(petal);
+      var dx = (Math.random() * 130 - 65).toFixed(0);
+      var dy = (138 + Math.random() * 92).toFixed(0);
+      var rot = (Math.random() * 260 - 130).toFixed(0);
+      var anim = petal.animate([
+        { transform: 'translate3d(0, 0, 0) rotate(0deg)', opacity: 0 },
+        { transform: 'translate3d(' + (dx * 0.35) + 'px, ' + (dy * 0.35) + 'px, 0) rotate(' + (rot * 0.4) + 'deg)', opacity: 1, offset: 0.14 },
+        { transform: 'translate3d(' + dx + 'px, ' + dy + 'px, 0) rotate(' + rot + 'deg)', opacity: 0 }
+      ], { duration: 1280 + Math.random() * 520, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' });
+      (function (node, a) { a.onfinish = function () { if (node.parentNode) node.parentNode.removeChild(node); }; })(petal, anim);
+    }
+    diag.rsvpBursts++;
+  }
+  if (form) {
+    form.addEventListener('submit', function () {
+      var nama = document.getElementById('f-name');
+      var pesan = document.getElementById('f-msg');
+      if (nama && pesan && nama.value.trim() && pesan.value.trim()) semburRsvp();
+    });
+  }
+})();
+</script>
 
 <script>
   (function () {
