@@ -135,6 +135,7 @@
         border: 1px solid var(--line); box-shadow: var(--shadow); aspect-ratio: 1 / 1; background: var(--bg-soft);
       }
       .gallery figure svg { width: 100%; height: 100%; display: block; }
+      .gallery figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
       .gallery .zoom-hint {
         position: absolute; right: 8px; bottom: 6px; color: #fdf3dd; font-size: 15px;
         text-shadow: 0 1px 6px rgba(0,0,0,.6); pointer-events: none;
@@ -216,6 +217,7 @@
       .lightbox.open { display: flex; }
       .lightbox .lb-stage { width: min(88vw, 480px); aspect-ratio: 1 / 1; }
       .lightbox .lb-stage svg { width: 100%; height: 100%; display: block; border-radius: 14px; }
+      .lightbox .lb-stage img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 14px; }
       .lb-btn {
         position: absolute; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--gold-soft);
         background: rgba(29, 25, 22, .8); color: #f6e7c8; font-size: 20px; cursor: pointer; z-index: 2;
@@ -728,62 +730,40 @@
   <section aria-label="Galeri foto" id="galeri" class="band">
     <div class="ornament" aria-hidden="true">◆ ◆ ◆</div>
     <h2 class="section-title">Galeri Kami</h2>
-    <p class="section-sub">Ilustrasi suasana Pulau Bali yang menjadi latar hari bahagia kami.</p>
+    <p class="section-sub">Momen-momen yang kami abadikan menjelang hari bahagia.</p>
     <div class="gallery" id="gallery">
-      <figure tabindex="0" role="button" aria-label="Perbesar panel 1" data-alt="Ilustrasi gerbang Candi Bentar di kala fajar dengan purnama di celahnya">
-        <svg viewBox="0 0 400 400" aria-hidden="true">
-          <rect width="400" height="400" fill="url(#langitKecilB)" />
-          <g transform="translate(0,150) scale(.3333)"><use href="#simbol-agung" /></g>
-          <g transform="translate(200,120) scale(.62)"><use href="#simbol-purnama" /></g>
-          <rect y="356" width="400" height="44" fill="#170D05" />
-          <g transform="translate(46,96) scale(.453)"><use href="#simbol-gerbang" /></g>
-        </svg>
-        <figcaption>Candi Bentar di Kala Fajar</figcaption>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 1" data-alt="Foto contoh pasangan pengantin Asia tersenyum, mempelai pria berjas putih dan mempelai wanita bergaun putih di ruangan terang">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-07.jpg" alt="Foto contoh pasangan pengantin Asia tersenyum, mempelai pria berjas putih dan mempelai wanita bergaun putih di ruangan terang" loading="lazy" />
+        <figcaption>Dua Hati, Satu Janji</figcaption>
         <span class="zoom-hint" aria-hidden="true">⤢</span>
       </figure>
-      <figure tabindex="0" role="button" aria-label="Perbesar panel 2" data-alt="Ilustrasi pohon kamboja berbunga di taman hijau">
-        <svg viewBox="0 0 400 400" aria-hidden="true">
-          <rect width="400" height="400" fill="#DCE8C8" />
-          <rect y="300" width="400" height="100" fill="#7D9B52" />
-          <path d="M0,300 C100,282 300,306 400,288 L400,400 L0,400 Z" fill="#688647" />
-          <g transform="translate(58,66) scale(.95)"><use href="#simbol-kamboja" /></g>
-          <g transform="translate(268,196) scale(.52)"><use href="#simbol-kamboja" /></g>
-        </svg>
-        <figcaption>Taman Kamboja</figcaption>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 2" data-alt="Foto contoh kedua tangan mempelai membentuk gestur hati di depan air">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-02.jpg" alt="Foto contoh kedua tangan mempelai membentuk gestur hati di depan air" loading="lazy" />
+        <figcaption>Gestur Hati di Tepi Air</figcaption>
         <span class="zoom-hint" aria-hidden="true">⤢</span>
       </figure>
-      <figure tabindex="0" role="button" aria-label="Perbesar panel 3" data-alt="Ilustrasi Gunung Agung menjulang di atas sawah bertingkat">
-        <svg viewBox="0 0 400 400" aria-hidden="true">
-          <rect width="400" height="400" fill="url(#langitKecilB)" />
-          <g transform="translate(16,26) scale(.3067)"><use href="#simbol-agung" /></g>
-          <path d="M0,252 C90,230 210,254 400,224 L400,400 L0,400 Z" fill="#7D9B52" />
-          <path d="M0,298 C110,274 240,300 400,268 L400,400 L0,400 Z" fill="#688647" />
-          <path d="M0,344 C120,320 260,346 400,316 L400,400 L0,400 Z" fill="#55703A" />
-          <g stroke="#43592C" stroke-width="3" fill="none" opacity=".55">
-            <path d="M0,276 C110,254 240,278 400,248" /><path d="M0,322 C120,300 260,324 400,294" />
-          </g>
-        </svg>
-        <figcaption>Gunung Agung &amp; Sawah Bertingkat</figcaption>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 3" data-alt="Foto contoh pasangan bergandengan tangan berjalan di pantai berpasir">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-05.jpg" alt="Foto contoh pasangan bergandengan tangan berjalan di pantai berpasir" loading="lazy" />
+        <figcaption>Langkah Berdua di Pantai</figcaption>
         <span class="zoom-hint" aria-hidden="true">⤢</span>
       </figure>
-      <figure tabindex="0" role="button" aria-label="Perbesar panel 4" data-alt="Ilustrasi panel ukiran batu paras dengan gerbang kecil di tengahnya">
-        <svg viewBox="0 0 400 400" aria-hidden="true">
-          <rect width="400" height="400" fill="url(#batuGelap)" />
-          <rect x="14" y="14" width="372" height="372" fill="none" stroke="#D4A017" stroke-width="3" />
-          <rect x="26" y="26" width="348" height="348" fill="none" stroke="#9C3A22" stroke-width="2" />
-          <g stroke="#D4A017" stroke-width="2.4" fill="none" opacity=".9">
-            <path d="M40,66 L80,44 L120,66 L160,44 L200,66 L240,44 L280,66 L320,44 L360,66" />
-            <path d="M40,334 L80,356 L120,334 L160,356 L200,334 L240,356 L280,334 L320,356 L360,334" />
-            <path d="M60,96 L84,116 L60,136 L36,116 Z M340,96 L364,116 L340,136 L316,116 Z" />
-            <path d="M60,264 L84,284 L60,304 L36,284 Z M340,264 L364,284 L340,304 L316,284 Z" />
-          </g>
-          <g transform="translate(118,102) scale(.244)"><use href="#simbol-gerbang" /></g>
-        </svg>
-        <figcaption>Ukiran Batu Paras</figcaption>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 4" data-alt="Foto contoh pasangan bergandengan tangan berlatar ombak laut">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-06.jpg" alt="Foto contoh pasangan bergandengan tangan berlatar ombak laut" loading="lazy" />
+        <figcaption>Bergandengan di Tepi Ombak</figcaption>
+        <span class="zoom-hint" aria-hidden="true">⤢</span>
+      </figure>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 5" data-alt="Foto contoh pasangan bergandengan tangan di pantai, hitam putih">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-01.jpg" alt="Foto contoh pasangan bergandengan tangan di pantai, hitam putih" loading="lazy" />
+        <figcaption>Hitam Putih di Tepi Pantai</figcaption>
+        <span class="zoom-hint" aria-hidden="true">⤢</span>
+      </figure>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 6" data-alt="Foto contoh pasangan bergandengan tangan sambil saling memandang, hitam putih">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-03.jpg" alt="Foto contoh pasangan bergandengan tangan sambil saling memandang, hitam putih" loading="lazy" />
+        <figcaption>Saling Memandang</figcaption>
         <span class="zoom-hint" aria-hidden="true">⤢</span>
       </figure>
     </div>
-    <p class="gallery-note">Ketuk panel untuk melihatnya dalam ukuran besar.</p>
+    <p class="gallery-note">Ketuk foto untuk melihatnya dalam ukuran besar.</p>
   </section>
 
   <!-- ================= KISAH CINTA ================= -->
@@ -1003,8 +983,8 @@
       current = (i + figures.length) % figures.length;
       var fig = figures[current];
       lbStage.innerHTML = '';
-      var svg = fig.querySelector('svg');
-      if (svg) lbStage.appendChild(svg.cloneNode(true));
+      var media = fig.querySelector('svg, img');
+      if (media) lbStage.appendChild(media.cloneNode(true));
       var alt = fig.getAttribute('data-alt') || '';
       lbCaption.textContent = alt;
       lbCount.textContent = (current + 1) + ' / ' + figures.length;
