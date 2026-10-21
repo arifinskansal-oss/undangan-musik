@@ -135,6 +135,7 @@
         border: 1px solid var(--line); box-shadow: var(--shadow); aspect-ratio: 1 / 1; background: var(--bg-soft);
       }
       .gallery figure svg { width: 100%; height: 100%; display: block; }
+      .gallery figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
       .gallery .zoom-hint {
         position: absolute; right: 8px; bottom: 6px; color: #fdf3dd; font-size: 15px;
         text-shadow: 0 1px 6px rgba(0,0,0,.6); pointer-events: none;
@@ -216,6 +217,7 @@
       .lightbox.open { display: flex; }
       .lightbox .lb-stage { width: min(88vw, 480px); aspect-ratio: 1 / 1; }
       .lightbox .lb-stage svg { width: 100%; height: 100%; display: block; border-radius: 14px; }
+      .lightbox .lb-stage img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 14px; }
       .lb-btn {
         position: absolute; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--gold-soft);
         background: rgba(11, 36, 28, .8); color: #f6e7c8; font-size: 20px; cursor: pointer; z-index: 2;
@@ -718,51 +720,40 @@
   <section aria-label="Galeri foto" id="galeri" class="band">
     <div class="ornament" aria-hidden="true">◆ ◆ ◆</div>
     <h2 class="section-title">Galeri Kami</h2>
-    <p class="section-sub">Ilustrasi suasana Aceh yang menjadi latar hari bahagia kami.</p>
+    <p class="section-sub">Momen-momen yang kami abadikan menjelang hari bahagia.</p>
     <div class="gallery" id="gallery">
-      <figure tabindex="0" role="button" aria-label="Perbesar panel 1" data-alt="Ilustrasi pintu ukir kembar Aceh dengan Rumoh Aceh di belakangnya">
-        <svg viewBox="0 0 400 400" aria-hidden="true">
-          <rect width="400" height="400" fill="url(#langitKecilA)" />
-          <g transform="translate(-20,214) scale(.3067)"><use href="#simbol-gunung-aceh" /></g>
-          <g transform="translate(82,48) scale(.184)"><use href="#simbol-rumoh" /></g>
-          <rect y="356" width="400" height="44" fill="#04170F" />
-          <g transform="translate(94,54) scale(.156)"><use href="#simbol-pintu" /></g>
-        </svg>
-        <figcaption>Pintu Aceh &amp; Rumoh di Kala Fajar</figcaption>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 1" data-alt="Foto contoh pasangan pengantin Asia tersenyum, mempelai pria berjas putih dan mempelai wanita bergaun putih di ruangan terang">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-07.jpg" alt="Foto contoh pasangan pengantin Asia tersenyum, mempelai pria berjas putih dan mempelai wanita bergaun putih di ruangan terang" loading="lazy" />
+        <figcaption>Dua Hati, Satu Janji</figcaption>
         <span class="zoom-hint" aria-hidden="true">⤢</span>
       </figure>
-      <figure tabindex="0" role="button" aria-label="Perbesar panel 2" data-alt="Ilustrasi Rumoh Aceh bertiang tinggi dengan tangga kayu di tengah">
-        <svg viewBox="0 0 400 400" aria-hidden="true">
-          <rect width="400" height="400" fill="#DCE8C8" />
-          <rect y="306" width="400" height="94" fill="#3F8266" />
-          <path d="M0,306 C100,288 300,312 400,294 L400,400 L0,400 Z" fill="#2E6B52" />
-          <g transform="translate(22,36) scale(.278)"><use href="#simbol-rumoh" /></g>
-        </svg>
-        <figcaption>Rumoh Aceh Bertiang Tinggi</figcaption>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 2" data-alt="Foto contoh kedua tangan mempelai membentuk gestur hati di depan air">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-02.jpg" alt="Foto contoh kedua tangan mempelai membentuk gestur hati di depan air" loading="lazy" />
+        <figcaption>Gestur Hati di Tepi Air</figcaption>
         <span class="zoom-hint" aria-hidden="true">⤢</span>
       </figure>
-      <figure tabindex="0" role="button" aria-label="Perbesar panel 3" data-alt="Ilustrasi pegunungan Leuser dan laut pada waktu senja">
-        <svg viewBox="0 0 400 400" aria-hidden="true">
-          <rect width="400" height="400" fill="url(#langitKecilA)" />
-          <g transform="translate(-20,72) scale(.3067)"><use href="#simbol-gunung-aceh" /></g>
-          <path d="M0,330 C110,314 250,338 400,318 L400,400 L0,400 Z" fill="#0B4632" />
-          <g stroke="#D9B64F" stroke-width="3" fill="none" opacity=".7"><path d="M42,354 C86,346 126,354 168,348" /><path d="M226,366 C272,358 318,366 360,360" /></g>
-        </svg>
-        <figcaption>Leuser &amp; Laut Senja</figcaption>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 3" data-alt="Foto contoh pasangan bergandengan tangan berjalan di pantai berpasir">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-05.jpg" alt="Foto contoh pasangan bergandengan tangan berjalan di pantai berpasir" loading="lazy" />
+        <figcaption>Langkah Berdua di Pantai</figcaption>
         <span class="zoom-hint" aria-hidden="true">⤢</span>
       </figure>
-      <figure tabindex="0" role="button" aria-label="Perbesar panel 4" data-alt="Ilustrasi panel ukiran sulur khas Aceh berwarna emas di atas hijau zamrud">
-        <svg viewBox="0 0 400 400" aria-hidden="true">
-          <rect width="400" height="400" fill="url(#batuGelap)" />
-          <rect x="14" y="14" width="372" height="372" fill="none" stroke="#D9B64F" stroke-width="3" />
-          <rect x="26" y="26" width="348" height="348" fill="none" stroke="#0B6B4F" stroke-width="2" />
-          <g transform="translate(-15,75) scale(1.023)"><use href="#panelSulur" /></g>
-        </svg>
-        <figcaption>Ukiran Sulur Pintu Aceh</figcaption>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 4" data-alt="Foto contoh pasangan bergandengan tangan berlatar ombak laut">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-06.jpg" alt="Foto contoh pasangan bergandengan tangan berlatar ombak laut" loading="lazy" />
+        <figcaption>Bergandengan di Tepi Ombak</figcaption>
+        <span class="zoom-hint" aria-hidden="true">⤢</span>
+      </figure>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 5" data-alt="Foto contoh pasangan bergandengan tangan di pantai, hitam putih">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-01.jpg" alt="Foto contoh pasangan bergandengan tangan di pantai, hitam putih" loading="lazy" />
+        <figcaption>Hitam Putih di Tepi Pantai</figcaption>
+        <span class="zoom-hint" aria-hidden="true">⤢</span>
+      </figure>
+      <figure tabindex="0" role="button" aria-label="Perbesar foto 6" data-alt="Foto contoh pasangan bergandengan tangan sambil saling memandang, hitam putih">
+        <img src="https://cdn.jsdelivr.net/gh/arifinskansal-oss/undangan-musik@main/aset/foto-prewed/prewed-03.jpg" alt="Foto contoh pasangan bergandengan tangan sambil saling memandang, hitam putih" loading="lazy" />
+        <figcaption>Saling Memandang</figcaption>
         <span class="zoom-hint" aria-hidden="true">⤢</span>
       </figure>
     </div>
-    <p class="gallery-note">Ketuk panel untuk melihatnya dalam ukuran besar.</p>
+    <p class="gallery-note">Ketuk foto untuk melihatnya dalam ukuran besar.</p>
   </section>
 
   <!-- ================= KISAH CINTA ================= -->
@@ -984,8 +975,8 @@
       current = (i + figures.length) % figures.length;
       var fig = figures[current];
       lbStage.innerHTML = '';
-      var svg = fig.querySelector('svg');
-      if (svg) lbStage.appendChild(svg.cloneNode(true));
+      var media = fig.querySelector('svg, img');
+      if (media) lbStage.appendChild(media.cloneNode(true));
       var alt = fig.getAttribute('data-alt') || '';
       lbCaption.textContent = alt;
       lbCount.textContent = (current + 1) + ' / ' + figures.length;
